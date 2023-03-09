@@ -1,18 +1,20 @@
 import axios, { AxiosResponse } from "axios";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import img_upload from "@/styles/img_upload.module.scss";
 
 const ImgUpload = () => {
   const imgRef = useRef<HTMLInputElement>(null);
-  const [img, setImg] = useState<Blob | null>(null);
-  const [imgToBase64, setImgToBase64] = useState<string>("");
+  const [imgUrl, setImgUrl] = useState<string>("");
 
   const send = async () => {
-    if (img) {
+    if (
+      imgRef.current &&
+      imgRef.current.files &&
+      imgRef.current.files.length > 0
+    ) {
       const formData = new FormData();
-      formData.append("imgToBase64", imgToBase64);
-      formData.append("img", img);
+      formData.append("img", imgRef.current.files[0]);
       formData.append("title", "title");
       const result: AxiosResponse<{ message: string }> = await axios.post(
         "/api/upload",
@@ -23,35 +25,18 @@ const ImgUpload = () => {
           },
         }
       );
-
       console.log(result);
-    }
-  };
-
-  const imgRendering = () => {
-    const reader = new window.FileReader();
-    if (img) {
-      reader.readAsDataURL(img);
-      reader.onloadend = () => {
-        const base64 = reader.result;
-        if (base64) {
-          setImgToBase64((_pre) => base64.toString());
-        }
-      };
-      reader.onerror = () => {
-        alert("upload error!!");
-      };
+      imgReset();
     }
   };
 
   const imgReset = () => {
-    setImg((_pre) => null);
+    if (imgRef.current) {
+      imgRef.current.value = "";
+      URL.revokeObjectURL(imgUrl);
+      setImgUrl((_pre) => "");
+    }
   };
-
-  useEffect(() => {
-    return imgRendering();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [img]);
 
   return (
     <div className={img_upload.container}>
@@ -60,24 +45,30 @@ const ImgUpload = () => {
         <input
           type="file"
           name="cardImg"
+          ref={imgRef}
           id="card-img--input"
           onChange={(e: React.ChangeEvent<{ files: FileList | null }>) => {
             if (e.target.files && e.target.files.length > 0) {
               const file = e.target.files[0];
-              setImg((_pre) => file);
+              URL.revokeObjectURL(imgUrl);
+              setImgUrl((_pre) => URL.createObjectURL(file));
             }
           }}
         ></input>
-        <button className={img_upload.form_reset} onClick={imgReset}>
+        <button
+          type="button"
+          className={img_upload.form_reset}
+          onClick={imgReset}
+        >
           삭제하기
         </button>
       </form>
-      {img && (
+      {imgUrl && (
         <>
           <div className={img_upload.img_container}>
             <Image
               className={img_upload.preView}
-              src={URL.createObjectURL(img)}
+              src={imgUrl}
               alt="preview"
               width={200}
               height={300}

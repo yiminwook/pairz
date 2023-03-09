@@ -25,8 +25,8 @@ handler.use(upload.single("img"));
 
 handler.post((req: parsedNextApiRequest, res: NextApiResponse<answer>) => {
   if (req.files) {
-    console.log(req.file);
-    console.log(req.body.title);
+    // console.log(req.file);
+    // console.log(req.body.title);
     return res.status(200).json({ message: "OK" });
   } else {
     return res.status(404).json({ message: "not found" });

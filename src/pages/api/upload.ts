@@ -37,7 +37,6 @@ export default async function handler(
         if (err) {
           rejects(err);
         }
-        console.log(fields);
         resolve({ fields, files });
       });
     });
@@ -49,6 +48,6 @@ export default async function handler(
     await fs.mkdir(imgStoragePath);
   }
   const data = await readFile(req, true);
-  console.log(data.files);
+  console.log(data.files.img);
   return res.status(201).json({ message: "OK" });
 }
