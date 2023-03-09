@@ -16,7 +16,6 @@ export default async function handler(
   const imgStoragePath = path.join(
     process.cwd() + "/src" + "/public" + "/images"
   );
-  console.log(imgStoragePath);
   /** true일시 로컬에 저장 */
   const readFile = (req: NextApiRequest, saveLocally: boolean = false) => {
     const options: formidable.Options = {};
@@ -49,7 +48,7 @@ export default async function handler(
   } catch {
     await fs.mkdir(imgStoragePath);
   }
-  const data = await readFile(req);
+  const data = await readFile(req, true);
   console.log(data.files);
   return res.status(201).json({ message: "OK" });
 }

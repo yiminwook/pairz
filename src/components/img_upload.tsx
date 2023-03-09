@@ -1,22 +1,28 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import img_upload from "@/styles/img_upload.module.scss";
 
 const ImgUpload = () => {
   const imgRef = useRef<HTMLInputElement>(null);
-  const [imgUrl, setImgUrl] = useState<Blob | null>(null);
+  const [img, setImg] = useState<Blob | null>(null);
   const [imgToBase64, setImgToBase64] = useState<string>("");
 
   const send = async () => {
-    if (imgUrl) {
+    if (img) {
       const formData = new FormData();
-      formData.append("img", imgUrl);
-      const result = await axios.post("/api/upload", formData, {
-        headers: {
-          "Contest-Type": "multipart/form-data",
-        },
-      });
+      formData.append("imgToBase64", imgToBase64);
+      formData.append("img", img);
+      formData.append("title", "title");
+      const result: AxiosResponse<{ message: string }> = await axios.post(
+        "/api/upload",
+        formData,
+        {
+          headers: {
+            "Contest-Type": "multipart/form-data",
+          },
+        }
+      );
 
       console.log(result);
     }
@@ -24,8 +30,8 @@ const ImgUpload = () => {
 
   const imgRendering = () => {
     const reader = new window.FileReader();
-    if (imgUrl) {
-      reader.readAsDataURL(imgUrl);
+    if (img) {
+      reader.readAsDataURL(img);
       reader.onloadend = () => {
         const base64 = reader.result;
         if (base64) {
@@ -39,17 +45,17 @@ const ImgUpload = () => {
   };
 
   const imgReset = () => {
-    setImgUrl((_pre) => null);
+    setImg((_pre) => null);
   };
 
   useEffect(() => {
     return imgRendering();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imgUrl]);
+  }, [img]);
 
   return (
     <div className={img_upload.container}>
-      <form className={img_upload.form} onSubmit={send}>
+      <form className={img_upload.form}>
         <label>file</label>
         <input
           type="file"
@@ -58,7 +64,7 @@ const ImgUpload = () => {
           onChange={(e: React.ChangeEvent<{ files: FileList | null }>) => {
             if (e.target.files && e.target.files.length > 0) {
               const file = e.target.files[0];
-              setImgUrl((_pre) => file);
+              setImg((_pre) => file);
             }
           }}
         ></input>
@@ -66,12 +72,12 @@ const ImgUpload = () => {
           삭제하기
         </button>
       </form>
-      {imgUrl && (
+      {img && (
         <>
           <div className={img_upload.img_container}>
             <Image
               className={img_upload.preView}
-              src={URL.createObjectURL(imgUrl)}
+              src={URL.createObjectURL(img)}
               alt="preview"
               width={200}
               height={300}
