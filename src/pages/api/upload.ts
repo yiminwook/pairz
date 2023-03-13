@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import formidable from "formidable";
-import path from "path";
+import { readFile } from "@/models/formidable";
+import uploadFile from "@/models/aws_sdk";
 import fs from "fs/promises";
 
 export const config = {
@@ -13,41 +13,20 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const imgStoragePath = path.join(
-    process.cwd() + "/src" + "/public" + "/images"
-  );
-  /** true일시 로컬에 저장 */
-  const readFile = (req: NextApiRequest, saveLocally: boolean = false) => {
-    const options: formidable.Options = {};
-
-    if (saveLocally) {
-      options.uploadDir = imgStoragePath;
-      options.filename = (name, ext, path, form) => {
-        return Date.now().toString() + "_" + path.originalFilename;
-      };
-    }
-
-    return new Promise<{
-      fields: formidable.Fields;
-      files: formidable.Files;
-    }>((resolve, rejects) => {
-      const form = formidable(options);
-
-      form.parse(req, (err, fields, files) => {
-        if (err) {
-          rejects(err);
-        }
-        resolve({ fields, files });
-      });
-    });
-  };
-
   try {
-    await fs.readdir(imgStoragePath);
-  } catch {
-    await fs.mkdir(imgStoragePath);
+    const data = await readFile(req, true);
+    const file = Array.isArray(data.files.img)
+      ? data.files.img[0]
+      : data.files.img;
+
+    const filename = await uploadFile(file);
+    await fs.unlink(file.filepath);
+    return res.status(201).json({ message: filename });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "ERR!" });
   }
-  const data = await readFile(req, true);
-  console.log(data.files.img);
-  return res.status(201).json({ message: "OK" });
 }
+
+// "https://{bucket}.s3.{region}.amazonaws.com/"+
+// encodeURIComponent(key);

@@ -4,6 +4,7 @@ import { Cropper, ReactCropperElement } from "react-cropper";
 import React, { useRef, useState } from "react";
 import img_upload from "@/styles/img_upload.module.scss";
 import "cropperjs/dist/cropper.css";
+import { type } from "os";
 
 const ImgUpload = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -35,7 +36,7 @@ const ImgUpload = () => {
           },
         }
       );
-      console.log(result);
+      console.log(result.data.message + " created!");
       imgReset();
     }
   };
@@ -48,22 +49,25 @@ const ImgUpload = () => {
     cropper?.toBlob((blob) => {
       const fileName = inputRef?.current?.files?.[0]?.name;
       if (blob && fileName) {
-        const newFile = new File([blob], fileName);
+        console.log(fileName);
+        const newFile = new File([blob], fileName, { type: "image/jpeg" });
         saveFile(newFile);
       }
     });
   };
 
   const saveFile = (file: File) => {
-    if (file.type !== "image/png") {
-      alert("image png 파일만 업로드 가능합니다.");
-      imgReset();
+    console.log(file.type);
+    if (file.type === "image/png" || file.type === "image/jpeg") {
+      setFile((_pre) => file);
+      URL.revokeObjectURL(imgUrl);
+      setImgUrl((_pre) => URL.createObjectURL(file));
+      setShowCrop((_pre) => false);
       return;
     }
-    setFile((_pre) => file);
-    URL.revokeObjectURL(imgUrl);
-    setImgUrl((_pre) => URL.createObjectURL(file));
-    setShowCrop((_pre) => false);
+
+    alert("image png 파일만 업로드 가능합니다.");
+    imgReset();
   };
 
   const imgReset = () => {

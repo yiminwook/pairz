@@ -1,12 +1,20 @@
 /** @type {import('next').NextConfig} */
 const path = require("path");
 
-const nextConfig = {
+module.exports = {
   reactStrictMode: true,
   publicRuntimeConfig: {},
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
-};
+  webpack: (config, { isServer }) => {
+    // Fixes npm packages that depend on `fs` module
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false,
+      };
+    }
 
-module.exports = nextConfig;
+    return config;
+  },
+};

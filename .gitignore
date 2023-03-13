@@ -25,6 +25,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# images
+src/public/images/*
+
 # local env files
 .env*
 
