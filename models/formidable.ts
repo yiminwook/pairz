@@ -3,9 +3,7 @@ import formidable from "formidable";
 import fs from "fs/promises";
 import path from "path";
 
-export const imgStoragePath = path.join(
-  process.cwd() + "/src" + "/public" + "/images"
-);
+export const imgStoragePath = path.join(process.cwd() + "/public" + "/images");
 
 /** true일시 로컬에 저장 */
 export const readFile = async (

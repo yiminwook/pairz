@@ -4,7 +4,6 @@ import { Cropper, ReactCropperElement } from "react-cropper";
 import React, { useRef, useState } from "react";
 import img_upload from "@/styles/img_upload.module.scss";
 import "cropperjs/dist/cropper.css";
-import { type } from "os";
 
 const ImgUpload = () => {
   const inputRef = useRef<HTMLInputElement>(null);
