@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { readFile } from "@/models/formidable";
-import uploadFile from "@/models/aws_sdk";
+import { readFile } from "../../models/formidable";
+import uploadFile from "../../models/aws_sdk";
 import fs from "fs/promises";
+import { imgStoragePath } from "@/utils/img_strage_path";
 
 export const config = {
   api: {
@@ -24,6 +25,7 @@ export default async function handler(
     return res.status(201).json({ message: filename });
   } catch (err) {
     console.log(err);
+    await fs.rmdir(imgStoragePath);
     return res.status(500).json({ message: "ERR!" });
   }
 }

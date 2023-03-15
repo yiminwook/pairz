@@ -1,9 +1,7 @@
 import type { NextApiRequest } from "next";
 import formidable from "formidable";
 import fs from "fs/promises";
-import path from "path";
-
-export const imgStoragePath = path.join(process.cwd() + "/public" + "/images");
+import { imgStoragePath } from "@/utils/img_strage_path";
 
 /** true일시 로컬에 저장 */
 export const readFile = async (
