@@ -1,3 +1,3 @@
 import path from "path";
 
-export const imgStoragePath = path.join(process.cwd() + "/public" + "/images");
+export const imgStoragePath = path.join(process.cwd() + "/image_storage");

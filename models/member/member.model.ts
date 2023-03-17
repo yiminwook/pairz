@@ -5,7 +5,7 @@ export const MEMBER_COL = "members";
 
 const { db } = FirebaseAdmin.getInstance();
 
-type AddResult = { result: boolean; message: string; uid: string };
+export type AddResult = { result: boolean; message: string; uid: string };
 
 interface memberResult {
   memberData: UserInfo[];
