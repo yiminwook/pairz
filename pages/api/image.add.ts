@@ -15,7 +15,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await imageCtrl.add(req, res);
   } catch (err) {
     console.error(err);
-    await fs.rmdir(imgStoragePath);
     return res.status(500).json({ message: "ERR!" });
   }
 };

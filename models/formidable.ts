@@ -11,16 +11,16 @@ export const readFile = async (
   req: NextApiRequest,
   saveLocally: boolean = false
 ) => {
-  try {
-    await fs.readdir(imgStoragePath);
-  } catch {
-    await fs.mkdir(imgStoragePath);
-  }
+  // try {
+  //   await fs.readdir(imgStoragePath);
+  // } catch {
+  //   await fs.mkdir(imgStoragePath);
+  // }
 
   const options: formidable.Options = {};
 
   if (saveLocally) {
-    options.uploadDir = imgStoragePath;
+    options.uploadDir = "/tmp";
     options.filename = (_name, _ext, path, _form) => {
       return Date.now().toString() + "_" + path.originalFilename;
     };

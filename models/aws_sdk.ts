@@ -32,6 +32,7 @@ const uploadFile = async (file: formidable.File) => {
     return uploadParams.Key;
   } catch (err) {
     console.error(err);
+    await fs.unlink(file.filepath);
     throw new Error("Faild upload to S3");
   }
 };
