@@ -92,7 +92,7 @@ const ImgUpload = () => {
             type="file"
             name="cardImg"
             ref={inputRef}
-            id="card-img--input"
+            id="card_img__input"
             onChange={(e: React.ChangeEvent<{ files: FileList | null }>) => {
               if (e.target.files && e.target.files.length > 0) {
                 const newfile = e.target.files[0];

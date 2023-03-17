@@ -1,40 +1,40 @@
 import FirebaseClient from "@/models/firebase_client";
+import { emailToEmailId } from "@/utils/email_to_emailId";
 import axios from "axios";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  browserSessionPersistence,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 
 export const signIn = async () => {
   const provider = new GoogleAuthProvider();
-  try {
-    const signInResult = await signInWithPopup(
-      FirebaseClient.getInstance().Auth,
-      provider
+  const auth = FirebaseClient.getInstance().Auth;
+  const signInResult = await signInWithPopup(auth, provider);
+  if (signInResult.user) {
+    const { email, uid, photoURL, displayName } = signInResult.user;
+    const emailId = emailToEmailId(email);
+    if (!auth.currentUser) throw new Error("undefind currentUser");
+    const idToken = await auth.currentUser.getIdToken(true);
+    const result = await axios.post(
+      "/api/member.add",
+      {
+        email,
+        uid,
+        photoURL,
+        emailId,
+        displayName,
+        idToken,
+      },
+      {
+        headers: { "Content-type": "application/json" },
+      }
     );
-    if (signInResult.user) {
-      const { email, uid, photoURL, displayName } = signInResult.user;
-      const emailId = email?.replace(/@(.*)\.(com|co.kr)$/gi, "");
-      axios.post(
-        "/api/member.add",
-        {
-          email,
-          uid,
-          photoURL,
-          emailId,
-          displayName,
-        },
-        {
-          headers: { "Content-type": "application/json" },
-        }
-      );
-    }
-  } catch (err) {
-    console.error(err);
+    if (result.status !== 200) throw new Error("Faild Login");
+    // await auth.setPersistence(browserSessionPersistence);
   }
 };
 
 export const signOut = async () => {
-  try {
-    await FirebaseClient.getInstance().Auth.signOut();
-  } catch (err) {
-    console.error(err);
-  }
+  await FirebaseClient.getInstance().Auth.signOut();
 };

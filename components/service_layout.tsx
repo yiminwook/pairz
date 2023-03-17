@@ -1,10 +1,11 @@
 import Head from "next/head";
 import GNB from "./GNB";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { useEffect } from "react";
 import FirebaseClient from "@/models/firebase_client";
 import { User } from "firebase/auth";
 import { userInfoAtom } from "@/recoil/atoms";
+import { emailToEmailId } from "@/utils/email_to_emailId";
 
 interface Props {
   title?: string;
@@ -12,8 +13,7 @@ interface Props {
 }
 
 const ServiceLayout = ({ title = "Pairz!", children }: Props) => {
-  const setUserinfo = useSetRecoilState(userInfoAtom);
-
+  const [userInfo, setUserinfo] = useRecoilState(userInfoAtom);
   useEffect(() => {
     const unsubscribe =
       FirebaseClient.getInstance().Auth.onAuthStateChanged(authStateChanged);
@@ -22,14 +22,19 @@ const ServiceLayout = ({ title = "Pairz!", children }: Props) => {
   }, []);
 
   /** observe*/
-  const authStateChanged = (authState: User | null) => {
+  const authStateChanged = async (authState: User | null) => {
     if (authState) {
+      console.log(authState);
       const { displayName, email, photoURL, uid } = authState;
-      setUserinfo({
-        displayName,
-        email,
-        photoURL,
-        uid,
+      const emailId = emailToEmailId(email);
+      setUserinfo((_pre) => {
+        return {
+          uid,
+          email,
+          emailId,
+          displayName,
+          photoURL,
+        };
       });
     }
   };
@@ -39,12 +44,10 @@ const ServiceLayout = ({ title = "Pairz!", children }: Props) => {
       <Head>
         <title>{title}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          rel="icon"
-          href="https://img.icons8.com/external-vectorslab-flat-vectorslab/53/null/external-cards-travel-and-tour-camping-and-navigation-vectorslab-flat-vectorslab.png"
-        />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <GNB />
+      <div>{userInfo?.displayName}</div>
       {children}
     </div>
   );

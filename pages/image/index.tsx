@@ -41,13 +41,6 @@ const ImageSearchPage: NextPage<Props> = ({
 
   const handleSubmit = (e: FormEvent<ImageSearch>) => {
     e.preventDefault();
-    const elements = e.currentTarget.elements;
-    const selectValue = elements.image_search__select.value;
-    const inputValue = elements.image_search__input.value;
-    console.log(selectValue, inputValue);
-    if (inputValue === null) {
-      setLastIdx((_pre) => staticLastIdx);
-    }
   };
 
   const handleGetData = async () => {
