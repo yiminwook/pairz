@@ -3,7 +3,10 @@ import formidable from "formidable";
 import fs from "fs/promises";
 import { imgStoragePath } from "@/utils/img_strage_path";
 
-/** true일시 로컬에 저장 */
+/** formidable로 formData파싱
+ *
+ *  true일시 로컬에 저장
+ */
 export const readFile = async (
   req: NextApiRequest,
   saveLocally: boolean = false

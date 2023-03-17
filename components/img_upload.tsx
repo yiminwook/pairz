@@ -10,7 +10,7 @@ const ImgUpload = () => {
   const cropperRef = useRef<ReactCropperElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [file, setFile] = useState<File | undefined>(undefined);
-  const [imgUrl, setImgUrl] = useState<string>("");
+  const [imgURL, setImgURL] = useState<string>("");
   const [showCrop, setShowCrop] = useState<boolean>(false);
   const [fixedImgWidth, fixedImgHeight] = [200, 300];
 
@@ -22,12 +22,13 @@ const ImgUpload = () => {
       alert("이미지는 200 300만 업로드 가능합니다. ");
       return;
     }
-    if (file) {
+    try {
+      if (!file) throw new Error("File undefined!");
       const formData = new FormData();
       formData.append("img", file);
       formData.append("title", "title");
       const result: AxiosResponse<{ message: string }> = await axios.post(
-        "/api/upload",
+        "/api/image.add",
         formData,
         {
           headers: {
@@ -35,8 +36,12 @@ const ImgUpload = () => {
           },
         }
       );
-      console.log(result.data.message + " created!");
-      imgReset();
+      if (result) {
+        alert(result.data.message + " created!");
+        imgReset();
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -59,8 +64,8 @@ const ImgUpload = () => {
     console.log(file.type);
     if (file.type === "image/png" || file.type === "image/jpeg") {
       setFile((_pre) => file);
-      URL.revokeObjectURL(imgUrl);
-      setImgUrl((_pre) => URL.createObjectURL(file));
+      URL.revokeObjectURL(imgURL);
+      setImgURL((_pre) => URL.createObjectURL(file));
       setShowCrop((_pre) => false);
       return;
     }
@@ -72,8 +77,8 @@ const ImgUpload = () => {
   const imgReset = () => {
     if (inputRef.current) {
       inputRef.current.value = "";
-      URL.revokeObjectURL(imgUrl);
-      setImgUrl((_pre) => "");
+      URL.revokeObjectURL(imgURL);
+      setImgURL((_pre) => "");
       setFile((_pre) => undefined);
       setShowCrop((_pre) => false);
     }
@@ -104,13 +109,13 @@ const ImgUpload = () => {
             삭제하기
           </button>
         </form>
-        {imgUrl && (
+        {imgURL && (
           <>
             {showCrop && (
               <div className={img_upload.cropper_container}>
                 <Cropper
                   ref={cropperRef}
-                  src={imgUrl}
+                  src={imgURL}
                   aspectRatio={fixedImgWidth / fixedImgHeight}
                   style={{ height: "15rem", width: "15rem" }}
                 />
@@ -123,7 +128,7 @@ const ImgUpload = () => {
             <div className={img_upload.img_container}>
               <Image
                 className={img_upload.preView}
-                src={imgUrl}
+                src={imgURL}
                 ref={imgRef}
                 alt="preview"
                 width={fixedImgWidth}

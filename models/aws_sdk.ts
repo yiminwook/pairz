@@ -12,6 +12,10 @@ const s3 = new S3Client({
   region: process.env.AWS_S3_REGION || "ap-northeast-2",
 });
 
+/** S3 Bucket에 이미지업로드
+ *
+ *  ex) filename.jpg로 반환
+ */
 const uploadFile = async (file: formidable.File) => {
   try {
     const buffer = await fs.readFile(file.filepath);
@@ -24,11 +28,11 @@ const uploadFile = async (file: formidable.File) => {
     };
 
     await s3.send(new PutObjectCommand(uploadParams));
-
+    await fs.unlink(file.filepath);
     return uploadParams.Key;
   } catch (err) {
     console.error(err);
-    throw new Error("S3 업로드 실패");
+    throw new Error("Faild upload to S3");
   }
 };
 

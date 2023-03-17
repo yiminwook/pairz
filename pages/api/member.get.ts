@@ -3,8 +3,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    if (req.method !== "POST") throw new Error("Unsupported method");
-    await memberCtrl.add(req, res);
+    if (req.method !== "GET") throw new Error("Unsupported method");
+    await memberCtrl.get(req, res);
   } catch (err) {
     return res.status(404).end();
   }

@@ -1,8 +1,8 @@
-import { AuthUserInfo } from "@/models/auth_user_Info";
+import { UserInfo } from "@/models/Info";
 import { atom } from "recoil";
 import { v1 } from "uuid";
 
-export const userInfoAtom = atom<AuthUserInfo | null>({
+export const userInfoAtom = atom<UserInfo | null>({
   key: `userInfoAtom${v1()}`,
   default: null,
 });
