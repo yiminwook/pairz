@@ -1,0 +1,44 @@
+@import "mixin";
+@import "var";
+
+.container {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "form"
+    "preview"
+    "button";
+
+  .form {
+    grid-row: form;
+    background-color: aqua;
+    label {
+      display: none;
+    }
+  }
+
+  .cropper_container {
+    background-color: aquamarine;
+    position: fixed;
+    left: calc(50% - 7.5rem);
+    top: calc(50% - 8.25rem);
+    width: 15rem;
+    height: 16.5rem;
+    margin: auto;
+    // scrollbar-width: none;
+    // overflow: hidden;
+  }
+
+  .img_container {
+    grid-row: preview;
+    margin: auto;
+    height: 300px;
+    img {
+      height: 100%;
+    }
+  }
+
+  .button {
+    grid-row: button;
+  }
+}

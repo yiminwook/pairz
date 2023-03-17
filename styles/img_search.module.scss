@@ -1,0 +1,19 @@
+@import "mixin";
+@import "var";
+
+.main {
+  .contents {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    background-color: antiquewhite;
+    .contents_image_container {
+      img {
+        width: auto;
+        height: auto;
+      }
+    }
+    .contents_name {
+      font-size: 0.7rem;
+    }
+  }
+}
