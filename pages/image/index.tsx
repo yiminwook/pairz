@@ -123,7 +123,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     if (result.status !== 200) {
       return {
         props: { staticImageData: [], staticTotal: 0, staticLastIdx: null },
-        revalidate: 60,
+        revalidate: 30,
       };
     }
     const { imageData, total, lastIdx } = result.data;
@@ -133,13 +133,13 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
         staticTotal: total,
         staticLastIdx: lastIdx,
       },
-      revalidate: 60,
+      revalidate: 30,
     };
   } catch (err) {
     console.error(err);
     return {
       props: { staticImageData: [], staticTotal: 0, staticLastIdx: null },
-      revalidate: 60,
+      revalidate: 30,
     };
   }
 };
