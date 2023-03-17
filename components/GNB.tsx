@@ -2,23 +2,35 @@ import gnb from "@/styles/gnb.module.scss";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import { userInfoAtom } from "@/recoil/atoms";
 import { signIn, signOut } from "@/hooks/firebase_client_auth";
+import Link from "next/link";
 
 const GNB = () => {
   const [userInfo, _setUserinfo] = useRecoilState(userInfoAtom);
   const resetUserInfo = useResetRecoilState(userInfoAtom);
   const signInHandler = async () => {
-    await signIn();
+    try {
+      await signIn();
+    } catch (err) {
+      console.error(err);
+      await signOutHandler();
+    }
   };
   const signOutHandler = async () => {
-    await signOut();
-    resetUserInfo();
+    try {
+      await signOut();
+      resetUserInfo();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <>
       <div className={gnb.container}>
         <div></div>
-        <div>Pairz</div>
+        <Link href="/">Pairz</Link>
+        <Link href="/image">이미지페이지</Link>
+        <Link href="/image/upload">업로드페이지</Link>
         {userInfo ? (
           <button className={gnb.logout_button} onClick={signOutHandler}>
             로그아웃

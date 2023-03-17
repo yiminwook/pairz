@@ -9,16 +9,20 @@ const IMAGE_PER_PAGE: number = 5;
 
 const { db } = FirebaseAdmin.getInstance();
 
-type AddResult = { result: boolean; message: string };
+export type AddResult = { result: boolean; message: string };
 
-interface ImageResult {
+export interface ImageResult {
   imageData: ImageInfo[];
 }
 
-interface ImageResultWithIdx extends ImageResult {
+export interface ImageResultWithIdx extends ImageResult {
   total: number;
-  lastIdx: number;
+  lastIdx: number | null;
 }
+
+export type findByImageName = Omit<ImageResultWithIdx, "lastIdx"> & {
+  lastImageName: string | null;
+};
 
 /** 중복 업로드x */
 const add = async ({
@@ -88,7 +92,7 @@ const get = async (idx?: string | null): Promise<ImageResultWithIdx> => {
       return {
         imageData: [...imageDocData],
         total: imageDocData.length,
-        lastIdx: imageDocData.at(-1)?.id ?? 0,
+        lastIdx: imageDocData.at(-1)?.id ?? null,
       };
     });
     return getResult;
@@ -140,9 +144,7 @@ const getRandom = async (): Promise<ImageResult> => {
 const findByImageName = async (
   imageName: string,
   next?: string | null
-): Promise<
-  Omit<ImageResultWithIdx, "lastIdx"> & { lastImageName: string | null }
-> => {
+): Promise<findByImageName> => {
   try {
     const findByFileNameResult = await db.runTransaction(
       async (transaction) => {

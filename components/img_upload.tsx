@@ -38,7 +38,7 @@ const ImgUpload = () => {
       );
       if (result) {
         alert(result.data.message + " created!");
-        imgReset();
+        handleResetImage();
       }
     } catch (err) {
       console.error(err);
@@ -55,13 +55,12 @@ const ImgUpload = () => {
       if (blob && fileName) {
         console.log(fileName);
         const newFile = new File([blob], fileName, { type: "image/jpeg" });
-        saveFile(newFile);
+        handleSaveImage(newFile);
       }
     });
   };
 
-  const saveFile = (file: File) => {
-    console.log(file.type);
+  const handleSaveImage = (file: File) => {
     if (file.type === "image/png" || file.type === "image/jpeg") {
       setFile((_pre) => file);
       URL.revokeObjectURL(imgURL);
@@ -71,10 +70,10 @@ const ImgUpload = () => {
     }
 
     alert("image png 파일만 업로드 가능합니다.");
-    imgReset();
+    handleResetImage();
   };
 
-  const imgReset = () => {
+  const handleResetImage = () => {
     if (inputRef.current) {
       inputRef.current.value = "";
       URL.revokeObjectURL(imgURL);
@@ -97,14 +96,14 @@ const ImgUpload = () => {
             onChange={(e: React.ChangeEvent<{ files: FileList | null }>) => {
               if (e.target.files && e.target.files.length > 0) {
                 const newfile = e.target.files[0];
-                saveFile(newfile);
+                handleSaveImage(newfile);
               }
             }}
           ></input>
           <button
             type="button"
             className={img_upload.form_reset}
-            onClick={imgReset}
+            onClick={handleResetImage}
           >
             삭제하기
           </button>
