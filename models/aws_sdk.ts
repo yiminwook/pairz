@@ -27,12 +27,12 @@ const uploadFile = async (
     if (!(type === "image/jpeg" || type === "image/png"))
       throw new Error("Invalid file type");
     const buffer = await fs.readFile(file.filepath);
-    let key = name + "." + type.replace(/(image\/)/g, "");
+
     const uploadParams = {
       Bucket: S3_BUCKET,
-      Key: key || "",
+      Key: name || "",
       Body: buffer,
-      ContentType: file.mimetype || "",
+      ContentType: type || "",
     };
 
     await s3.send(new PutObjectCommand(uploadParams));

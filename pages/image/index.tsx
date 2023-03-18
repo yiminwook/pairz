@@ -45,7 +45,6 @@ const ImageSearchPage: NextPage<Props> = ({
 
   const handleGetData = async () => {
     try {
-      console.log(`/api/image.get?idx=${lastIdx}`);
       const result: AxiosResponse<ImageResultWithIdx> = await axios.get(
         `/api/image.get?idx=${lastIdx ? lastIdx - 1 : ""}`
       );
