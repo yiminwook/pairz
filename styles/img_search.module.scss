@@ -1,8 +1,12 @@
 @import "mixin";
 @import "var";
+@import "placeholder";
 
 .main {
   .contents {
+    max-height: 10rem;
+    overflow-x: hidden;
+
     display: grid;
     grid-template-columns: repeat(5, auto);
     background-color: antiquewhite;
@@ -15,5 +19,6 @@
     .contents_name {
       font-size: 0.7rem;
     }
+    @extend %scroll-bar;
   }
 }

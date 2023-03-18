@@ -1,5 +1,6 @@
 @import "mixin";
 @import "var";
+@import "placeholder";
 
 .container {
   display: grid;
@@ -10,27 +11,31 @@
     "button";
 
   .form {
-    grid-row: form;
+    grid-area: form;
     background-color: aqua;
-    label {
-      display: none;
+    vertical-align: middle;
+    @include flex-center();
+    .input__button {
+      @extend %button__white;
+    }
+    .form_reset {
+      @extend %button__orange;
     }
   }
 
   .cropper_container {
     background-color: aquamarine;
-    position: fixed;
+    position: absolute;
     left: calc(50% - 7.5rem);
     top: calc(50% - 8.25rem);
     width: 15rem;
     height: 16.5rem;
     margin: auto;
-    // scrollbar-width: none;
-    // overflow: hidden;
+    z-index: map-get($z-indexs, modal);
   }
 
   .img_container {
-    grid-row: preview;
+    grid-area: preview;
     margin: auto;
     height: 300px;
     img {
@@ -39,6 +44,6 @@
   }
 
   .button {
-    grid-row: button;
+    grid-area: button;
   }
 }

@@ -1,4 +1,23 @@
 $colors: (
   main: #ffc1cc,
   secondary: #fa923f,
+  half-transparent: rgba(0, 0, 0, 0.5),
+  light-gray: #d3d3d3,
+);
+
+$z-indexs: (
+  gnb: 300,
+  loading: 200,
+  modal: 100,
+  background: -100,
+);
+
+$img_size: (
+  width: 200,
+  height: 300,
+);
+
+$card_size: (
+  width: 250,
+  height: 350,
 );

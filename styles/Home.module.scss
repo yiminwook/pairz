@@ -1,2 +1,19 @@
 @import "mixin";
 @import "var";
+@import "placeholder";
+
+.white {
+  @extend %button__white;
+}
+.blue {
+  @extend %button__blue;
+}
+.green {
+  @extend %button__green;
+}
+.orange {
+  @extend %button__orange;
+}
+.red {
+  @extend %button__red;
+}

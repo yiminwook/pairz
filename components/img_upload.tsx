@@ -87,12 +87,21 @@ const ImgUpload = () => {
     <>
       <div className={img_upload.container}>
         <form className={img_upload.form}>
-          <label>file</label>
+          <label
+            className={img_upload.input__button}
+            htmlFor="upload_file_input"
+          >
+            업로드
+          </label>
           <input
+            id="upload_file_input"
+            className={img_upload.input}
             type="file"
+            accept=".png, .jpeg, .jpg"
             name="cardImg"
+            multiple={false}
             ref={inputRef}
-            id="card_img__input"
+            style={{ display: "none", visibility: "hidden" }}
             onChange={(e: React.ChangeEvent<{ files: FileList | null }>) => {
               if (e.target.files && e.target.files.length > 0) {
                 const newfile = e.target.files[0];
@@ -105,7 +114,7 @@ const ImgUpload = () => {
             className={img_upload.form_reset}
             onClick={handleResetImage}
           >
-            삭제하기
+            취소
           </button>
         </form>
         {imgURL && (

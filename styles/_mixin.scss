@@ -57,3 +57,23 @@
   -webkit-transition: $property-name $duration $easing-fuc $delay;
   transition: $property-name $duration $easing-fuc $delay;
 }
+
+@mixin flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin button_style($color, $font-color: #ffffff) {
+  @extend %button;
+  background-color: $color;
+  color: $font-color;
+  &:active,
+  &:hover,
+  &:focus {
+    background-color: lighten($color, 10%);
+  }
+  &:disabled {
+    background-color: darken($color, 10%);
+  }
+}

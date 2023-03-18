@@ -1,11 +1,12 @@
 import Head from "next/head";
 import GNB from "./GNB";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import FirebaseClient from "@/models/firebase_client";
 import { User } from "firebase/auth";
-import { userInfoAtom } from "@/recoil/atoms";
+import { isLoadingAtom, userInfoAtom } from "@/recoil/atoms";
 import { emailToEmailId } from "@/utils/email_to_emailId";
+import Loading from "./loading";
 
 interface Props {
   title?: string;
@@ -14,6 +15,8 @@ interface Props {
 
 const ServiceLayout = ({ title = "Pairz!", children }: Props) => {
   const [userInfo, setUserinfo] = useRecoilState(userInfoAtom);
+  const isLoading = useRecoilValue(isLoadingAtom);
+
   useEffect(() => {
     const unsubscribe =
       FirebaseClient.getInstance().Auth.onAuthStateChanged(authStateChanged);
@@ -46,6 +49,7 @@ const ServiceLayout = ({ title = "Pairz!", children }: Props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
+      {isLoading && <Loading />}
       <GNB />
       <div>{userInfo?.displayName}</div>
       {children}

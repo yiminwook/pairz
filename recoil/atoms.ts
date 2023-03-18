@@ -9,5 +9,5 @@ export const userInfoAtom = atom<UserInfo | null>({
 
 export const isLoadingAtom = atom({
   key: `authLoadingAtom${v1()}`,
-  default: true,
+  default: false,
 });
