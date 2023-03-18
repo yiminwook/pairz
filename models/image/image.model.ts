@@ -1,4 +1,4 @@
-import { verifyingIdx } from "@/utils/verify_idx";
+import { verifyingIdx } from "@/utils/validation";
 import FirebaseAdmin from "../firebase_admin";
 import { ImageInfo } from "../Info";
 import MemberModel from "../member/member.model";
@@ -46,7 +46,7 @@ const add = async ({
         encodeURI(fileName);
       const imageName = fileName.replace(/.jpg|.png|.jpeg/gi, "");
       transaction.set(imageRef, {
-        id: lastImagData.id + 1,
+        id: lastImagData?.id + 1 || 1,
         imgURL,
         uid,
         imageName,
@@ -59,7 +59,7 @@ const add = async ({
     return { result: true, message: `${fileName} Created` };
   } catch (err) {
     console.error(err);
-    throw new Error("File upload failed");
+    throw new Error("Image upload failed");
   }
 };
 
@@ -98,7 +98,7 @@ const get = async (idx?: string | null): Promise<ImageResultWithIdx> => {
     return getResult;
   } catch (err) {
     console.error(err);
-    throw new Error("Failed to get file");
+    throw new Error("Failed to get images");
   }
 };
 
@@ -133,7 +133,7 @@ const getRandom = async (): Promise<ImageResult> => {
     return getRandomResult;
   } catch (err) {
     console.error(err);
-    throw new Error("Failed to get file");
+    throw new Error("Failed to get images");
   }
 };
 
@@ -177,7 +177,7 @@ const findByImageName = async (
     return findByFileNameResult;
   } catch (err) {
     console.error(err);
-    throw new Error("Failed to get file");
+    throw new Error("Failed to get images");
   }
 };
 
@@ -221,6 +221,20 @@ const findByEmail = async (
     return findByFileNameResult;
   } catch (err) {
     console.error(err);
+    throw new Error("Failed to get images");
+  }
+};
+
+const checkImageName = async (imageName: string): Promise<boolean> => {
+  try {
+    const imageRef = db
+      .collection(IMAGE_COL)
+      .where("imageName", "==", imageName);
+    const imageDoc = await imageRef.get();
+    const imageData = imageDoc.docs.map((doc) => doc.data());
+    if (imageData.length === 0) return true;
+    else return false;
+  } catch (err) {
     throw new Error("Failed to get file");
   }
 };
@@ -257,6 +271,7 @@ const imageModel = {
   getRandom,
   findByImageName,
   findByEmail,
+  checkImageName,
 };
 
 export default imageModel;
