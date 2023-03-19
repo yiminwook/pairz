@@ -51,7 +51,6 @@ const ServiceLayout = ({ title = "Pairz!", children }: Props) => {
       </Head>
       {isLoading && <Loading />}
       <GNB />
-      <div>{userInfo?.displayName}</div>
       {children}
     </div>
   );

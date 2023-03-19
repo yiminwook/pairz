@@ -68,6 +68,10 @@
   @extend %button;
   background-color: $color;
   color: $font-color;
+  @if ($font-color == #000000) {
+    text-shadow: none;
+  }
+
   &:active,
   &:hover,
   &:focus {

@@ -33,7 +33,7 @@ const GNB = () => {
         <Link href="/image/upload">업로드페이지</Link>
         {userInfo ? (
           <button className={gnb.logout_button} onClick={signOutHandler}>
-            로그아웃
+            {userInfo.displayName} 로그아웃
           </button>
         ) : (
           <button className={gnb.login_button} onClick={signInHandler}>
