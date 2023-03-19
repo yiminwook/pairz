@@ -1,9 +1,9 @@
 import ImgUpload from "@/components/img_upload";
 import ServiceLayout from "@/components/service_layout";
 import { NextPage } from "next";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoadingAtom, userInfoAtom } from "@/recoil/atoms";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { signOut } from "@/hooks/firebase_client_auth";
 import { validatonToken } from "@/hooks/vaildation_token";

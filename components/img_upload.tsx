@@ -59,6 +59,7 @@ const ImgUpload = () => {
       if (result) {
         alert(result.data.message + " created!");
         handleResetImage();
+        handleResetCheckImageName();
       }
       setIsLoading((_pre) => false);
     } catch (err) {
@@ -69,9 +70,11 @@ const ImgUpload = () => {
 
   const drop = (e: DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     const file = e.dataTransfer.files[0];
     handleSaveImage(file);
   };
+
   const dragOver = (e: DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     e.stopPropagation();
@@ -83,8 +86,9 @@ const ImgUpload = () => {
       height: fixedImgHeight,
     });
     cropperCanvas?.toBlob((blob) => {
-      const fileName = inputFileRef?.current?.files?.[0]?.name;
-      if (blob && fileName) {
+      const fileName =
+        file?.name || `Pairz_${Date.now()}_${Math.trunc(Math.random() * 100)}`;
+      if (blob) {
         const newFile = new File([blob], fileName, { type: "image/jpeg" });
         handleSaveImage(newFile);
       }
