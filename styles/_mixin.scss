@@ -16,15 +16,6 @@
   }
 }
 
-@include keyframe(loading) {
-  0% {
-    transform: rotateY(0deg);
-  }
-  100% {
-    transform: rotateY(-360deg);
-  }
-}
-
 @mixin animation($keyframe-name, $duration, $delay, $count: infinite) {
   -moz-animation-name: $keyframe-name;
   -moz-animation-duration: $duration;
@@ -79,5 +70,49 @@
   }
   &:disabled {
     background-color: darken($color, 10%);
+  }
+}
+
+@mixin prevent-user-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  -webkit-user-drag: none;
+}
+
+@mixin box-shadow($offset-x, $offset-y, $blur-radius, $color) {
+  -webkit-box-shadow: $offset-x $offset-y $blur-radius $color;
+  -moz-box-shadow: $offset-x $offset-y $blur-radius $color;
+  box-shadow: $offset-x $offset-y $blur-radius $color;
+}
+
+@include keyframe(loading) {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(-360deg);
+  }
+}
+
+@include keyframe(card-preview) {
+  0% {
+    transform: rotateY(0deg) translateY(0%);
+  }
+  25% {
+    transform: rotateY(-180deg) translateY(2.5%);
+  }
+  50% {
+    transform: rotateY(-360deg) translateY(5%);
+  }
+  75% {
+    transform: rotateY(-540deg) translateY(2.5%);
+  }
+  100% {
+    transform: rotateY(-720deg) translateY(0%);
   }
 }

@@ -1,3 +1,69 @@
 @import "mixin";
 @import "var";
 @import "placeholder";
+
+.container {
+  transform-style: preserve-3d;
+  transform-origin: center right;
+  transition: transform 0.7s;
+  position: relative;
+  width: 10rem;
+  height: 16rem;
+  margin: 2px;
+  background-color: white;
+  border-radius: 20px;
+  @include box-shadow(5px, 5px, 10px, rgba(0, 0, 0, 0.3));
+  @include prevent-user-select();
+  cursor: pointer;
+
+  .front {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    border-radius: 20px;
+    @include flex-center();
+    .front_image_container {
+      width: 80%;
+      height: 80%;
+      img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        z-index: 5;
+        margin: 0 auto;
+        border-radius: 5px;
+        @include prevent-user-select();
+      }
+    }
+  }
+
+  .back {
+    position: absolute;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    @include flex-center();
+    &::before {
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      content: "";
+      border: 3px map-get($colors, light-gray);
+      border-style: outset;
+      border-radius: 20px;
+    }
+  }
+
+  &.flip {
+    transform: translateX(-100%) rotateY(-180deg);
+  }
+
+  &.preview {
+    transform-origin: center;
+    @include animation(card-preview, 5s, 0s);
+  }
+}
