@@ -40,6 +40,7 @@
   }
 
   .back {
+    background-color: white;
     position: absolute;
     backface-visibility: hidden;
     transform: rotateY(180deg);
@@ -65,5 +66,18 @@
   &.preview {
     transform-origin: center;
     @include animation(card-preview, 5s, 0s);
+  }
+
+  &.blue {
+    background-color: map-get($colors, blue);
+  }
+  &.red {
+    background-color: map-get($colors, red);
+  }
+  &.orange {
+    background-color: map-get($colors, orange);
+  }
+  &.green {
+    background-color: map-get($colors, green);
   }
 }

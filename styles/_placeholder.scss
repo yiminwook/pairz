@@ -62,20 +62,21 @@
 }
 
 %button__white {
-  @include button_style(#fdfdfa, #000000);
+  @include button_style((map-get($colors, white)), #000000);
 }
 
 %button__blue {
-  @include button_style(#6698cb);
+  @include button_style(map-get($colors, blue));
 }
 
 %button__green {
-  @include button_style(#76ba1b);
+  @include button_style(map-get($colors, green));
 }
 
 %button__orange {
-  @include button_style(#ffa500);
+  @include button_style(map-get($colors, orange));
 }
+
 %button__red {
-  @include button_style(#db0f27);
+  @include button_style(map-get($colors, red));
 }
