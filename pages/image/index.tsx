@@ -7,6 +7,8 @@ import { ImageInfo } from "@/models/Info";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useRef, useState } from "react";
 import imageSearch from "@/styles/img_search.module.scss";
+import { useSetRecoilState } from "recoil";
+import { isLoadingAtom } from "@/recoil/atoms";
 
 interface Props {}
 
@@ -24,11 +26,12 @@ interface ImageSearch extends HTMLFormElement {
 const ImageSearchPage: NextPage<Props> = () => {
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const [reqImageData, setReqImageData] = useState<ImageInfo[]>([]);
-  const [lastIdx, setLastIdx] = useState<number>(0);
-  const [total, setTotal] = useState(0);
+  const [reqLastIdx, setReqLastIdx] = useState<number>(0);
+  const [reqTotal, setReqTotal] = useState(0);
   const formRef = useRef<ImageSearch>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const selectRef = useRef<HTMLSelectElement>(null);
+  const setLoading = useSetRecoilState(isLoadingAtom);
 
   const handleSubmit = (e: FormEvent<ImageSearch>) => {
     e.preventDefault();
@@ -36,6 +39,7 @@ const ImageSearchPage: NextPage<Props> = () => {
 
   const getData = async () => {
     try {
+      setLoading((_pre) => true);
       const result: AxiosResponse<ImageResultWithIdx> = await axios.get(
         "/api/image.get"
       );
@@ -49,33 +53,40 @@ const ImageSearchPage: NextPage<Props> = () => {
         )
       )
         throw new Error("axios err");
-      setReqImageData((pre) => [...imageData]);
-      setTotal((_pre) => total);
-      setLastIdx((_pre) => lastIdx);
+      setReqImageData((_pre) => [...imageData]);
+      setReqTotal((_pre) => total);
+      setReqLastIdx((_pre) => lastIdx);
+      setLoading((_pre) => false);
     } catch (err) {
       console.error(err);
+      setLoading((_pre) => false);
     }
   };
 
   const handleGetData = async () => {
     try {
+      setLoading((_pre) => true);
       const result: AxiosResponse<ImageResultWithIdx> = await axios.get(
-        `/api/image.get?idx=${lastIdx ? lastIdx - 1 : ""}`
+        `/api/image.get?idx=${reqLastIdx ? reqLastIdx - 1 : ""}`
       );
+
+      const { imageData, total, lastIdx } = result.data;
       if (
         !(
           result.status === 200 &&
-          result.data.total >= 0 &&
-          result.data.lastIdx !== null &&
-          result.data.lastIdx >= 0
+          total >= 0 &&
+          lastIdx !== null &&
+          lastIdx >= 0
         )
       )
         throw new Error("axios err");
-      setReqImageData((pre) => [...pre, ...result.data.imageData]);
-      setTotal((_pre) => result.data.total);
-      setLastIdx((_pre) => result.data.lastIdx as number);
+      setReqImageData((pre) => [...pre, ...imageData]);
+      setReqTotal((_pre) => total);
+      setReqLastIdx((_pre) => lastIdx);
+      setLoading((_pre) => false);
     } catch (err) {
       console.error(err);
+      setLoading((_pre) => false);
     }
   };
 
@@ -85,6 +96,7 @@ const ImageSearchPage: NextPage<Props> = () => {
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -109,13 +121,22 @@ const ImageSearchPage: NextPage<Props> = () => {
               reqImageData.map((data) => (
                 <div key={data.id}>
                   <div className={imageSearch.contents_image_container}>
-                    <img
-                      src={data.imgURL}
-                      width={200}
-                      height={300}
-                      alt="card_img"
-                      onError={() => setFailToGetImage((_pre) => true)}
-                    />
+                    {failToGetImage ? (
+                      <img
+                        src="/loading_icon.png"
+                        width={200}
+                        height={300}
+                        alt="card_img_err"
+                      />
+                    ) : (
+                      <img
+                        src={data.imgURL}
+                        width={200}
+                        height={300}
+                        alt="card_img"
+                        onError={() => setFailToGetImage((_pre) => true)}
+                      />
+                    )}
                   </div>
                   <div className={imageSearch.contents_name}>
                     {data.imageName}
@@ -123,7 +144,7 @@ const ImageSearchPage: NextPage<Props> = () => {
                   <div className={imageSearch.contents_id}>{data.id}</div>
                 </div>
               ))}
-            {total >= 5 && <button onClick={handleGetData}>더보기</button>}
+            {reqTotal >= 5 && <button onClick={handleGetData}>더보기</button>}
           </div>
         </div>
       </main>
