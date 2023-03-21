@@ -1,20 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
+import { SelectedCard } from "@/pages/game";
 import card from "@/styles/card.module.scss";
-import { FC, useCallback, useMemo, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 
 interface Props {
+  idx: number;
   imgURL: string;
   isPreView?: boolean;
   isFlip: boolean;
   color: "white" | "red" | "blue" | "green" | "orange";
   id: number;
+  isDisable: boolean;
+  checkPair: (card: SelectedCard) => void;
 }
 
 /** isPreView가 true이면
  *
- *  preView 모드
+ *  preView모드 일때는 isDisable = True
  */
-const Card: FC<Props> = ({ imgURL, isPreView, isFlip, color, id }) => {
+const Card: FC<Props> = ({
+  id,
+  idx,
+  imgURL,
+  isPreView,
+  isFlip,
+  color,
+  isDisable,
+  checkPair,
+}) => {
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -41,10 +54,12 @@ const Card: FC<Props> = ({ imgURL, isPreView, isFlip, color, id }) => {
 
   const handleEffect = () => {
     if (cardRef.current) {
-      const { classList, style } = cardRef.current;
-      if (isPreView !== true) {
-        classList.toggle(card.flip);
+      const { style } = cardRef.current;
+      if (isPreView !== true && isDisable === false) {
+        const selectedCard = { idx, id };
+        checkPair(selectedCard);
       }
+      //프리뷰모드일때
       if (isPreView === true) {
         if (!style.animationPlayState) {
           style.animationPlayState = "paused";

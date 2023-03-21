@@ -13,7 +13,7 @@ const {
 } = process.env;
 
 module.exports = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
   publicRuntimeConfig: {
     PROTOCOL,
     HOST,
