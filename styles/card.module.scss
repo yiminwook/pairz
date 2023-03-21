@@ -9,7 +9,6 @@
   position: relative;
   width: 10rem;
   height: 16rem;
-  margin: 2px;
   background-color: white;
   border-radius: 20px;
   @include box-shadow(5px, 5px, 10px, rgba(0, 0, 0, 0.3));
@@ -44,7 +43,7 @@
     position: absolute;
     backface-visibility: hidden;
     transform: rotateY(180deg);
-    border-radius: 20px;
+    border-radius: 19px;
     width: 100%;
     height: 100%;
     @include flex-center();

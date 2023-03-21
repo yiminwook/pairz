@@ -2,6 +2,7 @@ import home from "@/styles/Home.module.scss";
 import ServiceLayout from "../components/service_layout";
 import { NextPage } from "next";
 import Card from "@/components/card";
+import Link from "next/link";
 
 const IndexPage: NextPage = () => {
   return (
@@ -54,6 +55,9 @@ const IndexPage: NextPage = () => {
             />
           </div>
         </div>
+        <Link href="/game" style={{ fontSize: "3rem" }}>
+          Game Start
+        </Link>
       </main>
     </ServiceLayout>
   );

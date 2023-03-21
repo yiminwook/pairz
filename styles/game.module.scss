@@ -1,0 +1,12 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  .card_container {
+    width: 55rem;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    gap: 1rem;
+  }
+}
