@@ -31,26 +31,26 @@ const Card: FC<Props> = ({
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  let colorClass;
-  switch (color) {
-    case "red":
-      colorClass = card.red;
-      break;
-    case "blue":
-      colorClass = card.blue;
-      break;
-    case "green":
-      colorClass = card.orange;
-      break;
-    case "orange":
-      colorClass = card.green;
-      break;
-    case "white":
-      colorClass = "";
-      break;
-    default:
-      colorClass = "";
-  }
+  // let colorClass;
+  // switch (color) {
+  //   case "red":
+  //     colorClass = card.red;
+  //     break;
+  //   case "blue":
+  //     colorClass = card.blue;
+  //     break;
+  //   case "green":
+  //     colorClass = card.orange;
+  //     break;
+  //   case "orange":
+  //     colorClass = card.green;
+  //     break;
+  //   case "white":
+  //     colorClass = "";
+  //     break;
+  //   default:
+  //     colorClass = "";
+  // }
 
   const handleEffect = () => {
     if (cardRef.current) {
@@ -72,7 +72,7 @@ const Card: FC<Props> = ({
 
   const cardClassNameList = [
     card.container,
-    colorClass,
+    card[color],
     isPreView ? card.preview : "",
     isFlip ? card.flip : "",
   ];
