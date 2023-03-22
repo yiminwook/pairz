@@ -3,10 +3,12 @@ import { useRecoilState, useResetRecoilState } from "recoil";
 import { userInfoAtom } from "@/recoil/atoms";
 import { signIn, signOut } from "@/hooks/firebase_client_auth";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const GNB = () => {
   const [userInfo, _setUserinfo] = useRecoilState(userInfoAtom);
   const resetUserInfo = useResetRecoilState(userInfoAtom);
+  const router = useRouter();
   const signInHandler = async () => {
     try {
       await signIn();
@@ -19,6 +21,7 @@ const GNB = () => {
     try {
       await signOut();
       resetUserInfo();
+      router.push("/");
     } catch (err) {
       console.error(err);
     }

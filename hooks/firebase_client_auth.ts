@@ -2,11 +2,7 @@ import FirebaseClient from "@/models/firebase_client";
 import { AddResult } from "@/models/member/member.model";
 import { emailToEmailId } from "@/utils/email_to_emailId";
 import axios, { AxiosResponse } from "axios";
-import {
-  browserSessionPersistence,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export const signIn = async (): Promise<AddResult> => {
   const provider = new GoogleAuthProvider();
@@ -32,10 +28,17 @@ export const signIn = async (): Promise<AddResult> => {
     withCredentials: true,
   });
   const { status, data } = addResult;
-  if (!(status === 200 && data.result)) throw new Error("Faild Login");
+  if (!(status === 200 && data.result)) throw new Error("Faild SignIn");
   return data;
 };
 
 export const signOut = async () => {
+  const signOutResult: AxiosResponse<{ result: boolean }> = await axios.get(
+    "/api/auth/signout",
+    { withCredentials: true }
+  );
+  if (!(signOutResult.status === 200 && signOutResult.data.result))
+    throw new Error("Faild SignOut");
+
   await FirebaseClient.getInstance().Auth.signOut();
 };

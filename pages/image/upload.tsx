@@ -25,7 +25,7 @@ const UploadPage: NextPage<Props> = () => {
       console.error(err);
       await signOut();
       alert("다시 로그인 해주세요");
-      window.location.href = "/";
+      router.push("/");
     }
   };
 

@@ -11,9 +11,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     );
     if (!decode) throw new Error("Invaild cookie");
 
-    return res.status(200).json({ isLoggin: true });
+    return res.status(200).json({ result: true });
   } catch (err) {
-    return res.status(400).json({ isLoggin: false });
+    return res.status(400).json({ result: false });
   }
 };
 
