@@ -1,7 +1,6 @@
-import home from "@/styles/Home.module.scss";
+import home from "@/styles/home.module.scss";
 import ServiceLayout from "../components/service_layout";
 import { NextPage } from "next";
-import Card from "@/components/card";
 import Link from "next/link";
 
 const IndexPage: NextPage = () => {

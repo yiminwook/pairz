@@ -51,6 +51,7 @@ const Card: FC<Props> = ({
 
   const cardClassNameList = [
     card.container,
+    card[color],
     isPreView ? card.preview : "",
     isFlip ? card.flip : "",
   ];
@@ -61,7 +62,6 @@ const Card: FC<Props> = ({
         onClick={handleEffect}
         className={cardClassNameList.join(" ")}
         ref={cardRef}
-        style={{ backgroundColor: color }}
       >
         <div className={card.front}>
           <div className={card.front_image_container}>

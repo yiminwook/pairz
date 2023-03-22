@@ -66,4 +66,24 @@
     transform-origin: center;
     @include animation(card-preview, 5s, 0s);
   }
+
+  &.white {
+    background-color: map-get($colors, white) !important;
+  }
+
+  &.red {
+    background-color: map-get($colors, red) !important;
+  }
+
+  &.orange {
+    background-color: map-get($colors, orange) !important;
+  }
+
+  &.blue {
+    background-color: map-get($colors, blue) !important;
+  }
+
+  &.green {
+    background-color: map-get($colors, green) !important;
+  }
 }

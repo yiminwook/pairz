@@ -9,7 +9,7 @@ import game from "@/styles/game.module.scss";
 
 interface CardInfo extends ImageInfo {
   isFlip: boolean;
-  color: string;
+  color: "white" | "red" | "orange" | "blue" | "green";
   isDisable: boolean;
 }
 
@@ -65,23 +65,23 @@ const GamePage: NextPage = () => {
       .map((img, idx): CardInfo => {
         let color: CardInfo["color"];
         switch (idx) {
-          case (idx = 0):
-            color = "#fdfdfa"; //white
+          case 0:
+            color = "white";
             break;
-          case (idx = 1):
-            color = "#db0f27"; //red
+          case 1:
+            color = "red";
             break;
-          case (idx = 2):
-            color = "#6698cb"; //blue
+          case 2:
+            color = "blue";
             break;
-          case (idx = 3):
-            color = "#76ba1b"; //green
+          case 3:
+            color = "green";
             break;
-          case (idx = 4):
-            color = "#ffa500"; //orange
+          case 4:
+            color = "orange";
             break;
           default:
-            color = "#fdfdfa"; //white
+            color = "white";
         }
         return { ...img, color, isFlip: false, isDisable: false };
       });
