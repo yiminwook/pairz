@@ -58,13 +58,16 @@ email?: string;
 
 ```
 POST /api/member.add
-회원가입/회원정보갱신/sessionCookie 발급
+회원가입/회원정보갱신/sessionCookie 발급(24시간 유효)
+headers) authoriztion: "Bearer idToken";
 body)
 uid: string;
 email?: string | null;
 emailId?: string | null;
 displayName?: string | null;
 photoURL?: string | null;
+
+헤더로 firebase Token을 전송받음
 ```
 
 ```

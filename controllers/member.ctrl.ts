@@ -4,9 +4,10 @@ import { arrToStr } from "@/utils/arr_to_str";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const add = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { uid, email, emailId, displayName, photoURL, idToken } = req.body;
-  if (!(uid && email && emailId && idToken))
-    throw new Error("Insuffient userData");
+  const idToken = req.headers.authorization?.split(" ")[1];
+  if (!idToken) throw new Error("Undefiend Token");
+  const { uid, email, emailId, displayName, photoURL } = req.body;
+  if (!(uid && email && emailId)) throw new Error("Insuffient userData");
   const addResult = await memberModel.add({
     uid,
     email,

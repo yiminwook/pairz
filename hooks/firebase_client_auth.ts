@@ -22,9 +22,11 @@ export const signIn = async (): Promise<AddResult> => {
       photoURL,
       emailId,
       displayName,
-      idToken,
     },
-    headers: { "Content-type": "application/json" },
+    headers: {
+      "Content-type": "application/json",
+      authorization: `Bearer ${idToken}`,
+    },
     withCredentials: true,
   });
   const { status, data } = addResult;
