@@ -8,7 +8,7 @@ interface Props {
   imgURL: string;
   isPreView?: boolean;
   isFlip: boolean;
-  color: "white" | "red" | "blue" | "green" | "orange";
+  color: string;
   id: number;
   isDisable: boolean;
   checkPair: (card: SelectedCard) => void;
@@ -31,27 +31,6 @@ const Card: FC<Props> = ({
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // let colorClass;
-  // switch (color) {
-  //   case "red":
-  //     colorClass = card.red;
-  //     break;
-  //   case "blue":
-  //     colorClass = card.blue;
-  //     break;
-  //   case "green":
-  //     colorClass = card.orange;
-  //     break;
-  //   case "orange":
-  //     colorClass = card.green;
-  //     break;
-  //   case "white":
-  //     colorClass = "";
-  //     break;
-  //   default:
-  //     colorClass = "";
-  // }
-
   const handleEffect = () => {
     if (cardRef.current) {
       const { style } = cardRef.current;
@@ -72,7 +51,6 @@ const Card: FC<Props> = ({
 
   const cardClassNameList = [
     card.container,
-    card[color],
     isPreView ? card.preview : "",
     isFlip ? card.flip : "",
   ];
@@ -83,6 +61,7 @@ const Card: FC<Props> = ({
         onClick={handleEffect}
         className={cardClassNameList.join(" ")}
         ref={cardRef}
+        style={{ backgroundColor: color }}
       >
         <div className={card.front}>
           <div className={card.front_image_container}>
