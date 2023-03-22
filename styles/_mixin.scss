@@ -116,3 +116,17 @@
     transform: rotateY(-720deg) translateY(0%);
   }
 }
+
+@include keyframe(game-start) {
+  0% {
+    transform: translateY(0%);
+  }
+
+  50% {
+    transform: translateY(-10%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}

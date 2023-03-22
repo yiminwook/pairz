@@ -14,11 +14,14 @@ html {
 
 body {
   padding-top: 2rem;
-  background-color: beige;
   margin: auto;
-  height: 100vh;
+  //아이패드 미니화면에 최적화
+  width: 60rem;
+  height: 48rem;
+  aspect-ratio: 1.25;
   position: relative;
-  border: 3px dashed black;
+  // border: 3px dashed black;
+  background-color: map-get($colors, body);
   @extend %reset;
 }
 

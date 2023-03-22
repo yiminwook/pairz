@@ -2,24 +2,28 @@ import home from "@/styles/home.module.scss";
 import ServiceLayout from "../components/service_layout";
 import { NextPage } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 const IndexPage: NextPage = () => {
   return (
-    <ServiceLayout title="test">
-      <main>
-        <div>
-          <p>Get started pairz!</p>
-          <div>
-            <button className={home.white}>button</button>
-            <button className={home.blue}>button</button>
-            <button className={home.green}>button</button>
-            <button className={home.orange}>button</button>
-            <button className={home.red}>button</button>
+    <ServiceLayout title="Pairz HOME">
+      <main className={home.main}>
+        <div className={home.container}>
+          <div className={home.icon_container}>
+            <Image
+              className={home.icon}
+              src="/home_icon.png"
+              width={96}
+              height={96}
+              alt="home_icon"
+              priority
+            ></Image>
           </div>
+          <Link href="/game" className={home.game_button}>
+            Game Start!
+          </Link>
+          <p className={home.sub_title}>Get Started Pairz</p>
         </div>
-        <Link href="/game" style={{ fontSize: "3rem" }}>
-          Game Start
-        </Link>
       </main>
     </ServiceLayout>
   );

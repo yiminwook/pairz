@@ -80,3 +80,59 @@
 %button__red {
   @include button_style(map-get($colors, red));
 }
+
+%game-start__button {
+  background-color: map-get($colors, orange);
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 5rem;
+  line-height: 1.2em;
+  margin: 15px 40px;
+  outline: none;
+  padding: 12px 40px 10px;
+  position: relative;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  font-weight: 700;
+
+  &:before,
+  &:after {
+    border-color: transparent;
+    -webkit-transition: all 0.25s;
+    transition: all 0.25s;
+    border-style: solid;
+    border-width: 0;
+    content: "";
+    height: 24px;
+    position: absolute;
+    width: 24px;
+  }
+
+  &:after {
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-color: map-get($colors, red);
+    bottom: -10px;
+    left: -10px;
+  }
+  &:before {
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-color: map-get($colors, blue);
+    right: -10px;
+    top: -10px;
+  }
+  &:hover {
+    background-color: lighten(map-get($colors, orange), 5%);
+    &:before {
+      height: 100%;
+      width: 100%;
+    }
+    &:after {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
