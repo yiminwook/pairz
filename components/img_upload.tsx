@@ -9,6 +9,7 @@ import { isLoadingAtom } from "@/recoil/atoms";
 import { DragEvent } from "react";
 import Crop from "./cropper";
 import "cropperjs/dist/cropper.css";
+import FirebaseClient from "@/models/firebase_client";
 
 const ImgUpload = () => {
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -22,11 +23,17 @@ const ImgUpload = () => {
   const [isValidName, setIsValidName] = useState<boolean>(false);
 
   const setIsLoading = useSetRecoilState(isLoadingAtom);
+  /* 이미지 사이즈 제한 단위 px */
   const [fixedImgWidth, fixedImgHeight] = [200, 300];
 
   const send = async () => {
     const width = imgRef.current?.naturalWidth;
     const height = imgRef.current?.naturalHeight;
+    const idToken =
+      await FirebaseClient.getInstance().Auth.currentUser?.getIdToken(true);
+    if (!idToken) {
+      alert("비정상적인 접근 또는 로그인이 만료되었습니다");
+    }
     if (!file) {
       alert("이미지를 먼저 업로드 해주세요");
       return;
@@ -47,15 +54,16 @@ const ImgUpload = () => {
       formData.append("image", file);
       formData.append("imageName", imageNameValue);
       formData.append("imageType", file.type);
-      const result: AxiosResponse<{ message: string }> = await axios.post(
-        "/api/image.add",
-        formData,
-        {
-          headers: {
-            "Contest-Type": "multipart/form-data",
-          },
-        }
-      );
+      const result: AxiosResponse<{ message: string }> = await axios({
+        method: "POST",
+        url: "/api/image.add",
+        data: formData,
+        headers: {
+          "Contest-Type": "multipart/form-data",
+          authorization: `Bearer ${idToken}`,
+        },
+        withCredentials: true,
+      });
       if (result) {
         alert(result.data.message + " created!");
         handleResetImage();

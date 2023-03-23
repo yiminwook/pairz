@@ -3,6 +3,7 @@
 @import "placeholder";
 
 .container {
+  padding-top: 4rem;
   display: grid;
   grid-template-columns: [col-start] auto [col-end col-start] auto [col-end];
   grid-template-rows: [row-start] auto [row-end row-start] 1fr [row-end];

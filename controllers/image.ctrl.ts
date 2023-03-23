@@ -3,8 +3,18 @@ import imageModel from "@/models/image/image.model";
 import { readFile } from "@/models/formidable";
 import { arrToStr } from "@/utils/arr_to_str";
 import uploadFile from "@/models/aws_sdk";
+import authModel from "@/models/auth.model";
 
 const add = async (req: NextApiRequest, res: NextApiResponse) => {
+  /* Authorization */
+  const cookie = req.cookies.sessionCookie;
+  const idToken = req.headers.authorization?.split(" ")[1];
+  if (!(cookie && idToken)) throw new Error("Unauthorized");
+  const decodeCookie = await authModel.verifyCookie(cookie);
+  const decodeToken = await authModel.verifyToken(idToken);
+  if (!(decodeCookie && decodeToken && decodeCookie.uid === decodeToken.uid))
+    throw new Error("Unauthorized");
+  /* save file to Local */
   const data = await readFile(req, false);
   let image = data.files.image;
   let imageName = data.fields.imageName;
@@ -12,8 +22,10 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
   image = Array.isArray(image) ? image[0] : image;
   imageName = Array.isArray(imageName) ? imageName[0] : imageName;
   imageType = Array.isArray(imageType) ? imageType[0] : imageType;
+  /* upload file to S3 */
   const fileName = await uploadFile(image, imageName, imageType);
-  await imageModel.add({ uid: "QWcOPefHLYYBWG6V7L7Kv7jkADo2", fileName });
+  /* save file metaData to FireStore */
+  await imageModel.add({ uid: decodeToken.uid, fileName });
   return res.status(201).json({ message: fileName });
 };
 
