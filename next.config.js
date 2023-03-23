@@ -26,6 +26,9 @@ module.exports = {
     includePaths: [path.join(__dirname, "styles")],
   },
   images: {
-    domains: [`${AWS_S3_BUCKET}.s3.${AWS_S3_REGION}.amazonaws.com`],
+    domains: [
+      `${AWS_S3_BUCKET}.s3.${AWS_S3_REGION}.amazonaws.com`,
+      "lh3.googleusercontent.com",
+    ],
   },
 };

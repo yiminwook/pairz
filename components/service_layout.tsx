@@ -27,7 +27,6 @@ const ServiceLayout = ({ title = "Pairz!", children }: Props) => {
   /** observe*/
   const authStateChanged = async (authState: User | null) => {
     if (authState) {
-      console.log(authState);
       const { displayName, email, photoURL, uid } = authState;
       const emailId = emailToEmailId(email);
       setUserinfo((_pre) => {
