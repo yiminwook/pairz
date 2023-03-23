@@ -5,12 +5,13 @@ import { userInfoAtom } from "@/recoil/atoms";
 import { signIn, signOut } from "@/hooks/firebase_client_auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const GNB = () => {
   const [userInfo, _setUserinfo] = useRecoilState(userInfoAtom);
   const resetUserInfo = useResetRecoilState(userInfoAtom);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const router = useRouter();
   const signInHandler = async () => {
     try {
@@ -52,7 +53,22 @@ const GNB = () => {
           <div className={gnb.user_interface} onClick={handleMenu}>
             <div className={gnb.user_name}>{userInfo.displayName ?? ""}</div>
             <div className={gnb.user_photo_container}>
-              <img src={userInfo?.photoURL ?? ""} alt="user_photoURL" />
+              {failToGetImage ? (
+                <img
+                  src="/user_icon.png"
+                  width="96px"
+                  height="96px"
+                  alt="user_photoURL_failed"
+                />
+              ) : (
+                <img
+                  src={userInfo?.photoURL ?? "/user_icon.png"}
+                  width="96px"
+                  height="96px"
+                  alt="user_photoURL"
+                  onError={() => setFailToGetImage(() => true)}
+                />
+              )}
             </div>
           </div>
           {/* 토글메뉴 */}
