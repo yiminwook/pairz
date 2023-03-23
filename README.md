@@ -34,6 +34,10 @@ node -v 16.19.0
 1. 도메인을 통해 누구나 접속가능
 2. 해당유저의 최대 스코어, 업로드 이미지를 볼 수 있음
 
+스코어 페이지
+
+1. 전체 스코어를 score기준 내림차순으로 조회 / score가 같을시 최신순으로 내림차순 정렬
+
 ---
 
 <br />
@@ -73,10 +77,13 @@ photoURL?: string | null;
 ```
 POST /api/image.add
 이미지 업로드
+headers) authoriztion: "Bearer idToken";
 formData)
 image: File;
 imageName: string;
 imageType: "image/png" | "image/jpeg";
+
+헤더로 firebase Token을 전송받음
 ```
 
 ```
