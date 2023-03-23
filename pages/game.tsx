@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Card from "@/components/card";
-import ServiceLayout from "@/components/service_layout";
 import { ImageInfo } from "@/models/Info";
 import axios, { AxiosResponse } from "axios";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import game from "@/styles/game.module.scss";
+import Pause from "@/components/pause_modal";
 
 interface CardInfo extends ImageInfo {
   isFlip: boolean;
@@ -36,7 +36,7 @@ const GamePage: NextPage = () => {
 
   //pause
   const [isPause, setIsPause] = useState<boolean>(false);
-  const [countPause, setCoundPause] = useState<number>(100);
+  const [countPause, setCoundPause] = useState<number>(5);
 
   useEffect(() => {
     getRandomImage();
@@ -174,6 +174,14 @@ const GamePage: NextPage = () => {
   };
 
   const handlePause = (bool: boolean) => {
+    if (isGameLoading) {
+      alert("카드확인중에는 pause 할 수 없습니다");
+    }
+
+    if (countPause < 0) {
+      alert("더이상 pause 할 수 없습니다.");
+    }
+
     if (!isGameLoading && countPause >= 0) {
       setIsPause((_pre) => bool);
       setCoundPause((pre) => pre - 1);
@@ -181,20 +189,10 @@ const GamePage: NextPage = () => {
   };
 
   return (
-    <ServiceLayout title="Game Start!">
+    <div className={game.container}>
       {isGameOver && <div className={game.game_over}>Game Over</div>}
-      {isPause && (
-        <div className={game.game_over}>
-          <div> Pause 중</div>
-          <button onClick={() => handlePause(false)}>pause 해제</button>
-        </div>
-      )}
-      {countPause <= 0 ? (
-        <p>더이상 pause 할 수 없습니다.</p>
-      ) : (
-        <p>앞으로 {Math.trunc(countPause / 2)}회 pause가 가능합니다.</p>
-      )}
-      <div className={game.container}>
+      {isPause && <Pause handlePause={handlePause} countPause={countPause} />}
+      <div className={game.content_container}>
         <div>time: {time}</div>
         <div>round: {round}</div>
         <div>count: {countSelect}</div>
@@ -219,7 +217,7 @@ const GamePage: NextPage = () => {
             ))}
         </div>
       </div>
-    </ServiceLayout>
+    </div>
   );
 };
 

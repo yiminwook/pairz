@@ -49,16 +49,6 @@
   text-align: center;
   width: 6.5rem;
   text-transform: uppercase;
-
-  &:active,
-  &:hover,
-  &:focus {
-    outline: 0;
-    scale: 1.02;
-  }
-  &:disabled {
-    opacity: 0.9;
-  }
 }
 
 %button__white {
