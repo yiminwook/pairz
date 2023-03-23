@@ -86,11 +86,10 @@
   border: none;
   color: #ffffff;
   cursor: pointer;
-  display: inline-block;
+
   font-size: 5rem;
   line-height: 1.2em;
   margin: 15px 40px;
-  outline: none;
   padding: 12px 40px 10px;
   position: relative;
   letter-spacing: 0.2rem;
@@ -134,5 +133,9 @@
       height: 100%;
       width: 100%;
     }
+  }
+  &:focus-visible {
+    outline: 5px solid #b976f0;
+    outline-offset: -10px;
   }
 }
