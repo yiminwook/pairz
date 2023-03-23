@@ -35,7 +35,7 @@
     .user_interface {
       @include flex-center();
       .user_name {
-        margin-right: 0.5rem;
+        margin-right: 1rem;
         color: azure;
         font-size: 1.5rem;
       }
@@ -86,8 +86,8 @@
 
       .menu_close_button {
         position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
+        top: 0.8rem;
+        right: 0.8rem;
         border: none;
         font-size: 1.5rem;
         background-color: transparent;

@@ -6,6 +6,8 @@ import { signIn, signOut } from "@/hooks/firebase_client_auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const GNB = () => {
   const [userInfo, _setUserinfo] = useRecoilState(userInfoAtom);
@@ -82,7 +84,7 @@ const GNB = () => {
               SIGNOUT
             </button>
             <button className={gnb.menu_close_button} onClick={handleMenu}>
-              X
+              <FontAwesomeIcon icon={faXmark} size="lg" />
             </button>
           </div>
         </button>
