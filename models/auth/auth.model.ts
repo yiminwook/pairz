@@ -1,4 +1,4 @@
-import FirebaseAdmin from "./firebase_admin";
+import FirebaseAdmin from "../firebase_admin";
 
 const auth = FirebaseAdmin.getInstance().Auth;
 

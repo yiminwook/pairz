@@ -1,4 +1,4 @@
-import authModel from "@/models/auth.model";
+import authModel from "@/models/auth/auth.model";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const verifyCookie = async (req: NextApiRequest, res: NextApiResponse) => {

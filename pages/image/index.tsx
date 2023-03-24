@@ -100,7 +100,7 @@ const ImageSearchPage: NextPage<Props> = () => {
   }, []);
 
   return (
-    <ServiceLayout title="test">
+    <ServiceLayout title="test" showGNB={false}>
       <main>
         <form name="image_search__form" onSubmit={handleSubmit}>
           <select name="image_search__Select" ref={selectRef}>

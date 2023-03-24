@@ -3,7 +3,7 @@ import imageModel from "@/models/image/image.model";
 import { readFile } from "@/models/formidable";
 import { arrToStr } from "@/utils/arr_to_str";
 import uploadFile from "@/models/aws_sdk";
-import authModel from "@/models/auth.model";
+import authModel from "@/models/auth/auth.model";
 
 const add = async (req: NextApiRequest, res: NextApiResponse) => {
   /* Authorization */
