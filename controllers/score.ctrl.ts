@@ -1,16 +1,20 @@
 import authModel from "@/models/auth/auth.model";
 import scoreModel from "@/models/score/score.model";
+import { arrToStr } from "@/utils/arr_to_str";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const get = async (_req: NextApiRequest, res: NextApiResponse) => {
-  const getResult = await scoreModel.get();
-  return res.status(201).json({ result: getResult });
+const get = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { idx } = req.query;
+  const idxStr = arrToStr(idx);
+  const getResult = await scoreModel.get(idxStr);
+  return res.status(200).json({ scoreData: getResult });
 };
 
 const add = async (req: NextApiRequest, res: NextApiResponse) => {
   /* Authorization */
   const cookie = req.cookies.sessionCookie;
   const idToken = req.headers.authorization?.split(" ")[1];
+
   if (!(cookie && idToken)) throw new Error("Unauthorized");
   const decodeCookie = await authModel.verifyCookie(cookie);
   const decodeToken = await authModel.verifyToken(idToken);
@@ -18,7 +22,8 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
     throw new Error("Unauthorized");
 
   const { score, displayName } = req.body;
-  if (!(score && displayName)) throw new Error("Insufficent data");
+
+  if (!displayName) throw new Error("Undefined displayName");
   if (typeof score !== "number" || Number.isNaN(score))
     throw new Error("Unauthorized Type score");
 

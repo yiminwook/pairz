@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import game from "@/styles/game.module.scss";
-import { useRecoilValue } from "recoil";
-import { userInfoAtom } from "@/recoil/atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isLoadingAtom, userInfoAtom } from "@/recoil/atoms";
 import Link from "next/link";
 import { signIn } from "@/hooks/firebase_client_auth";
 import FirebaseClient from "@/models/firebase_client";
@@ -17,6 +17,8 @@ const auth = FirebaseClient.getInstance().Auth;
 
 const GameOver: FC<Props> = ({ score, resetGame }) => {
   const userInfo = useRecoilValue(userInfoAtom);
+  const setIsLoading = useSetRecoilState(isLoadingAtom);
+  const [isRecode, setIsRecode] = useState<boolean>(false);
   const router = useRouter();
 
   const signInHandler = async () => {
@@ -30,28 +32,36 @@ const GameOver: FC<Props> = ({ score, resetGame }) => {
 
   const handleRecode = async () => {
     try {
-      const idToken = await auth.currentUser?.getIdToken(true);
-      const result: AxiosResponse<{ result: boolean }> = await axios({
-        method: "POST",
-        url: "/api/score",
-        data: {
-          score,
-          displayName:
-            userInfo?.displayName ?? userInfo?.emailId ?? "Anonymous",
-        },
-        headers: {
-          "Content-type": "application/json",
-          authorization: `Bearer ${idToken}`,
-        },
-        withCredentials: true,
-      });
-      if (!(result.status === 201 && result.data.result))
-        throw new Error("Axios Error!");
-      if (confirm("기록되었습니다 SCORE페이지로 이동하시겠습니까?")) {
-        router.push("/score");
+      if (!isRecode) {
+        setIsLoading((_pre) => true);
+        const idToken = await auth.currentUser?.getIdToken(true);
+        const result: AxiosResponse<{ result: boolean }> = await axios({
+          method: "POST",
+          url: "/api/score",
+          data: {
+            score,
+            displayName:
+              userInfo?.displayName ?? userInfo?.emailId ?? "Anonymous",
+          },
+          headers: {
+            "Content-type": "application/json",
+            authorization: `Bearer ${idToken}`,
+          },
+          withCredentials: true,
+        });
+        if (!(result.status === 201 && result.data.result))
+          throw new Error("Axios Error!");
+        setIsRecode((_pre) => true);
+        if (confirm("기록되었습니다 SCORE페이지로 이동하시겠습니까?")) {
+          router.push("/score");
+        }
+        setIsLoading((_pre) => false);
+      } else {
+        alert("이미 기록되었습니다.");
       }
     } catch (err) {
       console.error(err);
+      setIsLoading((_pre) => false);
       alert("통신에러");
     }
   };

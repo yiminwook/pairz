@@ -111,6 +111,22 @@ idx가 있을시 페이지네이션이 가능
 
 ```
 
+```
+GET /api/score
+score / id순으로 내림차순 10개 조회
+query)
+idx?: string;
+```
+
+```
+POST /api/score
+score 기록
+headers) authoriztion: "Bearer idToken";
+body)
+score: number;
+displayName: string;
+```
+
 ---
 
 <br />

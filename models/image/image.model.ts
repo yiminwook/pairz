@@ -67,7 +67,7 @@ const add = async ({
  *
  *  id가 있을 때 내림차순 5개를 반환
  */
-const get = async (idx?: string | null): Promise<ImageResultWithIdx> => {
+const get = async (idx?: string): Promise<ImageResultWithIdx> => {
   try {
     const getResult = await db.runTransaction(async (transaction) => {
       const isNaN = Number.isNaN(idx);
@@ -184,7 +184,7 @@ const findByImageName = async (
 /** emailId로 image 찾기 */
 const findByEmail = async (
   email: string,
-  idx?: string | null
+  idx?: string
 ): Promise<ImageResultWithIdx> => {
   try {
     const userData = await MemberModel.findByEmail(email);
