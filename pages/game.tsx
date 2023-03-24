@@ -6,6 +6,8 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import game from "@/styles/game.module.scss";
 import Pause from "@/components/pause_modal";
+import GameOver from "@/components/game_over_modal";
+import ServiceLayout from "@/components/service_layout";
 
 interface CardInfo extends ImageInfo {
   isFlip: boolean;
@@ -18,10 +20,23 @@ export interface SelectedCard {
   id: number;
 }
 
+const defaultValue = {
+  //게임진행
+  time: 60,
+  life: 3,
+  //score
+  score: 0,
+  pairScore: 10,
+  roundScore: 100,
+  //pause
+  countPause: 5,
+};
+
 const GamePage: NextPage = () => {
   //게임진행
-  const [time, setTime] = useState<number>(60);
-  const [life, setLife] = useState<number>(3);
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const [time, setTime] = useState<number>(defaultValue.time);
+  const [life, setLife] = useState<number>(defaultValue.life);
   const [round, setRound] = useState<number>(0);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [isGameLoading, setIsGameLoading] = useState<boolean>(false);
@@ -32,11 +47,11 @@ const GamePage: NextPage = () => {
   const [countSelect, setCountSelect] = useState<number>(0);
 
   //score
-  const [score, setScore] = useState<number>(0);
+  const [score, setScore] = useState<number>(defaultValue.score);
 
   //pause
   const [isPause, setIsPause] = useState<boolean>(false);
-  const [countPause, setCoundPause] = useState<number>(5);
+  const [countPause, setCoundPause] = useState<number>(defaultValue.countPause);
 
   useEffect(() => {
     getRandomImage();
@@ -51,7 +66,7 @@ const GamePage: NextPage = () => {
   useEffect(() => {
     if (countSelect >= 5) {
       setRound((pre) => pre + 1);
-      setScore((pre) => pre + 100);
+      setScore((pre) => pre + defaultValue.roundScore);
     }
   }, [countSelect]);
 
@@ -151,7 +166,7 @@ const GamePage: NextPage = () => {
       if (select.length >= 1) {
         if (select[0].id === card.id) {
           setCountSelect((pre) => pre + 1);
-          setScore((pre) => pre + 10);
+          setScore((pre) => pre + defaultValue.pairScore);
           setSelect((_pre) => []);
         } else {
           setTimeout(() => {
@@ -188,36 +203,59 @@ const GamePage: NextPage = () => {
     }
   };
 
+  const resetGame = () => {
+    //카드관련
+    if (round === 0) {
+      getRandomImage();
+      setSelect(() => []);
+      setCountSelect(() => 0);
+    }
+
+    //게임진행
+    setTime(() => defaultValue.time);
+    setLife(() => defaultValue.life);
+    setRound(() => 0);
+    setIsGameOver(() => false);
+
+    //score
+    setScore(() => 0);
+    //pause
+    setIsPause(() => false);
+    setCoundPause(() => defaultValue.countPause);
+  };
+
   return (
-    <div className={game.container}>
-      {isGameOver && <div className={game.game_over}>Game Over</div>}
-      {isPause && <Pause handlePause={handlePause} countPause={countPause} />}
-      <div className={game.content_container}>
-        <div>time: {time}</div>
-        <div>round: {round}</div>
-        <div>count: {countSelect}</div>
-        <div>select: {select[0]?.idx ?? "not selected"}</div>
-        <div>score: {score}점</div>
-        <div>life: {life}</div>
-        <button onClick={() => handlePause(true)}>pause</button>
-        <div>{isGameOver ? "Game Over" : "continue"}</div>
-        <div className={game.card_container}>
-          {reqRandomImg.length === 10 &&
-            reqRandomImg.map((img, idx) => (
-              <Card
-                key={idx}
-                idx={idx}
-                color={img.color}
-                imgURL={img.imgURL}
-                id={img.id}
-                isFlip={img.isFlip}
-                isDisable={img.isDisable}
-                checkPair={checkPair}
-              />
-            ))}
+    <ServiceLayout title="Game Start!" showGNB={false}>
+      <div className={game.container}>
+        {isGameOver && <GameOver resetGame={resetGame} />}
+        {isPause && <Pause handlePause={handlePause} countPause={countPause} />}
+        <div className={game.content_container}>
+          <div>time: {time}</div>
+          <div>round: {round}</div>
+          <div>count: {countSelect}</div>
+          <div>select: {select[0]?.idx ?? "not selected"}</div>
+          <div>score: {score}점</div>
+          <div>life: {life}</div>
+          <button onClick={() => handlePause(true)}>pause</button>
+          <div>{isGameOver ? "Game Over" : "continue"}</div>
+          <div className={game.card_container}>
+            {reqRandomImg.length === 10 &&
+              reqRandomImg.map((img, idx) => (
+                <Card
+                  key={idx}
+                  idx={idx}
+                  color={img.color}
+                  imgURL={img.imgURL}
+                  id={img.id}
+                  isFlip={img.isFlip}
+                  isDisable={img.isDisable}
+                  checkPair={checkPair}
+                />
+              ))}
+          </div>
         </div>
       </div>
-    </div>
+    </ServiceLayout>
   );
 };
 

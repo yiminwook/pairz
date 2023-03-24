@@ -1,6 +1,6 @@
 import Head from "next/head";
 import GNB from "./GNB";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import FirebaseClient from "@/models/firebase_client";
 import { User } from "firebase/auth";
@@ -10,11 +10,12 @@ import Loading from "./loading";
 
 interface Props {
   title?: string;
+  showGNB: boolean;
   children: React.ReactNode;
 }
 
-const ServiceLayout = ({ title = "Pairz!", children }: Props) => {
-  const [userInfo, setUserinfo] = useRecoilState(userInfoAtom);
+const ServiceLayout = ({ title = "Pairz!", showGNB, children }: Props) => {
+  const setUserinfo = useSetRecoilState(userInfoAtom);
   const isLoading = useRecoilValue(isLoadingAtom);
 
   useEffect(() => {
@@ -48,8 +49,8 @@ const ServiceLayout = ({ title = "Pairz!", children }: Props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
+      {showGNB && <GNB />}
       {isLoading && <Loading />}
-      <GNB />
       {children}
     </div>
   );

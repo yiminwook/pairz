@@ -9,7 +9,7 @@ interface Props {
 
 const ScorePage: NextPage = () => {
   return (
-    <ServiceLayout title="Pairz Score Page">
+    <ServiceLayout title="Pairz Score Page" showGNB={true}>
       <></>
     </ServiceLayout>
   );

@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const IndexPage: NextPage = () => {
   return (
-    <ServiceLayout title="Pairz HOME">
+    <ServiceLayout title="Pairz HOME" showGNB={true}>
       <main className={home.main}>
         <div className={home.container}>
           <div className={home.icon_container}>

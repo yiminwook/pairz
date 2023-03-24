@@ -36,7 +36,7 @@ const UploadPage: NextPage<Props> = () => {
 
   return (
     <>
-      <ServiceLayout title="Pairz Upload Page">
+      <ServiceLayout title="Pairz Upload Page" showGNB={true}>
         <ImgUpload />
       </ServiceLayout>
     </>
