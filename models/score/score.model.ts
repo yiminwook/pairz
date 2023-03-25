@@ -14,7 +14,7 @@ export interface scoreInfo {
   korTime?: string;
 }
 
-interface scoreResult {
+export interface scoreResult {
   scoreData: scoreInfo[];
   total: number;
   lastIdx?: number;
@@ -28,15 +28,15 @@ const get = async (idx?: string): Promise<scoreResult> => {
   if (isValidIdx && idx) {
     scoreRef = db
       .collection(SCORE_COL)
-      .where("id", "<=", +idx)
-      .orderBy("id", "desc")
+      .where("score", "<=", +idx)
       .orderBy("score", "desc")
+      .orderBy("id", "desc")
       .limit(SCORE_COL_PER_PAGE);
   } else {
     scoreRef = db
       .collection(SCORE_COL)
-      .orderBy("id", "desc")
       .orderBy("score", "desc")
+      .orderBy("id", "desc")
       .limit(SCORE_COL_PER_PAGE);
   }
   const scoreDoc = await scoreRef.get();
@@ -57,7 +57,11 @@ const get = async (idx?: string): Promise<scoreResult> => {
     };
   }) as scoreInfo[];
 
-  return { scoreData, lastIdx: scoreData.at(-1)?.id, total: scoreData.length };
+  return {
+    scoreData,
+    lastIdx: scoreData.at(-1)?.score,
+    total: scoreData.length,
+  };
 };
 
 const add = async ({

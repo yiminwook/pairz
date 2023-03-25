@@ -7,7 +7,7 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { idx } = req.query;
   const idxStr = arrToStr(idx);
   const getResult = await scoreModel.get(idxStr);
-  return res.status(200).json({ scoreData: getResult });
+  return res.status(200).json(getResult);
 };
 
 const add = async (req: NextApiRequest, res: NextApiResponse) => {

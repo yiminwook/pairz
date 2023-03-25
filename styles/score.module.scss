@@ -1,0 +1,70 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  @extend %page-size-bg;
+  padding-top: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  .table_container {
+    @extend %scroll-bar;
+    width: 80%;
+    height: 40rem;
+    overflow-x: hidden;
+    margin: 2rem auto;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+      0 10px 10px rgba(0, 0, 0, 0.22);
+    -moz-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+      0 10px 10px rgba(0, 0, 0, 0.22);
+    -ms-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+      0 10px 10px rgba(0, 0, 0, 0.22);
+    -o-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+      0 10px 10px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+
+      thead {
+        border-bottom: 3px solid map-get($colors, azure);
+        tr {
+          background-color: rgba(map-get($colors, wood), 90%);
+
+          th {
+            padding: 0.7rem 0;
+            font-weight: 500;
+            font-size: 1.25rem;
+          }
+        }
+      }
+
+      tbody {
+        border-bottom: 3px solid map-get($colors, azure);
+        tr {
+          border-bottom: 2px solid #ddd;
+          td {
+            text-align: center;
+            padding: 0.8rem 0;
+            font-size: 1.25rem;
+            &:nth-child(1) {
+              padding: 0;
+            }
+          }
+          &:nth-of-type(odd) {
+            background-color: rgba(map-get($colors, body), 0.3);
+          }
+        }
+      }
+    }
+  }
+
+  .button_container {
+    text-align: center;
+    .button {
+      @extend %button__white;
+    }
+  }
+}

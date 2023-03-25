@@ -2,23 +2,26 @@
 @import "var";
 @import "placeholder";
 
-.main {
-  .contents {
-    max-height: 30rem;
-    overflow-x: hidden;
+.container {
+  padding-top: 4rem;
+  .main {
+    .contents {
+      max-height: 30rem;
+      overflow-x: hidden;
 
-    display: grid;
-    grid-template-columns: repeat(5, auto);
-    background-color: antiquewhite;
-    .contents_image_container {
-      img {
-        width: auto;
-        height: auto;
+      display: grid;
+      grid-template-columns: repeat(5, auto);
+      background-color: antiquewhite;
+      .contents_image_container {
+        img {
+          width: auto;
+          height: auto;
+        }
       }
+      .contents_name {
+        font-size: 0.7rem;
+      }
+      @extend %scroll-bar;
     }
-    .contents_name {
-      font-size: 0.7rem;
-    }
-    @extend %scroll-bar;
   }
 }

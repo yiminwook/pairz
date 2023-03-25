@@ -100,8 +100,8 @@ const ImageSearchPage: NextPage<Props> = () => {
   }, []);
 
   return (
-    <ServiceLayout title="test" showGNB={false}>
-      <main>
+    <ServiceLayout title="test" showGNB={true}>
+      <main className={imageSearch.container}>
         <form name="image_search__form" onSubmit={handleSubmit}>
           <select name="image_search__Select" ref={selectRef}>
             <optgroup label="검색필터">

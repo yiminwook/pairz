@@ -48,10 +48,10 @@ const GNB = () => {
       <hr />
       <Link href="/image">SHOWCASE</Link>
       <hr />
-      <Link href="/image/score">SCORE</Link>
+      <Link href="/score">SCORE</Link>
       <hr />
       {userInfo ? (
-        <button className={gnb.menu_button}>
+        <div className={gnb.menu_button}>
           <div className={gnb.user_interface} onClick={handleMenu}>
             <div className={gnb.user_name}>{userInfo.displayName ?? ""}</div>
             <div className={gnb.user_photo_container}>
@@ -87,7 +87,7 @@ const GNB = () => {
               <FontAwesomeIcon icon={faXmark} size="lg" />
             </button>
           </div>
-        </button>
+        </div>
       ) : (
         <button className={gnb.signin_button} onClick={signInHandler}>
           로그인
