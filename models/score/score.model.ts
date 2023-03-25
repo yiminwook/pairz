@@ -10,7 +10,7 @@ export interface scoreInfo {
   uid: string;
   score: number;
   displayName: string;
-  createAt: firestore.Timestamp;
+  createAt: number;
   korTime?: string;
 }
 
@@ -41,10 +41,16 @@ const get = async (idx?: string): Promise<scoreResult> => {
   }
   const scoreDoc = await scoreRef.get();
   const scoreData = scoreDoc.docs.map((doc) => {
-    const docData = doc.data() as scoreInfo;
-    const korTime = docData.createAt.toDate().toLocaleString("ko-kr", {
+    const docData = doc.data() as Omit<scoreInfo, "createAt"> & {
+      createAt: firestore.Timestamp;
+    };
+    const time =
+      docData.createAt.toDate().getTime() + +(process.env.LOCAL_TIME ?? 0);
+    const korDate = new Date(time);
+    const korTime = korDate.toLocaleString("ko-kr", {
       year: "2-digit",
       month: "short",
+      day: "2-digit",
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
@@ -53,6 +59,7 @@ const get = async (idx?: string): Promise<scoreResult> => {
 
     return {
       ...docData,
+      createAt: time,
       korTime,
     };
   }) as scoreInfo[];
