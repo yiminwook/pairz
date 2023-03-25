@@ -122,23 +122,23 @@ export const getStaticProps: GetStaticProps<scoreResult> = async () => {
 
     const { status, data } = getScoreResult;
 
-    if (status !== 200 || data.scoreData.length === 0) {
+    if (status == 200 && data.scoreData.length > 0) {
       return {
         props: {
-          scoreData: [],
-          total: 0,
-          lastIdx: 0,
+          scoreData: data.scoreData,
+          total: data.total,
+          lastIdx: data.lastIdx,
         },
-        revalidate: 30,
       };
     }
 
     return {
       props: {
-        scoreData: data.scoreData,
-        total: data.total,
-        lastIdx: data.lastIdx,
+        scoreData: [],
+        total: 0,
+        lastIdx: 0,
       },
+      revalidate: 30,
     };
   } catch (err) {
     console.error(err);
