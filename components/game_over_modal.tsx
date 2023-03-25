@@ -3,7 +3,7 @@ import game from "@/styles/game.module.scss";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoadingAtom, userInfoAtom } from "@/recoil/atoms";
 import Link from "next/link";
-import { signIn } from "@/hooks/firebase_client_auth";
+import { signIn, signOut } from "@/hooks/firebase_client_auth";
 import FirebaseClient from "@/models/firebase_client";
 import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/router";
@@ -49,6 +49,12 @@ const GameOver: FC<Props> = ({ score, resetGame }) => {
           },
           withCredentials: true,
         });
+
+        if (result.status === 401) {
+          alert("세션이 만료되었습니다. 다시 로그인 해주세요");
+          await signOut();
+        }
+
         if (!(result.status === 201 && result.data.result))
           throw new Error("Axios Error!");
         setIsRecode((_pre) => true);

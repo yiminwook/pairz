@@ -15,6 +15,7 @@ const GNB = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const router = useRouter();
+
   const signInHandler = async () => {
     try {
       await signIn();

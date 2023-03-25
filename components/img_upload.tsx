@@ -10,6 +10,8 @@ import { DragEvent } from "react";
 import Crop from "./cropper";
 import "cropperjs/dist/cropper.css";
 import FirebaseClient from "@/models/firebase_client";
+import { signOut } from "@/hooks/firebase_client_auth";
+import { useRouter } from "next/router";
 
 const ImgUpload = () => {
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -25,6 +27,7 @@ const ImgUpload = () => {
   const setIsLoading = useSetRecoilState(isLoadingAtom);
   /* 이미지 사이즈 제한 단위 px */
   const [fixedImgWidth, fixedImgHeight] = [200, 300];
+  const router = useRouter();
 
   const send = async () => {
     const width = imgRef.current?.naturalWidth;
@@ -64,6 +67,10 @@ const ImgUpload = () => {
         },
         withCredentials: true,
       });
+      if (result.status === 401) {
+        alert("세션이 만료되었습니다. 다시 로그인 해주세요");
+        await signOut();
+      }
       if (result) {
         alert(result.data.message + " created!");
         handleResetImage();

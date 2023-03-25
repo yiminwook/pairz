@@ -12,8 +12,11 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!(cookie && idToken)) throw new Error("Unauthorized");
   const decodeCookie = await authModel.verifyCookie(cookie);
   const decodeToken = await authModel.verifyToken(idToken);
-  if (!(decodeCookie && decodeToken && decodeCookie.uid === decodeToken.uid))
-    throw new Error("Unauthorized");
+  if (!(decodeCookie && decodeToken && decodeCookie.uid === decodeToken.uid)) {
+    return res
+      .status(401)
+      .json({ message: "ERR!", statusMessage: "Unauthorized" });
+  }
   /* save file to Local */
   const data = await readFile(req, false);
   let image = data.files.image;

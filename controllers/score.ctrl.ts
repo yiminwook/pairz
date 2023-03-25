@@ -18,8 +18,11 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!(cookie && idToken)) throw new Error("Unauthorized");
   const decodeCookie = await authModel.verifyCookie(cookie);
   const decodeToken = await authModel.verifyToken(idToken);
-  if (!(decodeCookie && decodeToken && decodeCookie.uid === decodeToken.uid))
-    throw new Error("Unauthorized");
+  if (!(decodeCookie && decodeToken && decodeCookie.uid === decodeToken.uid)) {
+    return res
+      .status(401)
+      .json({ result: false, statusMessage: "Unauthorized" });
+  }
 
   const { score, displayName } = req.body;
 

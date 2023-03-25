@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import imageCtrl from "@/controllers/image.ctrl";
-import { imgStoragePath } from "@/utils/img_strage_path";
-import fs from "fs/promises";
 
 export const config = {
   api: {

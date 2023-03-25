@@ -129,6 +129,7 @@ export const getStaticProps: GetStaticProps<scoreResult> = async () => {
           total: data.total,
           lastIdx: data.lastIdx,
         },
+        revalidate: 30,
       };
     }
 
