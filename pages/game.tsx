@@ -28,8 +28,10 @@ const defaultValue = {
   score: 0,
   pairScore: 10,
   roundScore: 100,
-  //pause
+  /** pause회수 3회 */
   countPause: 5,
+  /** 카드확인시간 */
+  checkCardTime: 5000,
 };
 
 const GamePage: NextPage = () => {
@@ -122,7 +124,6 @@ const GamePage: NextPage = () => {
       ];
       const shuffledArr = shuffle(images);
       setReqRandomImg((_pre) => shuffledArr);
-      //카드 확인시간 5초
       setTimeout(() => {
         setReqRandomImg((pre) => {
           const flipArr = pre.slice();
@@ -134,7 +135,7 @@ const GamePage: NextPage = () => {
         });
         setCountSelect((_pre) => 0);
         setIsGameLoading((_pre) => false);
-      }, 5000);
+      }, defaultValue.checkCardTime);
     } catch (err) {
       console.error(err);
     }
