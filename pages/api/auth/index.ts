@@ -6,7 +6,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "GET") throw new Error("Unsupported method");
     await authCtrl.verifyCookie(req, res);
   } catch (err) {
-    return res.status(400).json({ result: false });
+    console.error(err);
+    return res.status(401).json({ result: false });
   }
 };
 

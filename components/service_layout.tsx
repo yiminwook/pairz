@@ -39,6 +39,8 @@ const ServiceLayout = ({ title = "Pairz!", showGNB, children }: Props) => {
           photoURL,
         };
       });
+    } else {
+      setUserinfo((_pre) => null);
     }
   };
 

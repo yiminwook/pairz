@@ -5,7 +5,6 @@ import { useSetRecoilState } from "recoil";
 import { isLoadingAtom } from "@/recoil/atoms";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { signOut } from "@/hooks/firebase_client_auth";
 import { validatonToken } from "@/hooks/vaildation_token";
 
 interface Props {}
@@ -22,9 +21,7 @@ const UploadPage: NextPage<Props> = () => {
     } catch (err) {
       setIsLoading((_pre) => false);
       console.error(err);
-      await signOut();
-      alert("다시 로그인 해주세요");
-      router.push("/");
+      router.push("/401");
     }
   };
 

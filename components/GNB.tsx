@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import gnb from "@/styles/gnb.module.scss";
-import { useRecoilState, useResetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userInfoAtom } from "@/recoil/atoms";
 import { signIn, signOut } from "@/hooks/firebase_client_auth";
 import Link from "next/link";
@@ -10,8 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const GNB = () => {
-  const [userInfo, _setUserinfo] = useRecoilState(userInfoAtom);
-  const resetUserInfo = useResetRecoilState(userInfoAtom);
+  const userInfo = useRecoilValue(userInfoAtom);
   const menuRef = useRef<HTMLDivElement>(null);
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const router = useRouter();
@@ -24,10 +23,10 @@ const GNB = () => {
       await signOutHandler();
     }
   };
+
   const signOutHandler = async () => {
     try {
       await signOut();
-      resetUserInfo();
       router.push("/");
     } catch (err) {
       console.error(err);

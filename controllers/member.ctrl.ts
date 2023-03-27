@@ -22,9 +22,12 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
     idToken,
     { expiresIn }
   );
+
   res.setHeader(
     "Set-Cookie",
-    `sessionCookie=${cookie};Max-Age=${expiresIn};Path=/;httpOnly;secure;SameSite=strict;`
+    `sessionCookie=${cookie};Max-Age=${expiresIn / 1000};Expires=${
+      expiresIn / 1000
+    };Path=/;httpOnly;secure;SameSite=strict;`
   );
   return res.status(200).json(addResult);
 };

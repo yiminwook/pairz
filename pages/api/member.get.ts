@@ -6,6 +6,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "GET") throw new Error("Unsupported method");
     await memberCtrl.get(req, res);
   } catch (err) {
+    console.error(err);
     return res.status(404).end();
   }
 };

@@ -15,6 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       throw new Error("Check request query");
     }
   } catch (err) {
+    console.error(err);
     return res.status(404).end();
   }
 };

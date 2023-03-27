@@ -6,6 +6,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "GET") throw new Error("Unsupported method");
     authCtrl.expire(req, res);
   } catch (err) {
+    console.error(err);
     return res.status(400).json({ result: false });
   }
 };

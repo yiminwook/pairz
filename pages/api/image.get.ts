@@ -14,6 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       await imageCtrl.get(req, res);
     }
   } catch (err) {
+    console.error(err);
     return res.status(404).end();
   }
 };
