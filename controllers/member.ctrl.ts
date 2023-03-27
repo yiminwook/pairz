@@ -27,7 +27,7 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
     "Set-Cookie",
     `sessionCookie=${cookie};Max-Age=${expiresIn / 1000};Expires=${
       expiresIn / 1000
-    };Path=/;httpOnly;secure;SameSite=strict;`
+    };Path=/;HttpOnly;Secure;SameSite=strict;`
   );
   return res.status(200).json(addResult);
 };

@@ -1,0 +1,32 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.uploading__alt {
+  overflow: hidden;
+  background-color: cadetblue;
+  width: 200px;
+  height: 300px;
+  @include flex-center();
+
+  &::before {
+    position: absolute;
+    background-color: cadetblue;
+    border: 3px dashed black;
+    z-index: 3;
+    width: inherit;
+    height: inherit;
+    scale: 0.9;
+    content: "";
+  }
+  &::after {
+    position: absolute;
+    font-size: 0.8rem;
+    z-index: 5;
+    content: "업로드된 이미지가 없습니다.";
+  }
+  & > div {
+    font-size: 0.8rem;
+    padding: 0.2rem;
+  }
+}

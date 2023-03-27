@@ -1,0 +1,20 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.cropper {
+  width: 20rem;
+  height: 20rem;
+  margin-bottom: 0.5rem;
+}
+.cropper_button_container {
+  width: 20rem;
+  display: flex;
+  justify-content: space-around;
+  .cropper_button_save {
+    @extend %button__blue;
+  }
+  .cropper_button_cancel {
+    @extend %button__orange;
+  }
+}

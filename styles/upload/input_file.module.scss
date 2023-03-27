@@ -1,0 +1,18 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.file_form {
+  grid-area: bottom-left;
+  background-color: aqua;
+  @include flex-center();
+  .file_form_cropper_button {
+    @extend %button__green;
+  }
+  .file_input_button {
+    @extend %button__white;
+  }
+  .file_reset_button {
+    @extend %button__orange;
+  }
+}

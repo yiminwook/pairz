@@ -1,4 +1,3 @@
-import ImgUpload from "@/components/img_upload";
 import ServiceLayout from "@/components/service_layout";
 import { NextPage } from "next";
 import { useSetRecoilState } from "recoil";
@@ -6,6 +5,7 @@ import { isLoadingAtom } from "@/recoil/atoms";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { validatonToken } from "@/hooks/vaildation_token";
+import ImgUpload from "@/components/img_upload";
 
 interface Props {}
 
