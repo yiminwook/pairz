@@ -3,12 +3,12 @@ import React, { useRef, useState } from "react";
 import upload from "@/styles/upload/upload.module.scss";
 import { useSetRecoilState } from "recoil";
 import { isLoadingAtom } from "@/recoil/atoms";
-import Crop from "./upload/crop";
+import Crop from "./crop";
 import FirebaseClient from "@/models/firebase_client";
 import { useRouter } from "next/router";
-import DragDrop from "./upload/drag_drop";
-import CheckTitle from "./upload/check_title";
-import InputFile from "./upload/input_file";
+import DragDrop from "./drag_drop";
+import CheckTitle from "./check_title";
+import InputFile from "./input_file";
 
 /* 이미지 사이즈 제한 단위 px */
 const [fixedImgWidth, fixedImgHeight] = [200, 300];

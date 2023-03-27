@@ -1,4 +1,4 @@
-import ServiceLayout from "@/components/service_layout";
+import ServiceLayout from "@/components/common/service_layout";
 import { scoreResult } from "@/models/score/score.model";
 import { getBaseURL } from "@/utils/get_base_url";
 import axios, { AxiosResponse } from "axios";

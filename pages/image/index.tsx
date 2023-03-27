@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from "next";
 import { FormEvent } from "react";
-import ServiceLayout from "@/components/service_layout";
+import ServiceLayout from "@/components/common/service_layout";
 import { ImageResultWithIdx } from "@/models/image/image.model";
 import { ImageInfo } from "@/models/Info";
 import axios, { AxiosResponse } from "axios";

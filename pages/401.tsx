@@ -1,4 +1,4 @@
-import ServiceLayout from "@/components/service_layout";
+import ServiceLayout from "@/components/common/service_layout";
 import { signOut } from "@/hooks/firebase_client_auth";
 import Link from "next/link";
 import { useEffect } from "react";

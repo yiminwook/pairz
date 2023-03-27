@@ -1,0 +1,32 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.pause_modal {
+  @extend %modal;
+
+  .pause_modal_backdrop {
+    @extend %modal-backdrop;
+  }
+
+  .pause_modal_container {
+    @extend %modal-container;
+
+    .pause_title {
+      text-transform: uppercase;
+      letter-spacing: 0.2rem;
+      font-weight: 600;
+      font-size: 2rem;
+      cursor: default;
+    }
+
+    .pause_modal_desc {
+      margin-bottom: 4rem;
+      cursor: default;
+    }
+
+    .pause_close_button {
+      @extend %button__orange;
+    }
+  }
+}

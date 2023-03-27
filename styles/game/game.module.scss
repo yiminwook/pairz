@@ -1,0 +1,18 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  @extend %page-size-bg;
+  border: 1px solid black;
+
+  .content_container {
+    .card_container {
+      margin: auto;
+      width: 55rem;
+      display: grid;
+      grid-template-columns: repeat(5, auto);
+      gap: 1rem;
+    }
+  }
+}

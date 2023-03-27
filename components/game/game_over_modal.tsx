@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import game from "@/styles/game.module.scss";
+import game_over from "@/styles/game/game_over.module.scss";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoadingAtom, userInfoAtom } from "@/recoil/atoms";
 import Link from "next/link";
@@ -73,26 +73,29 @@ const GameOver: FC<Props> = ({ score, resetGame }) => {
   };
 
   return (
-    <div className={game.over_modal}>
-      <div className={game.over_modal_backdrop} />
-      <div className={game.over_modal_container}>
-        <div className={game.over_modal_title}>Game over!</div>
-        <Link className={game.over_modal_home_link} href="/">
+    <div className={game_over.over_modal}>
+      <div className={game_over.over_modal_backdrop} />
+      <div className={game_over.over_modal_container}>
+        <div className={game_over.over_modal_title}>Game over!</div>
+        <Link className={game_over.over_modal_home_link} href="/">
           HOME
         </Link>
-        <button className={game.over_modal_reset_button} onClick={resetGame}>
+        <button
+          className={game_over.over_modal_reset_button}
+          onClick={resetGame}
+        >
           ReStart
         </button>
         {userInfo ? (
           <button
-            className={game.over_modal_recode_button}
+            className={game_over.over_modal_recode_button}
             onClick={handleRecode}
           >
             Recode
           </button>
         ) : (
           <button
-            className={game.over_modal_sign_in_button}
+            className={game_over.over_modal_sign_in_button}
             onClick={signInHandler}
           >
             sign In

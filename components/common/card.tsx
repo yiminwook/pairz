@@ -1,17 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import { SelectedCard } from "@/pages/game";
 import card from "@/styles/card.module.scss";
 import { FC, useRef, useState } from "react";
+import { CardBase } from "../game/deck";
 
 interface Props {
   idx: number;
   imgURL: string;
   isPreView?: boolean;
   isFlip: boolean;
-  color: string;
-  id: number;
+  color: "white" | "red" | "orange" | "blue" | "green";
   isDisable: boolean;
-  checkPair: (card: SelectedCard) => void;
+  checkPair: (card: CardBase) => void;
 }
 
 /** isPreView가 true이면
@@ -19,7 +18,6 @@ interface Props {
  *  preView모드 일때는 isDisable = True
  */
 const Card: FC<Props> = ({
-  id,
   idx,
   imgURL,
   isPreView,
@@ -35,7 +33,7 @@ const Card: FC<Props> = ({
     if (cardRef.current) {
       const { style } = cardRef.current;
       if (isPreView !== true && isDisable === false) {
-        const selectedCard = { idx, id };
+        const selectedCard = { idx, color };
         checkPair(selectedCard);
       }
       //프리뷰모드일때
@@ -65,7 +63,22 @@ const Card: FC<Props> = ({
       >
         <div className={card.front}>
           <div className={card.front_image_container}>
-            <img width={200} height={300} alt="card_img" src={imgURL} />
+            {failToGetImage ? (
+              <img
+                width={200}
+                height={300}
+                alt="card_img_failed"
+                src="/home_icon.png"
+              />
+            ) : (
+              <img
+                width={200}
+                height={300}
+                alt="card_img"
+                src={imgURL}
+                onError={() => setFailToGetImage(() => true)}
+              />
+            )}
           </div>
         </div>
         <div className={card.back}>

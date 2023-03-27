@@ -1,5 +1,5 @@
 import { FC } from "react";
-import game from "@/styles/game.module.scss";
+import pause from "@/styles/game/pause.module.scss";
 
 interface Props {
   countPause: number;
@@ -8,20 +8,20 @@ interface Props {
 
 const Pause: FC<Props> = ({ countPause, handlePause }) => {
   return (
-    <div className={game.pause_modal}>
+    <div className={pause.pause_modal}>
       <div
-        className={game.pause_modal_backdrop}
+        className={pause.pause_modal_backdrop}
         onClick={() => handlePause(false)}
       ></div>
-      <div className={game.pause_modal_container}>
-        <div className={game.pause_title}>pause</div>
-        <p className={game.pause_modal_desc}>
+      <div className={pause.pause_modal_container}>
+        <div className={pause.pause_title}>pause</div>
+        <p className={pause.pause_modal_desc}>
           {countPause <= 0
             ? "더이상 pause 할 수 없습니다."
             : `앞으로 ${Math.ceil(countPause / 2)}회 pause가 가능합니다.`}
         </p>
         <button
-          className={game.pause_close_button}
+          className={pause.pause_close_button}
           onClick={() => handlePause(false)}
         >
           해제

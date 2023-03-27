@@ -1,5 +1,5 @@
 import home from "@/styles/home.module.scss";
-import ServiceLayout from "../components/service_layout";
+import ServiceLayout from "../components/common/service_layout";
 import { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";

@@ -1,0 +1,51 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.over_modal {
+  @extend %modal;
+
+  .over_modal_backdrop {
+    @extend %modal-backdrop;
+    cursor: default;
+  }
+
+  .over_modal_container {
+    @extend %modal-container;
+
+    .over_modal_title {
+      text-transform: uppercase;
+      letter-spacing: 0.2rem;
+      font-weight: 600;
+      font-size: 2rem;
+      cursor: default;
+      margin-bottom: 2rem;
+    }
+    .over_modal_home_link {
+      @extend %button__green;
+      margin-bottom: 0.5rem;
+    }
+    .over_modal_reset_button {
+      @extend %button__red;
+      margin-bottom: 0.5rem;
+    }
+    .over_modal_recode_button {
+      @extend %button__blue;
+      margin-bottom: 0.5rem;
+    }
+    .over_modal_sign_in_button {
+      @extend %button__blue;
+      margin-bottom: 0.5rem;
+      position: relative;
+      overflow: visible;
+      &:before {
+        position: absolute;
+        bottom: -2.5rem;
+        left: -7rem;
+        width: 20rem;
+        color: map-get($colors, blue);
+        content: "* 로그인후 score를 기록할 수 있습니다";
+      }
+    }
+  }
+}
