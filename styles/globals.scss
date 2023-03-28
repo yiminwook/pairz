@@ -24,6 +24,11 @@ body {
   @extend %reset;
 }
 
+li,
+ol {
+  list-style: none;
+}
+
 a {
   display: block;
   color: inherit;

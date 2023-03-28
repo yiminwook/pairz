@@ -6,13 +6,12 @@ import { signIn, signOut } from "@/hooks/firebase_client_auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import ToggleMenu from "./toggle_menu";
 
 const GNB = () => {
   const userInfo = useRecoilValue(userInfoAtom);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleMenuRef = useRef<HTMLDivElement>(null);
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const router = useRouter();
 
@@ -35,7 +34,7 @@ const GNB = () => {
   };
 
   const handleMenu = () => {
-    const current = menuRef.current;
+    const current = toggleMenuRef.current;
     if (current) {
       const classList = current.classList;
       if (!classList.contains(gnb.render)) {
@@ -54,7 +53,7 @@ const GNB = () => {
 
   return (
     <>
-      <div className={gnb["container"]}>
+      <header className={gnb["container"]}>
         <div className={gnb["home"]}>
           <Link className={gnb["home__link"]} href="/">
             <Image
@@ -67,16 +66,16 @@ const GNB = () => {
             />
           </Link>
         </div>
-        <div className={gnb["container__right"]}>
-          <Link className={gnb["showcase"]} href="/image">
-            SHOWCASE
-          </Link>
-          <Link className={gnb["score"]} href="/score">
-            SCORE
-          </Link>
+        <ul className={gnb["container__right"]}>
+          <li className={gnb["showcase"]}>
+            <Link href="/image">SHOWCASE</Link>
+          </li>
+          <li className={gnb["score"]}>
+            <Link href="/score">SCORE</Link>
+          </li>
           {userInfo ? (
-            <div className={gnb["menu"]}>
-              <div className={gnb["menu-button"]} onClick={handleMenu}>
+            <li className={gnb["menu"]}>
+              <button className={gnb["menu-button"]} onClick={handleMenu}>
                 <div className={gnb["menu-name"]}>
                   {userInfo.displayName ?? ""}
                 </div>
@@ -100,47 +99,22 @@ const GNB = () => {
                     />
                   )}
                 </div>
-              </div>
-              {/* 토글메뉴 */}
-              <div className={gnb["menu-toggle"]} ref={menuRef}>
-                <div className={gnb["menu-toggle__container"]}>
-                  <div className={gnb["menu-toggle__top"]} />
-                  <Link
-                    className={gnb["menu-toggle__upload"]}
-                    href="/image/upload"
-                  >
-                    upload
-                  </Link>
-                  <button
-                    className={gnb["menu-toggle__sign-out"]}
-                    onClick={signOutHandler}
-                  >
-                    sign out
-                  </button>
-                  <hr />
-                  <button
-                    className={gnb["menu-toggle__close"]}
-                    onClick={handleMenu}
-                  >
-                    <p>close</p>
-                    <span>
-                      <FontAwesomeIcon
-                        icon={faXmark}
-                        size="2xs"
-                        style={{ width: "1rem" }}
-                      />
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
+              </button>
+              <ToggleMenu
+                toggleMenuRef={toggleMenuRef}
+                signOutHandler={signInHandler}
+                handleMenu={handleMenu}
+              />
+            </li>
           ) : (
-            <button className={gnb["sign-in"]} onClick={signInHandler}>
-              sign In
-            </button>
+            <li>
+              <button className={gnb["sign-in"]} onClick={signInHandler}>
+                sign In
+              </button>
+            </li>
           )}
-        </div>
-      </div>
+        </ul>
+      </header>
       <div className={gnb["poly-fill"]} />
     </>
   );

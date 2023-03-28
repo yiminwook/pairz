@@ -82,6 +82,7 @@
 
         .menu-name {
           margin-right: 1rem;
+          font-size: 1.5rem;
           color: azure;
           @include text-line(1, 2rem);
         }
@@ -98,6 +99,10 @@
             height: 100%;
             object-fit: cover;
           }
+        }
+        &:focus-visible {
+          outline: 5px solid #b976f0;
+          outline-offset: -10px;
         }
       }
 
