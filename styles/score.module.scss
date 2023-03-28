@@ -3,8 +3,7 @@
 @import "placeholder";
 
 .container {
-  @extend %page-size-bg;
-  padding-top: 4.5rem;
+  @include page-base();
   display: flex;
   flex-direction: column;
   .table_container {

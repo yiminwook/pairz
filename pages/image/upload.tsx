@@ -7,9 +7,7 @@ import { useRouter } from "next/router";
 import { validatonToken } from "@/hooks/vaildation_token";
 import ImgUpload from "@/components/upload/img_upload";
 
-interface Props {}
-
-const UploadPage: NextPage<Props> = () => {
+const UploadPage: NextPage = () => {
   const router = useRouter();
   const setIsLoading = useSetRecoilState(isLoadingAtom);
 

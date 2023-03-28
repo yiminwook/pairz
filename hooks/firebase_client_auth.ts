@@ -3,7 +3,6 @@ import { AddResult } from "@/models/member/member.model";
 import { emailToEmailId } from "@/utils/email_to_emailId";
 import axios, { AxiosResponse } from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import customAxios from "./axios";
 
 export const signIn = async (): Promise<AddResult> => {
   const provider = new GoogleAuthProvider();
@@ -14,7 +13,7 @@ export const signIn = async (): Promise<AddResult> => {
   const emailId = emailToEmailId(email);
   if (!auth.currentUser) throw new Error("Undefind currentUser");
   const idToken = await auth.currentUser.getIdToken(true);
-  const addResult: AxiosResponse<AddResult> = await customAxios({
+  const addResult: AxiosResponse<AddResult> = await axios({
     method: "POST",
     url: "/api/member.add",
     data: {

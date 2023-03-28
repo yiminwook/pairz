@@ -43,6 +43,8 @@ a {
 
 button {
   cursor: pointer;
+  background-color: transparent;
+  border: none;
   &:focus:not(:focus-visible) {
     outline: none;
   }

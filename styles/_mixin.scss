@@ -130,3 +130,11 @@
     transform: translateY(0%);
   }
 }
+
+@mixin page-base($reduce-height: $gnb-height) {
+  width: 100%;
+  height: 48rem - $reduce-height;
+  color: map-get($colors, font);
+  position: relative;
+  background-color: map-get($colors, darkgreen);
+}

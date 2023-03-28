@@ -4,12 +4,13 @@
 
 .main {
   @include flex-center();
-  @extend %page-size-bg;
+  @include page-base();
   flex-direction: column;
   text-align: center;
 
   .container {
     position: relative;
+    margin-bottom: 3rem;
     .game_button {
       @extend %game-start__button;
     }

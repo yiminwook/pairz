@@ -68,19 +68,18 @@ const Deck: FC<Props> = ({
    *
    * 카드가 빈배열일때는 작동하지 않음
    */
-  const filpCard = () =>
-    new Promise<void>((resolve, _) => {
-      if (cards.length === 0) return resolve();
-      setTimeout(() => {
-        resolve(
-          setCards((pre) => {
-            return pre.slice().map((card) => {
-              return { ...card, isFlip: true, isDisable: true };
-            });
-          })
-        );
-      }, 350);
-    });
+  const filpCard = () => {
+    if (cards.length === 0) return;
+    setTimeout(() => {
+      setCards((pre) => {
+        return pre.slice().map((card) => {
+          return card.isFlip === true
+            ? card
+            : { ...card, isFlip: true, isDisable: true };
+        });
+      });
+    }, 10);
+  };
 
   /** 카드 5쌍을 뒷면으로 생성 */
   const setCard = () => {
@@ -135,7 +134,7 @@ const Deck: FC<Props> = ({
 
   const drawCards = async () => {
     setIsGameLoading((_pre) => true);
-    await filpCard();
+    filpCard();
     await getImgs();
     const cards = setCard();
     const shuffledCards = shuffle(cards);
