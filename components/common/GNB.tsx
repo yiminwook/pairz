@@ -67,10 +67,10 @@ const GNB = () => {
           </Link>
         </div>
         <ul className={gnb["container__right"]}>
-          <li className={gnb["showcase"]}>
+          <li className={gnb["list"]}>
             <Link href="/image">SHOWCASE</Link>
           </li>
-          <li className={gnb["score"]}>
+          <li className={gnb["list"]}>
             <Link href="/score">SCORE</Link>
           </li>
           {userInfo ? (
@@ -102,7 +102,7 @@ const GNB = () => {
               </button>
               <ToggleMenu
                 toggleMenuRef={toggleMenuRef}
-                signOutHandler={signInHandler}
+                signOutHandler={signOutHandler}
                 handleMenu={handleMenu}
               />
             </li>
