@@ -3,8 +3,7 @@
 @import "placeholder";
 
 .container {
-  @extend %page-size-bg;
-  border: 1px solid black;
+  @include page-base(0);
 
   .content_container {
     .card_container {
