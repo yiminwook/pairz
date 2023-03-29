@@ -22,7 +22,11 @@
       text-transform: uppercase;
     }
     .status__body {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
+
+      @include min-width($mixin-large-width) {
+        font-size: 1.5rem;
+      }
     }
     .status__life {
       width: 20rem;

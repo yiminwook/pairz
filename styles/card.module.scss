@@ -19,8 +19,8 @@
   transform-origin: center right;
   @include transition(transform, 0.7s, ease);
   position: relative;
-  width: 10rem;
-  height: 16rem;
+  width: 8rem;
+  height: 13rem;
   background-color: white;
   border-radius: 20px;
   @include box-shadow(5px, 5px, 10px, rgba(0, 0, 0, 0.3));
@@ -96,5 +96,10 @@
 
   &.green {
     background-color: map-get($colors, green) !important;
+  }
+
+  @include min-width($mixin-large-width) {
+    width: 10rem;
+    height: 16rem;
   }
 }

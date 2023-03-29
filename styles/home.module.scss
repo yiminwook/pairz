@@ -18,7 +18,7 @@
       border: none;
       color: #ffffff;
       cursor: pointer;
-      font-size: 5rem;
+      font-size: 3rem;
       line-height: 1.2em;
       margin: 15px 40px;
       padding: 12px 40px 10px;
@@ -67,6 +67,9 @@
       &:focus-visible {
         outline: 5px solid #b976f0;
         outline-offset: -10px;
+      }
+      @include min-width($mixin-xl-width) {
+        font-size: 5rem;
       }
     }
 

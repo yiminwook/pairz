@@ -7,7 +7,7 @@
 }
 
 .container {
-  z-index: 1;
+  z-index: 2;
   position: absolute;
   top: 0;
   display: flex;
@@ -15,6 +15,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  min-width: $mixin-middle-width;
   padding: 1rem 0;
   height: 3rem;
   box-shadow: 0 9px 6px -8px map-get($colors, azure);
@@ -205,12 +206,13 @@
 .mobile {
   position: fixed;
   width: 100vw;
+  min-width: $mixin-middle-width;
   z-index: 1;
 
   .mobile__nav {
     display: block;
     width: 3.4rem;
-    padding: 0.2rem;
+    padding: 0.3rem;
     margin: auto;
     cursor: pointer;
 
@@ -222,6 +224,10 @@
       @include transition(transform, 0.3s, ease);
       @include flex-center();
       flex-direction: column;
+      background-color: maroon;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid map-get($colors, azure);
     }
   }
 
@@ -242,6 +248,7 @@
     .mobile__nav {
       display: block;
       width: 100vw;
+      min-width: $mixin-middle-width;
       height: 100vh;
       background-color: map-get($colors, half-transparent);
       .mobile__button {
