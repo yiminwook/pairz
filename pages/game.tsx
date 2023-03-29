@@ -95,18 +95,23 @@ const GamePage: NextPage = () => {
 
   return (
     <ServiceLayout title="Game Start!" showGNB={false}>
-      <div className={game.container}>
+      <div className={game["container"]}>
         {isGameOver && <GameOver score={score} resetGame={resetGame} />}
         {isPause && <Pause handlePause={handlePause} countPause={countPause} />}
-        <div className={game.content_container}>
-          <div>time: {time}</div>
-          <div>round: {round}</div>
-          <div>count: {countSelect}</div>
-          <div>score: {score}점</div>
-          <div>life: {life}</div>
-          <button onClick={() => handlePause(true)}>pause</button>
-          <div>{isGameOver ? "Game Over" : "continue"}</div>
-          <div className={game.card_container}>
+        <div className={game["content"]}>
+          <ul className={game["list"]}>
+            <li className={game["list__time"]}>{time}초</li>
+            <li className={game["list__round"]}>
+              Round: {round >= 0 && round + 1}
+            </li>
+            <li className={game["list__score"]}>{score}점</li>
+            <li className={game["lis__life"]}>life: {life}</li>
+            <li className={game["list__pause"]}>
+              <button onClick={() => handlePause(true)}>pause</button>
+            </li>
+            <li>count: {countSelect}</li>
+          </ul>
+          <div className={game["deck"]}>
             <Deck
               round={round}
               isGameOver={isGameOver}

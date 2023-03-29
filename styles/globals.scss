@@ -13,15 +13,17 @@ html {
 }
 
 body {
-  margin: auto;
-  //아이패드 미니화면에 최적화
-  width: 60rem;
-  height: 48rem;
-  aspect-ratio: 1.25;
+  margin: 0 auto;
+  //태블릿에 최적화
+  // max-height: 42rem;
+  height: 100vh;
+
   position: relative;
-  // border: 3px dashed black;
   background-color: map-get($colors, body);
   @extend %reset;
+  @include min-width($mixin-xl-width) {
+    padding-top: 5rem;
+  }
 }
 
 li,

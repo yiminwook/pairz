@@ -5,13 +5,14 @@ import { userInfoAtom } from "@/recoil/atoms";
 import { signIn, signOut } from "@/hooks/firebase_client_auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import ToggleMenu from "./toggle_menu";
+import { faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const GNB = () => {
   const userInfo = useRecoilValue(userInfoAtom);
-  const toggleMenuRef = useRef<HTMLDivElement>(null);
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const router = useRouter();
 
@@ -33,27 +34,14 @@ const GNB = () => {
     }
   };
 
-  const handleMenu = () => {
-    const current = toggleMenuRef.current;
-    if (current) {
-      const classList = current.classList;
-      if (!classList.contains(gnb.render)) {
-        classList.add(gnb.render);
-        setTimeout(() => {
-          classList.add(gnb.show);
-        }, 100);
-      } else {
-        classList.remove(gnb.show);
-        setTimeout(() => {
-          classList.remove(gnb.render);
-        }, 300);
-      }
-    }
-  };
-
   return (
-    <>
-      <header className={gnb["container"]}>
+    <header>
+      <input
+        type="checkbox"
+        className={gnb["mobile__check-box"]}
+        id="toggle-mobile-nav"
+      />
+      <nav className={gnb["container"]}>
         <div className={gnb["home"]}>
           <Link className={gnb["home__link"]} href="/">
             <Image
@@ -75,14 +63,23 @@ const GNB = () => {
           </li>
           {userInfo ? (
             <li className={gnb["menu"]}>
-              <button className={gnb["menu-button"]} onClick={handleMenu}>
-                <div className={gnb["menu-name"]}>
+              <input
+                type="checkbox"
+                className={gnb["menu__checkbox"]}
+                id="toggle-menu"
+              />
+              <label
+                className={gnb["menu__button"]}
+                htmlFor="toggle-menu"
+                tabIndex={0}
+              >
+                <div className={gnb["menu__name"]}>
                   {userInfo.displayName ?? ""}
                 </div>
-                <div className={gnb["menu-photo"]}>
+                <div className={gnb["menu__photo"]}>
                   {failToGetImage ? (
                     <img
-                      className={gnb["menu-photo__img"]}
+                      className={gnb["menu__photo__img"]}
                       src="/user_icon.png"
                       width="48px"
                       height="48px"
@@ -90,7 +87,7 @@ const GNB = () => {
                     />
                   ) : (
                     <img
-                      className={gnb["menu-button__img"]}
+                      className={gnb["menu__button__img"]}
                       src={userInfo?.photoURL ?? "/user_icon.png"}
                       width="48px"
                       height="48px"
@@ -99,12 +96,8 @@ const GNB = () => {
                     />
                   )}
                 </div>
-              </button>
-              <ToggleMenu
-                toggleMenuRef={toggleMenuRef}
-                signOutHandler={signOutHandler}
-                handleMenu={handleMenu}
-              />
+              </label>
+              <ToggleMenu signOutHandler={signOutHandler} />
             </li>
           ) : (
             <li>
@@ -114,9 +107,23 @@ const GNB = () => {
             </li>
           )}
         </ul>
-      </header>
-      <div className={gnb["poly-fill"]} />
-    </>
+      </nav>
+      <nav className={gnb["mobile"]}>
+        <label
+          className={gnb["mobile__nav"]}
+          tabIndex={0}
+          htmlFor="toggle-mobile-nav"
+        >
+          <div className={gnb["mobile__button"]}>
+            <FontAwesomeIcon
+              icon={faMapLocationDot}
+              size="2xs"
+              style={{ color: "#f0ffff", width: "3rem", height: "3rem" }}
+            />
+          </div>
+        </label>
+      </nav>
+    </header>
   );
 };
 

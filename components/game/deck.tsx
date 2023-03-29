@@ -135,7 +135,7 @@ const Deck: FC<Props> = ({
   const drawCards = async () => {
     setIsGameLoading((_pre) => true);
     filpCard();
-    await getImgs();
+    // await getImgs();
     const cards = setCard();
     const shuffledCards = shuffle(cards);
     setCards((_pre) => [...shuffledCards]);

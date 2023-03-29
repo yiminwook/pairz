@@ -133,7 +133,9 @@
 
 @mixin page-base($reduce-height: $gnb-height) {
   width: 100%;
-  height: 48rem - $reduce-height;
+  margin: 0 auto;
+  max-width: 56rem;
+  aspect-ratio: 4/3;
   color: map-get($colors, font);
   position: relative;
   background-color: map-get($colors, darkgreen);
