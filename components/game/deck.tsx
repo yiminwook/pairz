@@ -134,7 +134,7 @@ const Deck: FC<Props> = ({
 
   const drawCards = async () => {
     setIsGameLoading((_pre) => true);
-    filpCard();
+    // filpCard();
     // await getImgs();
     const cards = setCard();
     const shuffledCards = shuffle(cards);
@@ -176,9 +176,9 @@ const Deck: FC<Props> = ({
           setScore((pre) => pre + pairScore);
           setSelect((_pre) => []);
           //카드가 완전히 펼쳐지고난뒤 카운트
-          setTimeout(() => {
-            setCountSelect((pre) => pre + 1);
-          }, 400);
+          // setTimeout(() => {
+          setCountSelect((pre) => pre + 1);
+          // }, 400);
         } else {
           //no pair
           setTimeout(() => {
