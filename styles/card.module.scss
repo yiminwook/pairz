@@ -15,7 +15,6 @@
   transform-style: preserve-3d;
   -webkit-transform-origin: center right;
   transform-origin: center right;
-  @include backface-visibility();
   @include transition(transform, 0.7s, ease);
   position: relative;
   width: 8rem;
@@ -24,13 +23,13 @@
   border-radius: 20px;
   @include box-shadow(5px, 5px, 10px, rgba(0, 0, 0, 0.3));
   @include prevent-user-select();
-  cursor: pointer;
 
   .front {
     @extend %plane;
     overflow: hidden;
     border-radius: 20px;
     @include flex-center();
+    @include backface-visibility();
     .front_image_container {
       width: 80%;
       height: 80%;
@@ -45,6 +44,25 @@
         @include prevent-user-select();
       }
     }
+    &.white {
+      background-color: map-get($colors, white) !important;
+    }
+
+    &.red {
+      background-color: map-get($colors, red) !important;
+    }
+
+    &.orange {
+      background-color: map-get($colors, orange) !important;
+    }
+
+    &.blue {
+      background-color: map-get($colors, blue) !important;
+    }
+
+    &.green {
+      background-color: map-get($colors, green) !important;
+    }
   }
 
   .back {
@@ -54,6 +72,7 @@
     -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
     border-radius: 19px;
+    cursor: pointer;
 
     &::before {
       @include backface-visibility();
@@ -77,26 +96,6 @@
     -webkit-transform-origin: center;
     transform-origin: center;
     @include animation(card-preview, 5s, 0s);
-  }
-
-  &.white {
-    background-color: map-get($colors, white) !important;
-  }
-
-  &.red {
-    background-color: map-get($colors, red) !important;
-  }
-
-  &.orange {
-    background-color: map-get($colors, orange) !important;
-  }
-
-  &.blue {
-    background-color: map-get($colors, blue) !important;
-  }
-
-  &.green {
-    background-color: map-get($colors, green) !important;
   }
 
   @include min-width($mixin-large-width) {
