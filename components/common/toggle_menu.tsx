@@ -32,11 +32,7 @@ const ToggleMenu = ({ signOutHandler }: Props) => {
               tabIndex={0}
             >
               <p>close</p>
-              <FontAwesomeIcon
-                icon={faXmark}
-                size="2xs"
-                style={{ width: "1rem" }}
-              />
+              <FontAwesomeIcon icon={faXmark} style={{ width: "1rem" }} />
             </label>
           </li>
         </ul>

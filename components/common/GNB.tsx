@@ -117,7 +117,6 @@ const GNB = () => {
           <div className={gnb["mobile__button"]}>
             <FontAwesomeIcon
               icon={faMapLocationDot}
-              size="2xs"
               style={{ color: "#f0ffff", width: "3rem", height: "3rem" }}
             />
           </div>

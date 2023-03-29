@@ -22,19 +22,19 @@
       margin-bottom: 2rem;
     }
     .over_modal_home_link {
-      @extend %button__green;
+      @extend %button--green;
       margin-bottom: 0.5rem;
     }
     .over_modal_reset_button {
-      @extend %button__red;
+      @extend %button--red;
       margin-bottom: 0.5rem;
     }
     .over_modal_recode_button {
-      @extend %button__blue;
+      @extend %button--blue;
       margin-bottom: 0.5rem;
     }
     .over_modal_sign_in_button {
-      @extend %button__blue;
+      @extend %button--blue;
       margin-bottom: 0.5rem;
       position: relative;
       overflow: visible;

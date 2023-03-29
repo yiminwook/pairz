@@ -6,10 +6,11 @@ import Pause from "@/components/game/pause_modal";
 import GameOver from "@/components/game/game_over_modal";
 import ServiceLayout from "@/components/common/service_layout";
 import Deck from "@/components/game/deck";
+import GameStatus from "@/components/game/game_status";
 
 const defaultValue = {
   //게임진행
-  time: 60,
+  time: 6000,
   life: 3,
   //score
   score: 0,
@@ -23,7 +24,6 @@ const defaultValue = {
 
 const GamePage: NextPage = () => {
   //게임진행
-  const [isReady, setIsReady] = useState<boolean>(false);
   const [time, setTime] = useState<number>(defaultValue.time);
   const [life, setLife] = useState<number>(defaultValue.life);
   const [round, setRound] = useState<number>(0);
@@ -39,12 +39,14 @@ const GamePage: NextPage = () => {
   const [isPause, setIsPause] = useState<boolean>(false);
   const [countPause, setCoundPause] = useState<number>(defaultValue.countPause);
 
+  //life
   useEffect(() => {
     if (life <= 0) {
       setIsGameOver(true);
     }
   }, [life]);
 
+  //round
   useEffect(() => {
     if (countSelect >= 5) {
       setRound((pre) => pre + 1);
@@ -52,6 +54,7 @@ const GamePage: NextPage = () => {
     }
   }, [countSelect]);
 
+  //time
   useEffect(() => {
     if (isPause || isGameLoading) return;
     if (time <= 0) setIsGameOver((_pre) => true);
@@ -94,23 +97,21 @@ const GamePage: NextPage = () => {
   };
 
   return (
-    <ServiceLayout title="Game Start!" showGNB={false}>
+    <ServiceLayout title="Game Start!" showGNB={true}>
       <div className={game["container"]}>
         {isGameOver && <GameOver score={score} resetGame={resetGame} />}
         {isPause && <Pause handlePause={handlePause} countPause={countPause} />}
         <div className={game["content"]}>
-          <ul className={game["list"]}>
-            <li className={game["list__time"]}>{time}초</li>
-            <li className={game["list__round"]}>
-              Round: {round >= 0 && round + 1}
-            </li>
-            <li className={game["list__score"]}>{score}점</li>
-            <li className={game["lis__life"]}>life: {life}</li>
-            <li className={game["list__pause"]}>
-              <button onClick={() => handlePause(true)}>pause</button>
-            </li>
-            <li>count: {countSelect}</li>
-          </ul>
+          <div className={game["status"]}>
+            <GameStatus
+              time={time}
+              round={round}
+              score={score}
+              life={life}
+              handlePause={handlePause}
+              countPause={countPause}
+            />
+          </div>
           <div className={game["deck"]}>
             <Deck
               round={round}

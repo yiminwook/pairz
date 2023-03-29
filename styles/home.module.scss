@@ -5,12 +5,14 @@
 .main {
   @include flex-center();
   @include page-base();
-  flex-direction: column;
-  text-align: center;
-
   .container {
-    position: relative;
-    margin-bottom: 3rem;
+    width: 80%;
+    height: 80%;
+    @include flex-center();
+    flex-direction: column;
+    gap: 3%;
+    margin-bottom: 5rem;
+
     .game_button {
       background-color: map-get($colors, orange);
       border: none;

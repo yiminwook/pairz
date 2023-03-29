@@ -12,9 +12,9 @@
   display: flex;
   justify-content: space-around;
   .cropper_button_save {
-    @extend %button__blue;
+    @extend %button--blue;
   }
   .cropper_button_cancel {
-    @extend %button__orange;
+    @extend %button--orange;
   }
 }

@@ -2,17 +2,17 @@
 @import "var";
 @import "placeholder";
 
-.pause_modal {
+.container {
   @extend %modal;
 
-  .pause_modal_backdrop {
+  .backdrop {
     @extend %modal-backdrop;
   }
 
-  .pause_modal_container {
+  .modal {
     @extend %modal-container;
 
-    .pause_title {
+    .modal__title {
       text-transform: uppercase;
       letter-spacing: 0.2rem;
       font-weight: 600;
@@ -20,13 +20,24 @@
       cursor: default;
     }
 
-    .pause_modal_desc {
-      margin-bottom: 4rem;
-      cursor: default;
+    .modal__desc {
+      font-weight: 400;
+      font-size: 1.5rem;
+      margin-bottom: 3rem;
     }
 
-    .pause_close_button {
-      @extend %button__orange;
+    .modal__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 0 auto;
+      .modal__list__home {
+        @extend %button--green;
+      }
+
+      .modal__list__close {
+        @extend %button--orange;
+      }
     }
   }
 }

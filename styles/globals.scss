@@ -15,15 +15,18 @@ html {
 body {
   margin: 0 auto;
   //태블릿에 최적화
-  // max-height: 42rem;
   height: 100vh;
-
   position: relative;
   background-color: map-get($colors, body);
   @extend %reset;
-  @include min-width($mixin-xl-width) {
-    padding-top: 5rem;
-  }
+}
+
+h1,
+h2,
+h3,
+ul {
+  margin: 0;
+  padding: 0;
 }
 
 li,

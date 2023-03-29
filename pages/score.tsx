@@ -35,41 +35,31 @@ const ScorePage: NextPage<scoreResult> = ({ scoreData, lastIdx = 0 }) => {
   };
 
   const renderRank = (idx: number) => {
-    let context: JSX.Element | number;
+    let content: string;
     switch (idx) {
       case 0:
-        context = (
-          <FontAwesomeIcon
-            icon={faTrophy}
-            size="2xs"
-            style={{ color: "#ffdf3d", width: "2rem", marginTop: "0.5rem" }}
-          />
-        );
+        content = "#ffdf3d";
         break;
       case 1:
-        context = (
-          <FontAwesomeIcon
-            icon={faTrophy}
-            size="2xs"
-            style={{ color: "#e5e5e5", width: "2rem", marginTop: "0.5rem" }}
-          />
-        );
+        content = "#e5e5e5";
         break;
       case 2:
-        context = (
-          <FontAwesomeIcon
-            icon={faTrophy}
-            size="2xs"
-            style={{ color: "#b87333", width: "2rem", marginTop: "0.5rem" }}
-          />
-        );
+        content = "#b87333";
         break;
       default:
-        context = idx + 1;
+        content = "";
         break;
     }
-
-    return context;
+    if (content === "") {
+      return idx + 1;
+    } else {
+      return (
+        <FontAwesomeIcon
+          icon={faTrophy}
+          style={{ color: content, width: "2rem", marginTop: "0.5rem" }}
+        />
+      );
+    }
   };
 
   return (

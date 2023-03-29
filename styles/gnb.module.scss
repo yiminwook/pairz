@@ -7,7 +7,7 @@
 }
 
 .container {
-  z-index: map-get($z-indexs, gnb);
+  z-index: 1;
   position: absolute;
   top: 0;
   display: flex;
@@ -17,9 +17,9 @@
   width: 100%;
   padding: 1rem 0;
   height: 3rem;
-  box-shadow: 0 9px 6px -8px map-get($colors, font);
+  box-shadow: 0 9px 6px -8px map-get($colors, azure);
   background-color: transparent;
-  color: map-get($colors, font);
+  color: map-get($colors, azure);
   font-size: 1.5rem;
   transform: translateY(-100%);
   @include transition(all, 0.3s, ease);
@@ -50,7 +50,7 @@
     }
 
     .sign-in {
-      @extend %button__orange;
+      @extend %button--orange;
       width: 10.6rem;
       height: 3.5rem;
       font-size: 1.5rem;
@@ -74,7 +74,7 @@
         &:hover,
         &:active {
           scale: 1.02;
-          border-color: map-get($colors, font);
+          border-color: map-get($colors, azure);
         }
 
         .menu__name {

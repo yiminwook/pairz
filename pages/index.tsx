@@ -22,7 +22,7 @@ const IndexPage: NextPage = () => {
           <Link href="/game" className={home.game_button}>
             Game Start!
           </Link>
-          <p className={home.sub_title}>Get Started Pairz</p>
+          <h2 className={home.sub_title}>Get Started Pairz</h2>
         </div>
       </main>
     </ServiceLayout>

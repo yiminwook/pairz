@@ -63,7 +63,7 @@
   .button_container {
     text-align: center;
     .button {
-      @extend %button__white;
+      @extend %button--white;
     }
   }
 }

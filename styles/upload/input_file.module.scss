@@ -7,12 +7,12 @@
   background-color: aqua;
   @include flex-center();
   .file_form_cropper_button {
-    @extend %button__green;
+    @extend %button--green;
   }
   .file_input_button {
-    @extend %button__white;
+    @extend %button--white;
   }
   .file_reset_button {
-    @extend %button__orange;
+    @extend %button--orange;
   }
 }

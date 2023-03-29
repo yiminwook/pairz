@@ -1,0 +1,56 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  background-color: #ffefcb;
+  padding: 0.75rem;
+  border: 5px solid lighten(map-get($colors, wood), 10%);
+  border-radius: 20px;
+  margin: 0 auto;
+  @include flex-center();
+  color: map-get($colors, wood);
+
+  .status {
+    flex: 5;
+    width: 100%;
+    margin-right: 1rem;
+    border: 3px solid azure;
+    border-radius: 20px;
+
+    .status__head {
+      text-transform: uppercase;
+    }
+    .status__body {
+      font-size: 1.5rem;
+    }
+    .status__life {
+      width: 20rem;
+      span:not(:last-of-type) {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .pause {
+    flex: 1;
+    @include flex-center();
+    flex-direction: column;
+    .pause__desc {
+      margin-bottom: 0.75rem;
+      h2 {
+        display: inline-block;
+        font-size: 1.25rem;
+        margin-right: 0.5rem;
+      }
+      span {
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: inline-block;
+      }
+    }
+    .pause__button {
+      @extend %button--orange;
+    }
+  }
+}

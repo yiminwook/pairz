@@ -17,10 +17,10 @@
       }
     }
     .name_button__check {
-      @extend %button__white;
+      @extend %button--white;
     }
     .name_button__reset {
-      @extend %button__orange;
+      @extend %button--orange;
     }
     &::before {
       z-index: 3;

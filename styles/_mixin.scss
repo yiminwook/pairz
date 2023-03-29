@@ -131,12 +131,19 @@
   }
 }
 
-@mixin page-base($reduce-height: $gnb-height) {
+@mixin page-base() {
   width: 100%;
   margin: 0 auto;
-  max-width: 56rem;
   aspect-ratio: 4/3;
-  color: map-get($colors, font);
+  min-width: $mixin-large-width;
+  min-height: $mixin-large-width * 3 / 4;
+  max-width: $mixin-xl-width;
+  max-height: $mixin-xl-width * 3 / 4;
+  color: map-get($colors, azure);
   position: relative;
   background-color: map-get($colors, darkgreen);
+  @include transition(paddiong, 0.3s, ease);
+  @include min-width($mixin-xl-width) {
+    padding-top: 5rem;
+  }
 }
