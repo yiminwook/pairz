@@ -15,7 +15,7 @@
   transform-style: preserve-3d;
   -webkit-transform-origin: center right;
   transform-origin: center right;
-  @include transition(transform, 0.7s, ease);
+  @include transition(transform, 0.3s, ease);
   position: relative;
   width: 8rem;
   height: 13rem;
