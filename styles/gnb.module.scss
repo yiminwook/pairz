@@ -204,7 +204,7 @@
 }
 
 .mobile {
-  position: fixed;
+  position: absolute;
   width: 100vw;
   min-width: $mixin-middle-width;
   z-index: 1;
