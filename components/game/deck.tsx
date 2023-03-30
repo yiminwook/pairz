@@ -141,7 +141,7 @@ const Deck = ({
   const drawCards = useCallback(async () => {
     setIsGameLoading((_pre) => true);
     // filpCard();
-    await getImgs();
+    // await getImgs();
     const shuffledCards = shuffle(setCard);
 
     setCards((_pre) => [...shuffledCards]);
