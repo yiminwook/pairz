@@ -6,11 +6,11 @@
   @extend %modal;
 
   .backdrop {
-    @extend %modal-backdrop;
+    @extend %modal__backdrop;
   }
 
-  .modal {
-    @extend %modal-container;
+  .modal__content {
+    @extend %modal__content;
 
     .modal__title {
       text-transform: uppercase;

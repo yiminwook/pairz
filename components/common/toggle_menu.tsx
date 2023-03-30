@@ -14,7 +14,7 @@ const ToggleMenu = ({ signOutHandler }: Props) => {
         <ul className={gnb["menu__toggle__container"]}>
           <div className={gnb["menu__toggle__top"]} />
           <li className={gnb["menu__toggle__upload"]}>
-            <Link href="/image/upload">upload</Link>
+            <Link href="/upload">upload</Link>
           </li>
           <li>
             <button

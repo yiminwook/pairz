@@ -13,7 +13,7 @@ const Pause = ({ countPause, handlePause }: Props) => {
         className={pause["backdrop"]}
         onClick={() => handlePause(false)}
       ></div>
-      <div className={pause["modal"]}>
+      <div className={pause["modal__content"]}>
         <h1 className={pause["modal__title"]}>pause</h1>
         <h2 className={pause["modal__desc"]}>
           {countPause <= 0

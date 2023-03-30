@@ -36,12 +36,5 @@ export const signIn = async (): Promise<AddResult> => {
 
 /** sessionCookie삭제 & firebaseClient signOut */
 export const signOut = async () => {
-  const signOutResult: AxiosResponse<{ result: boolean }> = await axios.get(
-    "/api/auth/signout",
-    { withCredentials: true }
-  );
-  if (!(signOutResult.status === 200 && signOutResult.data.result))
-    throw new Error("Faild SignOut");
-
   await FirebaseClient.getInstance().Auth.signOut();
 };

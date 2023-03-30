@@ -63,7 +63,7 @@ const ScorePage: NextPage<scoreResult> = ({ scoreData, lastIdx = 0 }) => {
   };
 
   return (
-    <ServiceLayout title="Pairz Score Page" showGNB={true}>
+    <ServiceLayout title="Pairz SCORE">
       <div className={score["container"]}>
         <div className={score["table__container"]}>
           <table>

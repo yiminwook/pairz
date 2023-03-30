@@ -100,7 +100,7 @@ const GamePage: NextPage = () => {
   }, []);
 
   return (
-    <ServiceLayout title="Game Start!" showGNB={true}>
+    <ServiceLayout title="Game Start!">
       <div className={game["container"]}>
         {isGameOver && <GameOver score={score} resetGame={resetGame} />}
         {isPause && <Pause handlePause={handlePause} countPause={countPause} />}

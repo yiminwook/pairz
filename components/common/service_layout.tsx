@@ -3,17 +3,16 @@ import GNB from "./GNB";
 
 interface Props {
   title?: string;
-  showGNB: boolean;
   children: React.ReactNode;
 }
 
-const ServiceLayout = ({ title = "Pairz!", children, showGNB }: Props) => {
+const ServiceLayout = ({ title = "Pairz!", children }: Props) => {
   return (
     <div>
       <Head>
         <title>{title}</title>
       </Head>
-      {showGNB && <GNB />}
+      <GNB />
       {children}
     </div>
   );

@@ -223,6 +223,7 @@
       margin: 0 auto;
       width: 3rem;
       height: 3rem;
+      overflow: hidden;
       @include transition(transform, 0.3s, ease);
       @include flex-center();
       flex-direction: column;

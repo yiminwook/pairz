@@ -23,7 +23,7 @@ interface ImageSearch extends HTMLFormElement {
 }
 
 /** default 이미지 이름으로 조회*/
-const ImageSearchPage: NextPage<Props> = () => {
+const ShowcasePage: NextPage<Props> = () => {
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const [reqImageData, setReqImageData] = useState<ImageInfo[]>([]);
   const [reqLastIdx, setReqLastIdx] = useState<number>(0);
@@ -100,7 +100,7 @@ const ImageSearchPage: NextPage<Props> = () => {
   }, []);
 
   return (
-    <ServiceLayout title="test" showGNB={true}>
+    <ServiceLayout title="pairz SHOWCASE">
       <main className={imageSearch.container}>
         <form name="image_search__form" onSubmit={handleSubmit}>
           <select name="image_search__Select" ref={selectRef}>
@@ -152,4 +152,4 @@ const ImageSearchPage: NextPage<Props> = () => {
   );
 };
 
-export default ImageSearchPage;
+export default ShowcasePage;

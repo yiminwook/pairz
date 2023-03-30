@@ -6,20 +6,22 @@
   @extend %modal;
 
   .backdrop {
-    @extend %modal-backdrop;
+    @extend %modal__backdrop;
     cursor: default;
   }
 
-  .modal {
-    @extend %modal-container;
+  .modal__content {
+    @extend %modal__content;
     text-align: center;
-
+    text-transform: uppercase;
     .modal__title {
-      text-transform: uppercase;
       letter-spacing: 0.2rem;
       font-weight: 600;
       font-size: 2rem;
       cursor: default;
+    }
+    .modal__score {
+      font-weight: 400;
     }
     .modal__home {
       @extend %button--green;

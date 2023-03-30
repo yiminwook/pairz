@@ -56,7 +56,7 @@ const GNB = () => {
         </div>
         <ul className={gnb["container__right"]}>
           <li className={gnb["list"]}>
-            <Link href="/image">SHOWCASE</Link>
+            <Link href="/showcase">SHOWCASE</Link>
           </li>
           <li className={gnb["list"]}>
             <Link href="/score">SCORE</Link>
