@@ -215,6 +215,7 @@ const Deck: FC<Props> = ({
             idx={idx}
             color={card.color}
             imgURL={"/home_icon.png"}
+            // imgURL={reqRandomImgs[card.idx]?.imgURL ?? "/home_icon.png"}
             isFlip={card.isFlip}
             isDisable={card.isDisable}
             checkPair={checkPair}

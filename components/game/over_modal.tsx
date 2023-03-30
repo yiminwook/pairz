@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import game_over from "@/styles/game/game_over.module.scss";
+import over from "@/styles/game/over.module.scss";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoadingAtom, userInfoAtom } from "@/recoil/atoms";
 import Link from "next/link";
@@ -73,33 +73,32 @@ const GameOver: FC<Props> = ({ score, resetGame }) => {
   };
 
   return (
-    <div className={game_over.over_modal}>
-      <div className={game_over.over_modal_backdrop} />
-      <div className={game_over.over_modal_container}>
-        <div className={game_over.over_modal_title}>Game over!</div>
-        <Link className={game_over.over_modal_home_link} href="/">
-          HOME
+    <div className={over["container"]}>
+      <div className={over["backdrop"]} />
+      <div className={over["modal"]}>
+        <div className={over["modal__title"]}>Game over!</div>
+        <Link className={over["modal__home"]} href="/">
+          home
         </Link>
-        <button
-          className={game_over.over_modal_reset_button}
-          onClick={resetGame}
-        >
-          ReStart
+        <button className={over["modal__reset"]} onClick={resetGame}>
+          restart
         </button>
         {userInfo ? (
-          <button
-            className={game_over.over_modal_recode_button}
-            onClick={handleRecode}
-          >
-            Recode
+          <button className={over["modal__recode"]} onClick={handleRecode}>
+            recode
           </button>
         ) : (
-          <button
-            className={game_over.over_modal_sign_in_button}
-            onClick={signInHandler}
-          >
-            sign In
-          </button>
+          <div className={over["modal__sign-in"]}>
+            <button
+              className={over["modal__sign-in__button"]}
+              onClick={signInHandler}
+            >
+              sign in
+            </button>
+            <p className={over["modal__sign-in__desc"]}>
+              로그인후 score를 기록할 수 있습니다
+            </p>
+          </div>
         )}
       </div>
     </div>

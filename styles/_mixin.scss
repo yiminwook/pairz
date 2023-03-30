@@ -134,11 +134,11 @@
 @mixin page-base() {
   width: 100%;
   margin: 0 auto;
-  aspect-ratio: 4/3;
+  aspect-ratio: 1.5;
   min-width: $mixin-middle-width;
-  min-height: $mixin-middle-width * 3 / 4;
+  min-height: $mixin-middle-width / 1.5;
   max-width: $mixin-xl-width;
-  max-height: $mixin-xl-width * 3 / 4;
+  max-height: $mixin-xl-width / 1.5;
   color: map-get($colors, azure);
   position: relative;
   background-color: map-get($colors, darkgreen);

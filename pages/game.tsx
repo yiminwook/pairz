@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import game from "@/styles/game/game.module.scss";
 import Pause from "@/components/game/pause_modal";
-import GameOver from "@/components/game/game_over_modal";
+import GameOver from "@/components/game/over_modal";
 import ServiceLayout from "@/components/common/service_layout";
 import Deck from "@/components/game/deck";
 import GameStatus from "@/components/game/game_status";

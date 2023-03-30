@@ -1,0 +1,58 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  @extend %modal;
+
+  .backdrop {
+    @extend %modal-backdrop;
+    cursor: default;
+  }
+
+  .modal {
+    @extend %modal-container;
+
+    .modal__title {
+      text-transform: uppercase;
+      letter-spacing: 0.2rem;
+      font-weight: 600;
+      font-size: 2rem;
+      cursor: default;
+      margin-bottom: 1rem;
+    }
+    .modal__home {
+      @extend %button--green;
+    }
+    .modal__reset {
+      @extend %button--red;
+    }
+    .modal__recode {
+      @extend %button--blue;
+    }
+    .modal__sign-in {
+      text-align: center;
+      .modal__sign-in__button {
+        @extend %button--blue;
+
+        @include min-width($mixin-middle-width) {
+          margin-bottom: 0.25rem;
+        }
+        @include min-width($mixin-large-width) {
+          margin-bottom: 1rem;
+        }
+      }
+      .modal__sign-in__desc {
+        position: relative;
+        color: map-get($colors, blue);
+        &:before {
+          position: absolute;
+          bottom: -0.25rem;
+          left: -0.5rem;
+          color: inherit;
+          content: "*";
+        }
+      }
+    }
+  }
+}

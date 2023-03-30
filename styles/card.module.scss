@@ -17,8 +17,8 @@
   transform-origin: center;
   @include transition(transform, 0.3s, ease);
   position: relative;
-  width: 8rem;
-  height: 13rem;
+  width: 6rem;
+  height: 9.6rem;
   background-color: white;
   border-radius: 20px;
   @include box-shadow(5px, 5px, 10px, rgba(0, 0, 0, 0.3));
@@ -99,6 +99,11 @@
   }
 
   @include min-width($mixin-large-width) {
+    width: 8rem;
+    height: 12.8rem;
+  }
+
+  @include min-width($mixin-xl-width) {
     width: 10rem;
     height: 16rem;
   }
