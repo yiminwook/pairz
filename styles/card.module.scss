@@ -3,7 +3,6 @@
 @import "placeholder";
 
 %plane {
-  z-index: 0;
   width: 100%;
   height: 100%;
   @include backface-visibility();
@@ -27,6 +26,7 @@
 
   .front {
     @extend %plane;
+    z-index: 0;
     overflow: hidden;
     border-radius: 20px;
     @include flex-center();
@@ -67,6 +67,7 @@
 
   .back {
     @extend %plane;
+    z-index: -1 !important;
     background-color: white;
     -moz-transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
