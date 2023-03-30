@@ -133,6 +133,7 @@
 
 @mixin page-base() {
   width: 100%;
+  z-index: 0;
   margin: 0 auto;
   aspect-ratio: 1.5;
   min-width: $mixin-middle-width;

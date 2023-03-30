@@ -7,7 +7,7 @@
 }
 
 .container {
-  z-index: 2;
+  z-index: 100;
   position: absolute;
   top: 0;
   display: flex;
@@ -60,7 +60,7 @@
 
     .menu {
       position: relative;
-      z-index: 1;
+      z-index: 101;
 
       .menu__button {
         @include flex-center();
@@ -207,16 +207,18 @@
   position: absolute;
   width: 100vw;
   min-width: $mixin-middle-width;
-  z-index: 1;
+  z-index: 99;
 
   .mobile__nav {
+    z-index: 100;
     display: block;
-    width: 3.4rem;
+    width: 4.3rem;
     padding: 0.3rem;
-    margin: auto;
+    margin: 0 auto;
     cursor: pointer;
 
     .mobile__button {
+      z-index: 101;
       padding: 0.2rem;
       margin: 0 auto;
       width: 3rem;
@@ -226,7 +228,6 @@
       flex-direction: column;
       background-color: maroon;
       border-radius: 50%;
-      overflow: hidden;
       border: 3px solid map-get($colors, azure);
     }
   }
@@ -246,7 +247,7 @@
 
   &:checked ~ .mobile {
     .mobile__nav {
-      display: block;
+      // display: block;
       width: 100vw;
       min-width: $mixin-middle-width;
       height: 100vh;
