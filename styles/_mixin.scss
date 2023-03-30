@@ -135,11 +135,11 @@
   width: 100%;
   z-index: 0;
   margin: 0 auto;
-  aspect-ratio: 1.5;
+  aspect-ratio: 1.6;
   min-width: $mixin-middle-width;
-  min-height: $mixin-middle-width / 1.5;
+  min-height: $mixin-middle-width / 1.6;
   max-width: $mixin-xl-width;
-  max-height: $mixin-xl-width / 1.5;
+  max-height: $mixin-xl-width / 1.6;
   color: map-get($colors, azure);
   position: relative;
   background-color: map-get($colors, darkgreen);
