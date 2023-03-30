@@ -3,6 +3,7 @@
 @import "placeholder";
 
 %plane {
+  z-index: 0;
   width: 100%;
   height: 100%;
   @include backface-visibility();
@@ -38,7 +39,6 @@
         width: 100%;
         height: 100%;
         display: block;
-        z-index: 5;
         margin: 0 auto;
         border-radius: 5px;
         @include prevent-user-select();
