@@ -12,21 +12,19 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const add = async (req: NextApiRequest, res: NextApiResponse) => {
   /* Authorization */
-  const cookie = req.cookies.sessionCookie;
   const idToken = req.headers.authorization?.split(" ")[1];
-
-  if (!(cookie && idToken)) throw new Error("Unauthorized");
-  const decodeCookie = await authModel.verifyCookie(cookie);
+  if (!idToken) throw new Error("Unauthorized");
   const decodeToken = await authModel.verifyToken(idToken);
-  if (!(decodeCookie && decodeToken && decodeCookie.uid === decodeToken.uid)) {
+  if (!decodeToken) {
     return res
       .status(401)
       .json({ result: false, statusMessage: "Unauthorized" });
   }
 
-  const { score, displayName } = req.body;
+  const { uid, score, displayName } = req.body;
 
-  if (!displayName) throw new Error("Undefined displayName");
+  if (!(displayName && uid)) throw new Error("Insuffient userData");
+  if (uid !== decodeToken.uid) throw new Error("Unauthorized"); //401code
   if (typeof score !== "number" || Number.isNaN(score))
     throw new Error("Unauthorized Type score");
 

@@ -6,7 +6,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 const add = async (req: NextApiRequest, res: NextApiResponse) => {
   const idToken = req.headers.authorization?.split(" ")[1];
   if (!idToken) throw new Error("Undefiend Token");
+  const decodeToken = await FirebaseAdmin.getInstance().Auth.verifyIdToken(
+    idToken
+  );
   const { uid, email, emailId, displayName, photoURL } = req.body;
+  if (decodeToken.uid !== uid) throw new Error("Unauthorized"); //401code
   if (!(uid && email && emailId)) throw new Error("Insuffient userData");
   const addResult = await memberModel.add({
     uid,
@@ -16,19 +20,6 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
     photoURL,
   });
 
-  /** 쿠키 유효시간 24시간  */
-  const expiresIn = 24 * 60 * 60 * 1000;
-  const cookie = await FirebaseAdmin.getInstance().Auth.createSessionCookie(
-    idToken,
-    { expiresIn }
-  );
-
-  res.setHeader(
-    "Set-Cookie",
-    `sessionCookie=${cookie};Max-Age=${expiresIn / 1000};Expires=${
-      expiresIn / 1000
-    };Path=/;HttpOnly;Secure;SameSite=strict;`
-  );
   return res.status(200).json(addResult);
 };
 

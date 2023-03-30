@@ -26,7 +26,7 @@ const GameOver: FC<Props> = ({ score, resetGame }) => {
       await signIn();
     } catch (err) {
       console.error(err);
-      alert("통신에러");
+      alert("로그인 에러");
     }
   };
 
@@ -35,13 +35,18 @@ const GameOver: FC<Props> = ({ score, resetGame }) => {
       if (!isRecode) {
         setIsLoading((_pre) => true);
         const idToken = await auth.currentUser?.getIdToken(true);
+        if (!userInfo) {
+          alert("로그인되어 있지 않습니다.");
+          return;
+        }
+        const { uid, displayName, emailId } = userInfo;
         const result: AxiosResponse<{ result: boolean }> = await axios({
           method: "POST",
           url: "/api/score",
           data: {
             score,
-            displayName:
-              userInfo?.displayName ?? userInfo?.emailId ?? "Anonymous",
+            displayName: displayName ?? emailId ?? "Anonymous",
+            uid,
           },
           headers: {
             "Content-type": "application/json",

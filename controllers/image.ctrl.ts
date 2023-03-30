@@ -7,16 +7,10 @@ import authModel from "@/models/auth/auth.model";
 
 const add = async (req: NextApiRequest, res: NextApiResponse) => {
   /* Authorization */
-  const cookie = req.cookies.sessionCookie;
+  //err 발생시 401code return
   const idToken = req.headers.authorization?.split(" ")[1];
-  if (!(cookie && idToken)) throw new Error("Unauthorized");
-  const decodeCookie = await authModel.verifyCookie(cookie);
+  if (!idToken) throw new Error("Undefined idToken");
   const decodeToken = await authModel.verifyToken(idToken);
-  if (!(decodeCookie && decodeToken && decodeCookie.uid === decodeToken.uid)) {
-    return res
-      .status(401)
-      .json({ message: "ERR!", statusMessage: "Unauthorized" });
-  }
   /* save file to Local */
   const data = await readFile(req, false);
   let image = data.files.image;

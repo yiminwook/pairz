@@ -17,12 +17,7 @@ const GNB = () => {
   const router = useRouter();
 
   const signInHandler = async () => {
-    try {
-      await signIn();
-    } catch (err) {
-      console.error(err);
-      await signOutHandler();
-    }
+    await signIn();
   };
 
   const signOutHandler = async () => {
