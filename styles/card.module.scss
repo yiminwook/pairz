@@ -97,14 +97,9 @@
     @include animation(card-preview, 5s, 0s);
   }
 
-  @include min-width($mixin-middle-width) {
+  @include min-width($mixin-large-width) {
     width: 8rem;
     height: 12.8rem;
-  }
-
-  @include min-width($mixin-large-width) {
-    width: 9rem;
-    height: 14.4rem;
   }
 
   @include min-width($mixin-xl-width) {

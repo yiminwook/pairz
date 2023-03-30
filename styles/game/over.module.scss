@@ -12,6 +12,7 @@
 
   .modal {
     @extend %modal-container;
+    text-align: center;
 
     .modal__title {
       text-transform: uppercase;
@@ -19,7 +20,6 @@
       font-weight: 600;
       font-size: 2rem;
       cursor: default;
-      margin-bottom: 1rem;
     }
     .modal__home {
       @extend %button--green;

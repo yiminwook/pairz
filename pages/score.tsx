@@ -64,8 +64,8 @@ const ScorePage: NextPage<scoreResult> = ({ scoreData, lastIdx = 0 }) => {
 
   return (
     <ServiceLayout title="Pairz Score Page" showGNB={true}>
-      <div className={score.container}>
-        <div className={score.table_container}>
+      <div className={score["container"]}>
+        <div className={score["table__container"]}>
           <table>
             <thead>
               <tr>
@@ -89,10 +89,10 @@ const ScorePage: NextPage<scoreResult> = ({ scoreData, lastIdx = 0 }) => {
             </tbody>
           </table>
         </div>
-        <div className={score.button_container}>
+        <div className={score["more"]}>
           {reqLastIdx > 0 && (
-            <button className={score.button} onClick={getScore}>
-              더보기
+            <button className={score["more__button"]} onClick={getScore}>
+              more
             </button>
           )}
         </div>

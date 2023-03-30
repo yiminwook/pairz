@@ -76,7 +76,10 @@ const GameOver: FC<Props> = ({ score, resetGame }) => {
     <div className={over["container"]}>
       <div className={over["backdrop"]} />
       <div className={over["modal"]}>
-        <div className={over["modal__title"]}>Game over!</div>
+        <div>
+          <h1 className={over["modal__title"]}>Game over!</h1>
+          <h2 className={over["modal__score"]}>Score: {score}점</h2>
+        </div>
         <Link className={over["modal__home"]} href="/">
           home
         </Link>
