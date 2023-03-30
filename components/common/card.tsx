@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import card from "@/styles/card.module.scss";
-import { FC, useRef, useState } from "react";
+import { FC, memo, useRef, useState } from "react";
 import { CardBase } from "../game/deck";
 
 interface Props {
@@ -90,4 +90,4 @@ const Card: FC<Props> = ({
   );
 };
 
-export default Card;
+export default memo(Card);

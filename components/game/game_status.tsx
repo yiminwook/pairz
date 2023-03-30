@@ -1,6 +1,5 @@
 import status from "@/styles/game/status.module.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import Life from "./life";
 
 interface Props {
   time: number;
@@ -46,16 +45,7 @@ const GameStatus = ({
             <th className={status["status__time"]}>{time} 초</th>
             <th className={status["status__score"]}>{score} 점</th>
             <th className={status["status__life"]}>
-              {life > 0 &&
-                [...Array(life)].map((_, idx) => (
-                  <span key={idx}>
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      color="#fc8eac"
-                      style={{ width: "2rem", height: "2rem" }}
-                    />
-                  </span>
-                ))}
+              <Life life={life} />
             </th>
           </tr>
         </tbody>

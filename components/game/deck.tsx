@@ -1,5 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import Card from "@/components/common/card";
 import { ImageInfo } from "@/models/Info";
 import axios, { AxiosResponse } from "axios";
@@ -26,7 +33,7 @@ interface Props {
   setScore: Dispatch<SetStateAction<number>>;
 }
 
-const Deck: FC<Props> = ({
+const Deck = ({
   round,
   isGameOver,
   isPause,
@@ -36,7 +43,7 @@ const Deck: FC<Props> = ({
   setCountSelect,
   pairScore,
   setScore,
-}) => {
+}: Props) => {
   const [reqRandomImgs, setReqRandomImgs] = useState<ImageInfo[]>([]);
   const [select, setSelect] = useState<CardBase[]>([]);
   const [cards, setCards] = useState<CardInfo[]>([]);
@@ -48,12 +55,11 @@ const Deck: FC<Props> = ({
   }, [round]);
 
   /** 겹치지 않는 이미지 5장 서버에서 요청 */
-  const getImgs = async () => {
+  const getImgs = useCallback(async () => {
     try {
       const randomResult: AxiosResponse<{ imageData: ImageInfo[] }> =
         await axios.get("/api/image.random");
       const { status, data } = randomResult;
-
       if (status !== 200 || data.imageData.length !== 5)
         throw new Error("Failed get random Image");
 
@@ -62,7 +68,7 @@ const Deck: FC<Props> = ({
     } catch (err) {
       console.error(err);
     }
-  };
+  }, []);
 
   /** 카드를 모두 뒤집음, 비동기
    *
@@ -82,7 +88,7 @@ const Deck: FC<Props> = ({
   };
 
   /** 카드 5쌍을 뒷면으로 생성 */
-  const setCard = () => {
+  const setCard = useMemo(() => {
     const newCards = Array.from(Array(5), () => []);
     const setCardsData = newCards.map((img, idx): CardInfo => {
       let color: CardInfo["color"];
@@ -116,10 +122,10 @@ const Deck: FC<Props> = ({
     ];
 
     return copyCards;
-  };
+  }, []);
 
   /** 피셔-예이츠 셔플 */
-  const shuffle = (arr: CardInfo[]) => {
+  const shuffle = useCallback((arr: CardInfo[]) => {
     const shuffleArr: CardInfo[] = arr.slice();
 
     for (let i = shuffleArr.length - 1; i > 0; i--) {
@@ -130,14 +136,14 @@ const Deck: FC<Props> = ({
     }
 
     return shuffleArr;
-  };
+  }, []);
 
-  const drawCards = async () => {
+  const drawCards = useCallback(async () => {
     setIsGameLoading((_pre) => true);
     // filpCard();
-    // await getImgs();
-    const cards = setCard();
-    const shuffledCards = shuffle(cards);
+    await getImgs();
+    const shuffledCards = shuffle(setCard);
+
     setCards((_pre) => [...shuffledCards]);
     //뒷면으로 생성한 카드를 열어서 보여줌, 조작불가
     setTimeout(() => {
@@ -157,54 +163,57 @@ const Deck: FC<Props> = ({
       setCountSelect((_pre) => 0);
       setIsGameLoading((_pre) => false);
     }, checkCardTime);
-  };
+  }, []);
 
-  const checkPair = (card: CardBase) => {
-    if (!isGameOver && !isPause) {
-      setCards((pre) => {
-        const preCards = pre.slice();
-        preCards[card.idx] = {
-          ...preCards[card.idx],
-          isFlip: false,
-          isDisable: true,
-        };
-        return preCards;
-      });
-      if (select.length >= 1) {
-        if (select[0].color === card.color) {
-          //pair
-          setScore((pre) => pre + pairScore);
-          setSelect((_pre) => []);
-          //카드가 완전히 펼쳐지고난뒤 카운트
-          // setTimeout(() => {
-          setCountSelect((pre) => pre + 1);
-          // }, 400);
-        } else {
-          //no pair
-          setTimeout(() => {
-            setCards((pre) => {
-              const preCards = pre.slice();
-              preCards[select[0].idx] = {
-                ...preCards[select[0].idx],
-                isFlip: true,
-                isDisable: false,
-              };
-              preCards[card.idx] = {
-                ...preCards[card.idx],
-                isFlip: true,
-                isDisable: false,
-              };
-              return preCards;
-            });
-            setLife((pre) => pre - 1);
+  const checkPair = useCallback(
+    (card: CardBase) => {
+      if (!isGameOver && !isPause) {
+        setCards((pre) => {
+          const preCards = pre.slice();
+          preCards[card.idx] = {
+            ...preCards[card.idx],
+            isFlip: false,
+            isDisable: true,
+          };
+          return preCards;
+        });
+        if (select.length >= 1) {
+          if (select[0].color === card.color) {
+            //pair
+            setScore((pre) => pre + pairScore);
             setSelect((_pre) => []);
-          }, 300);
+            //카드가 완전히 펼쳐지고난뒤 카운트
+            // setTimeout(() => {
+            setCountSelect((pre) => pre + 1);
+            // }, 400);
+          } else {
+            //no pair
+            setTimeout(() => {
+              setCards((pre) => {
+                const preCards = pre.slice();
+                preCards[select[0].idx] = {
+                  ...preCards[select[0].idx],
+                  isFlip: true,
+                  isDisable: false,
+                };
+                preCards[card.idx] = {
+                  ...preCards[card.idx],
+                  isFlip: true,
+                  isDisable: false,
+                };
+                return preCards;
+              });
+              setLife((pre) => pre - 1);
+              setSelect((_pre) => []);
+            }, 300);
+          }
+        } else {
+          setSelect((pre) => [...pre, card]);
         }
-      } else {
-        setSelect((pre) => [...pre, card]);
       }
-    }
-  };
+    },
+    [cards, isGameOver, isPause, select]
+  );
 
   return (
     <>

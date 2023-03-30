@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import game from "@/styles/game/game.module.scss";
 import Pause from "@/components/game/pause_modal";
 import GameOver from "@/components/game/over_modal";
@@ -63,22 +63,25 @@ const GamePage: NextPage = () => {
     return () => clearTimeout(timer);
   }, [time, isGameOver, isPause, isGameLoading]);
 
-  const handlePause = (bool: boolean) => {
-    if (isGameLoading) {
-      alert("카드확인중에는 pause 할 수 없습니다");
-    }
+  const handlePause = useCallback(
+    (bool: boolean) => {
+      if (isGameLoading) {
+        alert("카드확인중에는 pause 할 수 없습니다");
+      }
 
-    if (countPause < 0) {
-      alert("더이상 pause 할 수 없습니다.");
-    }
+      if (countPause < 0) {
+        alert("더이상 pause 할 수 없습니다.");
+      }
 
-    if (!isGameLoading && countPause >= 0) {
-      setIsPause((_pre) => bool);
-      setCoundPause((pre) => pre - 1);
-    }
-  };
+      if (!isGameLoading && countPause >= 0) {
+        setIsPause((_pre) => bool);
+        setCoundPause((pre) => pre - 1);
+      }
+    },
+    [isGameLoading, countPause, isGameLoading]
+  );
 
-  const resetGame = () => {
+  const resetGame = useCallback(() => {
     //게임진행
     setTime(() => defaultValue.time);
     setLife(() => defaultValue.life);
@@ -94,7 +97,7 @@ const GamePage: NextPage = () => {
     //deck 초기화
     setRound(() => -1);
     setTimeout(() => setRound(() => 0), 10);
-  };
+  }, []);
 
   return (
     <ServiceLayout title="Game Start!" showGNB={true}>
