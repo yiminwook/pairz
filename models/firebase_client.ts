@@ -11,9 +11,9 @@ const {
 } = publicRuntimeConfig;
 
 const firebaseConfig = {
-  apiKey: FIREBASE_AUTH_API_KEY || "",
-  authDomain: FIREBASE_AUTH_AUTH_DOMAIN || "",
-  projectId: FIREBASE_PROJECT_ID || "",
+  apiKey: FIREBASE_AUTH_API_KEY ?? "",
+  authDomain: FIREBASE_AUTH_AUTH_DOMAIN ?? "",
+  projectId: FIREBASE_PROJECT_ID ?? "",
 };
 
 export default class FirebaseClient {

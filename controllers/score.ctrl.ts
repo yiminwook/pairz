@@ -15,11 +15,6 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
   const idToken = req.headers.authorization?.split(" ")[1];
   if (!idToken) throw new Error("Unauthorized");
   const decodeToken = await authModel.verifyToken(idToken);
-  if (!decodeToken) {
-    return res
-      .status(401)
-      .json({ result: false, statusMessage: "Unauthorized" });
-  }
 
   const { uid, score, displayName } = req.body;
 
@@ -34,11 +29,7 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
     displayName,
   });
 
-  if (addResult) {
-    return res.status(201).json({ result: addResult });
-  } else {
-    return res.status(500).json({ result: addResult });
-  }
+  return res.status(201).json(addResult);
 };
 
 const scoreCtrl = {

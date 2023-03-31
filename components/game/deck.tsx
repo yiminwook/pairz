@@ -10,6 +10,7 @@ import {
 import Card from "@/components/common/card";
 import { ImageInfo } from "@/models/Info";
 import axios, { AxiosResponse } from "axios";
+import imageModel from "@/models/image/image.model";
 
 export interface CardBase {
   idx: number;
@@ -57,8 +58,9 @@ const Deck = ({
   /** 겹치지 않는 이미지 5장 서버에서 요청 */
   const getImgs = useCallback(async () => {
     try {
-      const randomResult: AxiosResponse<{ imageData: ImageInfo[] }> =
-        await axios.get("/api/image.random");
+      const randomResult: AxiosResponse<
+        Awaited<ReturnType<typeof imageModel.getRandom>>
+      > = await axios.get("/api/image.random");
       const { status, data } = randomResult;
       if (status !== 200 || data.imageData.length !== 5)
         throw new Error("Failed get random Image");

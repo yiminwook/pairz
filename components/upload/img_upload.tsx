@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import DragDrop from "./drag_drop";
 import CheckTitle from "./check_title";
 import InputFile from "./input_file";
+import imageModel from "@/models/image/image.model";
 
 /* 이미지 사이즈 제한 단위 px */
 const [fixedImgWidth, fixedImgHeight] = [200, 300];
@@ -56,21 +57,22 @@ const ImgUpload = () => {
       formData.append("image", imgFile);
       formData.append("imageName", imageNameValue);
       formData.append("imageType", imgFile.type);
-      const result: AxiosResponse<{ message: string }> = await axios({
-        method: "POST",
-        url: "/api/image.add",
-        data: formData,
-        headers: {
-          "Contest-Type": "multipart/form-data",
-          authorization: `Bearer ${idToken}`,
-        },
-        withCredentials: true,
-      });
+      const result: AxiosResponse<Awaited<ReturnType<typeof imageModel.add>>> =
+        await axios({
+          method: "POST",
+          url: "/api/image.add",
+          data: formData,
+          headers: {
+            "Contest-Type": "multipart/form-data",
+            authorization: `Bearer ${idToken}`,
+          },
+          withCredentials: true,
+        });
       if (result.status === 401) {
         router.push("/401");
       }
       if (result) {
-        alert(result.data.message + " created!");
+        alert(result.data.message);
         handleResetImg();
         handleResetCheckImgName();
       }

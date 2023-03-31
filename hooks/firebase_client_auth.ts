@@ -1,10 +1,11 @@
 import FirebaseClient from "@/models/firebase_client";
-import { AddResult } from "@/models/member/member.model";
+import memberModel from "@/models/member/member.model";
 import { emailToEmailId } from "@/utils/email_to_emailId";
 import axios, { AxiosResponse } from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
-export const signIn = async (): Promise<AddResult> => {
+type addMemberResult = Awaited<ReturnType<typeof memberModel.add>>;
+export const signIn = async (): Promise<addMemberResult> => {
   try {
     const provider = new GoogleAuthProvider();
     const auth = FirebaseClient.getInstance().Auth;
@@ -14,7 +15,7 @@ export const signIn = async (): Promise<AddResult> => {
     const emailId = emailToEmailId(email);
     if (!auth.currentUser) throw new Error("Undefind currentUser");
     const idToken = await auth.currentUser.getIdToken(true);
-    const addResult: AxiosResponse<AddResult> = await axios({
+    const addResult: AxiosResponse<addMemberResult> = await axios({
       method: "POST",
       url: "/api/member.add",
       data: {
@@ -36,7 +37,7 @@ export const signIn = async (): Promise<AddResult> => {
   } catch (err) {
     console.error(err);
     await signOut();
-    return { result: false, message: "sigin error", uid: "" };
+    return { result: false, message: "sigin error" };
   }
 };
 

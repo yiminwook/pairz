@@ -1,3 +1,4 @@
+import imageModel from "@/models/image/image.model";
 import check_title from "@/styles/upload/check_title.module.scss";
 import { verifyingStr } from "@/utils/validation";
 import axios, { AxiosResponse } from "axios";
@@ -30,8 +31,9 @@ const CheckTitle: FC<Props> = ({
         return;
       }
       const decodeValue = encodeURIComponent(inputNameValue);
-      const checkImageNameResult: AxiosResponse<{ result: boolean }> =
-        await axios.get(`/api/image.get?imageName=${decodeValue}`);
+      const checkImageNameResult: AxiosResponse<
+        Awaited<ReturnType<typeof imageModel.checkImageName>>
+      > = await axios.get(`/api/image.get?imageName=${decodeValue}`);
       if (
         checkImageNameResult.status !== 200 ||
         !checkImageNameResult.data.result

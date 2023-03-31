@@ -1,33 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import { FormEvent } from "react";
 import ServiceLayout from "@/components/common/service_layout";
-import { ImageResultWithIdx } from "@/models/image/image.model";
+import imageModel from "@/models/image/image.model";
 import { ImageInfo } from "@/models/Info";
 import axios, { AxiosResponse } from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import imageSearch from "@/styles/img_search.module.scss";
 import { useSetRecoilState } from "recoil";
 import { isLoadingAtom } from "@/recoil/atoms";
+import { getBaseURL } from "@/utils/get_base_url";
 
-interface Props {}
-
+type getImageResult = Awaited<ReturnType<typeof imageModel.get>>;
 interface ImageSearchElements extends HTMLFormControlsCollection {
   image_search__select: HTMLSelectElement;
   image_search__input: HTMLInputElement;
   image_search__button: HTMLButtonElement;
 }
-
 interface ImageSearch extends HTMLFormElement {
   readonly elements: ImageSearchElements;
 }
 
 /** default 이미지 이름으로 조회*/
-const ShowcasePage: NextPage<Props> = () => {
+const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
-  const [reqImageData, setReqImageData] = useState<ImageInfo[]>([]);
-  const [reqLastIdx, setReqLastIdx] = useState<number>(0);
-  const [reqTotal, setReqTotal] = useState(0);
+  const [reqImageData, setReqImageData] = useState<ImageInfo[]>(imageData);
+  const [reqLastIdx, setReqLastIdx] = useState<number>(lastIdx);
   const formRef = useRef<ImageSearch>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const selectRef = useRef<HTMLSelectElement>(null);
@@ -40,21 +38,13 @@ const ShowcasePage: NextPage<Props> = () => {
   const getData = async () => {
     try {
       setLoading((_pre) => true);
-      const result: AxiosResponse<ImageResultWithIdx> = await axios.get(
+      const result: AxiosResponse<getImageResult> = await axios.get(
         "/api/image.get"
       );
-      const { imageData, total, lastIdx } = result.data;
-      if (
-        !(
-          result.status === 200 &&
-          total >= 0 &&
-          lastIdx !== null &&
-          lastIdx >= 0
-        )
-      )
+      const { imageData, lastIdx } = result.data;
+      if (!(result.status === 200 && lastIdx >= 0))
         throw new Error("axios err");
       setReqImageData((_pre) => [...imageData]);
-      setReqTotal((_pre) => total);
       setReqLastIdx((_pre) => lastIdx);
       setLoading((_pre) => false);
     } catch (err) {
@@ -66,22 +56,14 @@ const ShowcasePage: NextPage<Props> = () => {
   const handleGetData = async () => {
     try {
       setLoading((_pre) => true);
-      const result: AxiosResponse<ImageResultWithIdx> = await axios.get(
+      const result: AxiosResponse<getImageResult> = await axios.get(
         `/api/image.get?idx=${reqLastIdx ? reqLastIdx - 1 : ""}`
       );
 
-      const { imageData, total, lastIdx } = result.data;
-      if (
-        !(
-          result.status === 200 &&
-          total >= 0 &&
-          lastIdx !== null &&
-          lastIdx >= 0
-        )
-      )
+      const { imageData, lastIdx } = result.data;
+      if (!(result.status === 200 && lastIdx >= 0))
         throw new Error("axios err");
       setReqImageData((pre) => [...pre, ...imageData]);
-      setReqTotal((_pre) => total);
       setReqLastIdx((_pre) => lastIdx);
       setLoading((_pre) => false);
     } catch (err) {
@@ -93,11 +75,6 @@ const ShowcasePage: NextPage<Props> = () => {
   const handleImageSearchReset = () => {
     getData();
   };
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <ServiceLayout title="pairz SHOWCASE">
@@ -144,7 +121,7 @@ const ShowcasePage: NextPage<Props> = () => {
                   <div className={imageSearch.contents_id}>{data.id}</div>
                 </div>
               ))}
-            {reqTotal >= 5 && <button onClick={handleGetData}>더보기</button>}
+            {reqLastIdx >= 5 && <button onClick={handleGetData}>더보기</button>}
           </div>
         </div>
       </main>
@@ -153,3 +130,28 @@ const ShowcasePage: NextPage<Props> = () => {
 };
 
 export default ShowcasePage;
+
+export const getStaticProps: GetStaticProps<getImageResult> = async () => {
+  try {
+    const baseURL = getBaseURL(true);
+    const result: AxiosResponse<getImageResult> = await axios.get(
+      `${baseURL}/api/image.get`
+    );
+
+    return {
+      props: {
+        ...result.data,
+      },
+      revalidate: 30,
+    };
+  } catch (err) {
+    console.error(err);
+    return {
+      props: {
+        imageData: [],
+        lastIdx: 0,
+      },
+      revalidate: 30,
+    };
+  }
+};

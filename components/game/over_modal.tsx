@@ -7,6 +7,7 @@ import { signIn, signOut } from "@/hooks/firebase_client_auth";
 import FirebaseClient from "@/models/firebase_client";
 import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/router";
+import scoreModel from "@/models/score/score.model";
 
 interface Props {
   score: number;
@@ -40,7 +41,9 @@ const GameOver: FC<Props> = ({ score, resetGame }) => {
           return;
         }
         const { uid, displayName, emailId } = userInfo;
-        const result: AxiosResponse<{ result: boolean }> = await axios({
+        const result: AxiosResponse<
+          Awaited<ReturnType<typeof scoreModel.add>>
+        > = await axios({
           method: "POST",
           url: "/api/score",
           data: {

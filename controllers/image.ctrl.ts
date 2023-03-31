@@ -22,8 +22,8 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
   /* upload file to S3 */
   const fileName = await uploadFile(image, imageName, imageType);
   /* save file metaData to FireStore */
-  await imageModel.add({ uid: decodeToken.uid, fileName });
-  return res.status(201).json({ message: fileName });
+  const addResult = await imageModel.add({ uid: decodeToken.uid, fileName });
+  return res.status(201).json(addResult);
 };
 
 const get = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -65,7 +65,7 @@ const checkImageName = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!imageNameStr) throw new Error("undefined exmail");
   const checkImageNameResult = await imageModel.checkImageName(imageNameStr);
 
-  return res.status(200).json({ result: checkImageNameResult });
+  return res.status(200).json(checkImageNameResult);
 };
 
 const imageCtrl = {
