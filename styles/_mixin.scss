@@ -131,6 +131,7 @@
   }
 }
 
+//태블릿에 최적화 16/10 비율
 @mixin page-base() {
   width: 100%;
   z-index: 0;
@@ -144,9 +145,6 @@
   position: relative;
   background-color: map-get($colors, darkgreen);
   @include transition(paddiong, 0.3s, ease);
-  @include min-width($mixin-xl-width) {
-    padding-top: 5rem;
-  }
 }
 
 @mixin backface-visibility {

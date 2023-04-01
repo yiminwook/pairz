@@ -117,6 +117,7 @@ const GNB = () => {
           </div>
         </label>
       </nav>
+      <div className={gnb["blank"]} />
     </header>
   );
 };

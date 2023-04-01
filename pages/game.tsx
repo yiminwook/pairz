@@ -102,7 +102,9 @@ const GamePage: NextPage = () => {
   return (
     <ServiceLayout title="Game Start!">
       <div className={game["container"]}>
+        {/* game over modal */}
         {isGameOver && <GameOver score={score} resetGame={resetGame} />}
+        {/* pause modal */}
         {isPause && <Pause handlePause={handlePause} countPause={countPause} />}
         <div className={game["content"]}>
           <div className={game["status"]}>

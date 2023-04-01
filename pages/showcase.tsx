@@ -6,7 +6,7 @@ import imageModel from "@/models/image/image.model";
 import { ImageInfo } from "@/models/Info";
 import axios, { AxiosResponse } from "axios";
 import { useRef, useState } from "react";
-import imageSearch from "@/styles/img_search.module.scss";
+import showcase from "@/styles/showcase.module.scss";
 import { useSetRecoilState } from "recoil";
 import { isLoadingAtom } from "@/recoil/atoms";
 import { getBaseURL } from "@/utils/get_base_url";
@@ -78,7 +78,7 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
 
   return (
     <ServiceLayout title="pairz SHOWCASE">
-      <main className={imageSearch.container}>
+      <main className={showcase.container}>
         <form name="image_search__form" onSubmit={handleSubmit}>
           <select name="image_search__Select" ref={selectRef}>
             <optgroup label="검색필터">
@@ -92,12 +92,12 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
           </button>
         </form>
         <button onClick={() => handleImageSearchReset()}>Reset</button>
-        <div className={imageSearch.main}>
-          <div className={imageSearch.contents}>
+        <div className={showcase.main}>
+          <div className={showcase.contents}>
             {reqImageData &&
               reqImageData.map((data) => (
                 <div key={data.id}>
-                  <div className={imageSearch.contents_image_container}>
+                  <div className={showcase.contents_image_container}>
                     {failToGetImage ? (
                       <img
                         src="/loading_icon.png"
@@ -115,10 +115,8 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
                       />
                     )}
                   </div>
-                  <div className={imageSearch.contents_name}>
-                    {data.imageName}
-                  </div>
-                  <div className={imageSearch.contents_id}>{data.id}</div>
+                  <div className={showcase.contents_name}>{data.imageName}</div>
+                  <div className={showcase.contents_id}>{data.id}</div>
                 </div>
               ))}
             {reqLastIdx >= 5 && <button onClick={handleGetData}>더보기</button>}

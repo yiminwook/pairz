@@ -2,34 +2,62 @@
 @import "var";
 @import "placeholder";
 
-.name_form {
-  position: relative;
-  div {
-    .name_input {
-      height: 1.8rem;
-      border-radius: 12px;
-      border: 2px solid map-get($colors, light-gray);
-      margin-right: 0.5rem;
-      padding: 0.2rem;
-      &:focus {
-        outline: 2px solid darken(map-get($colors, light-gray), 30%);
-        outline-offset: -2px;
+.container {
+  height: 100%;
+  background-color: white;
+  @include flex-center();
+  .content {
+    width: 80%;
+    margin-bottom: 12%;
+
+    .title {
+      width: 100%;
+
+      .title__label {
+        color: black;
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 3%;
       }
-    }
-    .name_button__check {
-      @extend %button--white;
-    }
-    .name_button__reset {
-      @extend %button--orange;
-    }
-    &::before {
-      z-index: 3;
-      position: absolute;
-      bottom: -0.6rem;
-      font-size: 0.5rem;
-      line-height: 0.5rem;
-      color: red;
-      content: "* 문자열과 특수문자는 입력 할 수 없습니다.";
+
+      .title__container {
+        display: flex;
+        position: relative;
+
+        .title__container__input {
+          height: 1.8rem;
+          width: 100%;
+          border-radius: 12px;
+          border: 2px solid map-get($colors, light-gray);
+          margin-right: 0.5rem;
+          padding: 0.2rem 0.5rem;
+          &:focus {
+            outline: 2px solid darken(map-get($colors, light-gray), 30%);
+            outline-offset: -2px;
+          }
+        }
+
+        .title__container__check {
+          .check__button {
+            @extend %button--white;
+          }
+        }
+
+        .title__container__reset {
+          .reset__button {
+            @extend %button--orange;
+          }
+        }
+
+        &::before {
+          position: absolute;
+          bottom: -60%;
+          font-size: 1rem;
+          line-height: 1.2rem;
+          color: red;
+          content: "* 문자열과 특수문자는 입력 할 수 없습니다.";
+        }
+      }
     }
   }
 }

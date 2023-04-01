@@ -7,14 +7,14 @@ import {
   useMemo,
   useState,
 } from "react";
-import Card from "@/components/common/card";
+import Card, { color } from "@/components/common/card";
 import { ImageInfo } from "@/models/Info";
 import axios, { AxiosResponse } from "axios";
 import imageModel from "@/models/image/image.model";
 
 export interface CardBase {
   idx: number;
-  color: "white" | "red" | "orange" | "blue" | "green";
+  color: color;
 }
 
 export interface CardInfo extends CardBase {

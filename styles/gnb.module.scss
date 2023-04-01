@@ -260,3 +260,10 @@
     display: none !important;
   }
 }
+
+.blank {
+  @include min-width($mixin-xl-width) {
+    height: 5rem;
+    @include transition(height, 0.3s, ease);
+  }
+}

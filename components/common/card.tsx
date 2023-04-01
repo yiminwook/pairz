@@ -3,14 +3,15 @@ import card from "@/styles/card.module.scss";
 import { FC, memo, useRef, useState } from "react";
 import { CardBase } from "../game/deck";
 
+export type color = "white" | "red" | "orange" | "blue" | "green";
 interface Props {
   idx: number;
   imgURL: string;
   isPreView?: boolean;
   isFlip: boolean;
-  color: "white" | "red" | "orange" | "blue" | "green";
+  color: color;
   isDisable: boolean;
-  checkPair: (card: CardBase) => void;
+  checkPair?: (card: CardBase) => void;
 }
 
 /** isPreView가 true이면
@@ -34,7 +35,9 @@ const Card: FC<Props> = ({
       const { style } = cardRef.current;
       if (isPreView !== true && isDisable === false) {
         const selectedCard = { idx, color };
-        checkPair(selectedCard);
+        if (checkPair) {
+          checkPair(selectedCard);
+        }
       }
       //프리뷰모드일때
       if (isPreView === true) {

@@ -3,56 +3,39 @@
 @import "placeholder";
 
 .container {
-  padding-top: 4rem;
-  display: grid;
-  grid-template-columns: [col-start] auto [col-end col-start] auto [col-end];
-  grid-template-rows: [row-start] auto [row-end row-start] 1fr [row-end];
-  grid-template-areas:
-    "top-left top-right"
-    "bottom-left bottom-right";
-  border: 3px solid black;
-  height: 25rem;
-  overflow: hidden;
+  @include page-base();
 
-  .uploading_container {
-    grid-area: top-left;
-    margin: auto;
-    position: relative;
-    padding: 0;
-    overflow: hidden;
-    width: 200px;
-    height: 300px;
-    img {
-      overflow: hidden;
+  .content {
+    display: grid;
+    grid-template-columns: [col-start] 5fr [col-end col-start] 5fr [col-end];
+    grid-template-rows: [row-start] 8fr [row-end row-start] 2fr [row-end];
+    grid-template-areas:
+      "top-left top-right"
+      "bottom-left bottom-right";
+    height: 100%;
+
+    .drag-drop {
+      grid-area: top-left;
+    }
+
+    .check-title {
+      grid-area: top-right;
+    }
+
+    .input-file {
+      grid-area: bottom-left;
+    }
+
+    .submit {
+      grid-area: bottom-right;
+      justify-self: center;
+      align-self: center;
+      .submit__button {
+        @extend %button--blue;
+        width: 12rem;
+        height: 3.5rem;
+        font-size: 1.5rem;
+      }
     }
   }
-
-  .uploading_option {
-    background-color: white;
-    grid-column: col-start 2 / col-end 2;
-    grid-row: span 1;
-  }
-
-  .submit {
-    justify-self: center;
-    align-self: center;
-    .submit_button {
-      grid-column: col-start 2 / col-end 2;
-      grid-row: span 1;
-      @extend %button--blue;
-    }
-  }
-}
-
-.cropper_container {
-  background-color: map-get($colors, half-transparent);
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  margin: auto;
-  z-index: map-get($z-indexs, modal);
-  flex-direction: column;
-  @include flex-center();
 }

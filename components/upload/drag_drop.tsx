@@ -1,6 +1,6 @@
 import Image from "next/image";
-import drag_drop from "@/styles/upload/drag_drop.module.scss";
-import { DragEvent, FC, RefObject, useRef } from "react";
+import dragDrop from "@/styles/upload/drag_drop.module.scss";
+import { DragEvent, RefObject, useRef } from "react";
 
 interface Props {
   fixedImgWidth: number;
@@ -10,13 +10,13 @@ interface Props {
   handleSaveImg: (file: File) => void;
 }
 
-const DragDrop: FC<Props> = ({
+const DragDrop = ({
   fixedImgWidth,
   fixedImgHeight,
   imgURL,
   imgRef,
   handleSaveImg,
-}) => {
+}: Props) => {
   const dragRef = useRef<HTMLLabelElement>(null);
 
   const drop = (e: DragEvent<HTMLLabelElement>) => {
@@ -32,23 +32,26 @@ const DragDrop: FC<Props> = ({
   };
 
   return (
-    <div>
+    <div className={dragDrop["container"]}>
       <label
         htmlFor="upload_file_input"
         ref={dragRef}
         onDragOver={dragOver}
         onDrop={drop}
+        tabIndex={0}
       >
         {!imgURL ? (
-          <div className={drag_drop.uploading__alt}></div>
+          <div className={dragDrop["alt"]} />
         ) : (
-          <Image
-            src={imgURL}
-            ref={imgRef}
-            alt="preview"
-            width={fixedImgWidth}
-            height={fixedImgHeight}
-          />
+          <div style={{ display: "flex" }}>
+            <Image
+              src={imgURL}
+              ref={imgRef}
+              alt="preview"
+              width={fixedImgWidth}
+              height={fixedImgHeight}
+            />
+          </div>
         )}
       </label>
     </div>

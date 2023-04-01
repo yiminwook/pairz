@@ -2,31 +2,63 @@
 @import "var";
 @import "placeholder";
 
-.uploading__alt {
-  overflow: hidden;
-  background-color: cadetblue;
-  width: 200px;
-  height: 300px;
+.container {
+  position: relative;
   @include flex-center();
+  height: 100%;
+  margin: auto;
+  padding: 0;
 
-  &::before {
-    position: absolute;
+  background-color: rgba(#fffde7, 98%);
+
+  img {
+    overflow: hidden;
+    @extend %img-size;
+  }
+
+  .alt {
     background-color: cadetblue;
-    border: 3px dashed black;
-    z-index: 3;
-    width: inherit;
-    height: inherit;
-    scale: 0.9;
-    content: "";
+    @extend %img-size;
+    @include flex-center();
+
+    &::before {
+      position: absolute;
+      border: 4px dashed map-get($colors, azure);
+      z-index: 3;
+      width: inherit;
+      height: inherit;
+      scale: 0.9;
+      content: "";
+    }
+
+    &::after {
+      position: absolute;
+      font-size: 0.8rem;
+      z-index: 5;
+      content: "업로드된 이미지가 없습니다.";
+
+      @include min-width($mixin-middle-width) {
+        font-size: 1rem;
+      }
+
+      @include min-width($mixin-large-width) {
+        font-size: 1.2rem;
+      }
+    }
   }
-  &::after {
-    position: absolute;
-    font-size: 0.8rem;
-    z-index: 5;
-    content: "업로드된 이미지가 없습니다.";
+}
+
+%img-size {
+  width: map-get($img-size, width);
+  height: map-get($img-size, height);
+
+  @include min-width($mixin-middle-width) {
+    width: map-get($img-size, width) * 1.2;
+    height: map-get($img-size, height) * 1.2;
   }
-  & > div {
-    font-size: 0.8rem;
-    padding: 0.2rem;
+
+  @include min-width($mixin-large-width) {
+    width: map-get($img-size, width) * 1.5;
+    height: map-get($img-size, height) * 1.5;
   }
 }

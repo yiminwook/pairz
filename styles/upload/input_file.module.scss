@@ -2,17 +2,53 @@
 @import "var";
 @import "placeholder";
 
-.file_form {
-  grid-area: bottom-left;
-  background-color: aqua;
+.container {
   @include flex-center();
-  .file_form_cropper_button {
-    @extend %button--green;
+  height: 100%;
+  .file {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .file__crop {
+      .crop__button {
+        @extend %button--green;
+        @extend %button-size;
+      }
+    }
+    .file__upload {
+      .upload__button {
+        @extend %button--white;
+        @extend %button-size;
+        display: block;
+        padding: auto;
+        line-height: 2.25rem;
+      }
+    }
+    .file__reset {
+      .reset__button {
+        @extend %button--orange;
+        @extend %button-size;
+      }
+    }
+
+    .file__input {
+      display: none;
+    }
   }
-  .file_input_button {
-    @extend %button--white;
+}
+
+%button-size {
+  width: 9rem;
+  height: 3.5rem;
+  font-size: 1.5rem;
+
+  @include min-width($mixin-large-width) {
+    width: 11rem;
   }
-  .file_reset_button {
-    @extend %button--orange;
+
+  @include min-width($mixin-xl-width) {
+    width: 12rem;
   }
 }

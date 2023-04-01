@@ -2,34 +2,141 @@ import ServiceLayout from "@/components/common/service_layout";
 import { NextPage } from "next";
 import { useRecoilValue } from "recoil";
 import { userInfoAtom } from "@/recoil/atoms";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import ImgUpload from "@/components/upload/img_upload";
+import React, { useRef, useState } from "react";
+import upload from "@/styles/upload/upload.module.scss";
+import Preview from "@/components/upload/preview_modal";
+import InputFile from "@/components/upload/input_file";
+import DragDrop from "@/components/upload/drag_drop";
+import CheckTitle from "@/components/upload/check_title";
+import Crop from "@/components/upload/crop_modal";
+
+/* 이미지 사이즈 제한 단위 px */
+const [fixedImgWidth, fixedImgHeight] = [200, 300];
 
 const UploadPage: NextPage = () => {
-  const router = useRouter();
+  const inputFileRef = useRef<HTMLInputElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const inputNameRef = useRef<HTMLInputElement>(null);
+
+  const [imgFile, setImgFile] = useState<File | undefined>(undefined);
+  const [imgURL, setImgURL] = useState<string>("");
+  const [showCrop, setShowCrop] = useState<boolean>(false);
+
+  const [showPreview, setShowPreview] = useState<boolean>(false);
+  const [isValidName, setIsValidName] = useState<boolean>(false);
+
   const userInfo = useRecoilValue(userInfoAtom);
 
-  const validaton = async () => {
-    if (userInfo !== null && userInfo.uid) {
+  const handleSaveImg = (file: File) => {
+    if (file.type === "image/png" || file.type === "image/jpeg") {
+      setImgFile((_pre) => file);
+      URL.revokeObjectURL(imgURL);
+      setImgURL((_pre) => URL.createObjectURL(file));
+      setShowCrop((_pre) => false);
       return;
-    } else {
-      router.push("/401");
-      return;
+    }
+
+    alert("image png 파일만 업로드 가능합니다.");
+    handleResetImg();
+  };
+
+  const handleResetImg = () => {
+    if (inputFileRef.current) {
+      inputFileRef.current.value = "";
+      URL.revokeObjectURL(imgURL);
+      setImgURL((_pre) => "");
+      setImgFile((_pre) => undefined);
+      setShowCrop((_pre) => false);
+      setIsValidName((_pre) => false);
     }
   };
 
-  useEffect(() => {
-    validaton();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleResetCheckTitle = () => {
+    if (inputNameRef.current) {
+      inputNameRef.current.disabled = false;
+      setIsValidName((_pre) => false);
+    }
+  };
+
+  const handleShowPreview = () => {
+    const width = imgRef.current?.naturalWidth;
+    const height = imgRef.current?.naturalHeight;
+    if (width !== fixedImgWidth && height !== fixedImgHeight) {
+      alert(
+        `이미지는 ${fixedImgWidth} x ${fixedImgHeight}만 업로드 가능합니다.`
+      );
+      return;
+    }
+    if (isValidName === false) alert("타이틀 중복검사를 해주세요");
+    setShowPreview(() => true);
+  };
 
   return (
-    <>
-      <ServiceLayout title="Pairz Upload Page">
-        <ImgUpload />
-      </ServiceLayout>
-    </>
+    <ServiceLayout title="Pairz Upload Page">
+      <div className={upload["container"]}>
+        {/* preview modal */}
+        {isValidName && showPreview && (
+          <Preview
+            inputNameRef={inputNameRef}
+            imgRef={imgRef}
+            imgFile={imgFile}
+            imgURL={imgURL}
+            isValidName={isValidName}
+            fixedImgWidth={fixedImgWidth}
+            fixedImgHeight={fixedImgHeight}
+            handleResetImg={handleResetImg}
+            handleResetCheckTitle={handleResetCheckTitle}
+          />
+        )}
+        {/* crop modal */}
+        {imgURL && showCrop && (
+          <Crop
+            imgURL={imgURL}
+            imgFile={imgFile}
+            fixedImgWidth={fixedImgWidth}
+            fixedImgHeight={fixedImgHeight}
+            setShowCrop={setShowCrop}
+            handleSaveImg={handleSaveImg}
+          />
+        )}
+        <div className={upload["content"]}>
+          <div className={upload["drag-drop"]}>
+            <DragDrop
+              fixedImgWidth={fixedImgWidth}
+              fixedImgHeight={fixedImgHeight}
+              imgURL={imgURL}
+              imgRef={imgRef}
+              handleSaveImg={handleSaveImg}
+            />
+          </div>
+          <div className={upload["check-title"]}>
+            <CheckTitle
+              inputNameRef={inputNameRef}
+              isValidName={isValidName}
+              setIsValidName={setIsValidName}
+              handleResetCheckTitle={handleResetCheckTitle}
+            />
+          </div>
+          <div className={upload["input-file"]}>
+            <InputFile
+              inputFileRef={inputFileRef}
+              imgURL={imgURL}
+              setShowCrop={setShowCrop}
+              handleSaveImg={handleSaveImg}
+              handleResetImg={handleResetImg}
+            />
+          </div>
+          <div className={upload["submit"]}>
+            <button
+              className={upload["submit__button"]}
+              onClick={handleShowPreview}
+            >
+              preview
+            </button>
+          </div>
+        </div>
+      </div>
+    </ServiceLayout>
   );
 };
 
