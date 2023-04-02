@@ -4,7 +4,7 @@ import axios, { AxiosResponse } from "axios";
 import FirebaseClient from "@/models/firebase_client";
 import imageModel from "@/models/image/image.model";
 import { useRouter } from "next/router";
-import { RefObject } from "react";
+import { Dispatch, RefObject, SetStateAction } from "react";
 import preview from "@/styles/upload/preview.module.scss";
 import Card from "../common/card";
 
@@ -18,6 +18,7 @@ interface Props {
   fixedImgHeight: number;
   handleResetImg: () => void;
   handleResetCheckTitle: () => void;
+  setShowPreview: Dispatch<SetStateAction<boolean>>;
 }
 
 const Preview = ({
@@ -29,7 +30,8 @@ const Preview = ({
   fixedImgWidth,
   fixedImgHeight,
   handleResetImg,
-  handleResetCheckTitle: handleResetCheckImgName,
+  handleResetCheckTitle,
+  setShowPreview,
 }: Props) => {
   const setIsLoading = useSetRecoilState(isLoadingAtom);
   const router = useRouter();
@@ -81,7 +83,7 @@ const Preview = ({
       if (result) {
         alert(result.data.message);
         handleResetImg();
-        handleResetCheckImgName();
+        handleResetCheckTitle();
       }
       setIsLoading((_pre) => false);
     } catch (err) {
@@ -92,7 +94,7 @@ const Preview = ({
   return (
     <div className={preview["container"]}>
       <div className={preview["back-drop"]} />
-      <div className={preview["back-drop"]}>
+      <div className={preview["content"]}>
         <Card
           idx={0}
           color="white"
@@ -101,7 +103,24 @@ const Preview = ({
           isDisable={false}
           isPreView={true}
         />
-        preview
+        <h2 className={preview["title"]}>
+          Title: {inputNameRef.current?.value ?? "Error"}
+        </h2>
+        <div className={preview["button__container"]}>
+          <div className={preview["cancel"]}>
+            <button
+              className={preview["cancel__button"]}
+              onClick={() => setShowPreview(() => false)}
+            >
+              cancel
+            </button>
+          </div>
+          <div className={preview["upload"]}>
+            <button className={preview["upload__button"]} onClick={send}>
+              upload
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

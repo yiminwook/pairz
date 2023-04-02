@@ -9,7 +9,7 @@
     @extend %modal;
   }
   .modal__backdrop {
-    @extend %modal__backdrop;
+    @extend %modal__back-drop;
   }
   .modal__content {
     @extend %modal__content;

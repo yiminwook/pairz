@@ -19,6 +19,15 @@ const InputFile = ({
   return (
     <div className={inputFile["container"]}>
       <form className={inputFile["file"]}>
+        <div className={inputFile["file__reset"]}>
+          <button
+            type="button"
+            className={inputFile["reset__button"]}
+            onClick={handleResetImg}
+          >
+            취소
+          </button>
+        </div>
         {imgURL ? (
           <div className={inputFile["file__crop"]}>
             <button
@@ -55,15 +64,6 @@ const InputFile = ({
             }
           }}
         ></input>
-        <div className={inputFile["file__reset"]}>
-          <button
-            type="button"
-            className={inputFile["reset__button"]}
-            onClick={handleResetImg}
-          >
-            취소
-          </button>
-        </div>
       </form>
     </div>
   );

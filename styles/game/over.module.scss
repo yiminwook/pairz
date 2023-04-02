@@ -6,7 +6,7 @@
   @extend %modal;
 
   .backdrop {
-    @extend %modal__backdrop;
+    @extend %modal__back-drop;
     cursor: default;
   }
 

@@ -61,6 +61,10 @@ const UploadPage: NextPage = () => {
   const handleShowPreview = () => {
     const width = imgRef.current?.naturalWidth;
     const height = imgRef.current?.naturalHeight;
+    if (!(userInfo !== null && userInfo.uid)) {
+      alert("로그인이후 이용가능합니다.");
+      return;
+    }
     if (width !== fixedImgWidth && height !== fixedImgHeight) {
       alert(
         `이미지는 ${fixedImgWidth} x ${fixedImgHeight}만 업로드 가능합니다.`
@@ -86,6 +90,7 @@ const UploadPage: NextPage = () => {
             fixedImgHeight={fixedImgHeight}
             handleResetImg={handleResetImg}
             handleResetCheckTitle={handleResetCheckTitle}
+            setShowPreview={setShowPreview}
           />
         )}
         {/* crop modal */}
