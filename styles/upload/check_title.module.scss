@@ -32,7 +32,6 @@
 
         .title__container__left {
           width: 70%;
-          @extend %input-text;
           input {
             width: 80%;
             font-size: 0.8rem;

@@ -9,7 +9,7 @@ import preview from "@/styles/upload/preview.module.scss";
 import Card from "../common/card";
 
 interface Props {
-  inputNameRef: RefObject<HTMLInputElement>;
+  inputTitleRef: RefObject<HTMLInputElement>;
   imgRef: RefObject<HTMLImageElement>;
   imgFile: File | undefined;
   imgURL: string;
@@ -22,7 +22,7 @@ interface Props {
 }
 
 const Preview = ({
-  inputNameRef,
+  inputTitleRef,
   imgRef,
   imgFile,
   imgURL,
@@ -60,7 +60,7 @@ const Preview = ({
     }
     try {
       setIsLoading((_pre) => true);
-      const imageNameValue = inputNameRef.current?.value;
+      const imageNameValue = inputTitleRef.current?.value;
       if (!imageNameValue) throw new Error("nameValue undefined!");
       const formData = new FormData();
       formData.append("image", imgFile);
@@ -104,7 +104,7 @@ const Preview = ({
           isPreView={true}
         />
         <h2 className={preview["title"]}>
-          Title: {inputNameRef.current?.value ?? "Error"}
+          Title: {inputTitleRef.current?.value ?? "Error"}
         </h2>
         <div className={preview["button__container"]}>
           <div className={preview["cancel"]}>

@@ -2,21 +2,20 @@ import imageModel from "@/models/image/image.model";
 import { isLoadingAtom } from "@/recoil/atoms";
 import checkTitle from "@/styles/upload/check_title.module.scss";
 import { verifyingStr } from "@/utils/validation";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios, { AxiosResponse } from "axios";
 import { Dispatch, FormEvent, RefObject, SetStateAction } from "react";
 import { useSetRecoilState } from "recoil";
+import InputText from "../common/input_text";
 
 interface Props {
-  inputNameRef: RefObject<HTMLInputElement>;
+  inputTitleRef: RefObject<HTMLInputElement>;
   isValidTitle: boolean;
   setIsValidTitle: Dispatch<SetStateAction<boolean>>;
   handleResetCheckTitle: () => void;
 }
 
 const CheckTitle = ({
-  inputNameRef,
+  inputTitleRef,
   isValidTitle,
   setIsValidTitle,
   handleResetCheckTitle,
@@ -26,18 +25,18 @@ const CheckTitle = ({
     e.preventDefault();
     setIsValidTitle((_pre) => false);
     try {
-      if (inputNameRef.current) {
-        const inputNameValue = inputNameRef.current.value;
-        if (!inputNameValue) {
+      if (inputTitleRef.current) {
+        const inputTitleValue = inputTitleRef.current.value;
+        if (!inputTitleValue) {
           alert("입력되지 않았습니다");
           return;
         }
-        if (!verifyingStr(inputNameValue)) {
+        if (!verifyingStr(inputTitleValue)) {
           alert("유효하지않은 이름입니다");
           return;
         }
         setIsLoading(() => true);
-        const decodeValue = encodeURIComponent(inputNameValue);
+        const decodeValue = encodeURIComponent(inputTitleValue);
         const checkTitleResult: AxiosResponse<
           Awaited<ReturnType<typeof imageModel.checkTitle>>
         > = await axios.get(`/api/image.get?title=${decodeValue}`);
@@ -48,7 +47,7 @@ const CheckTitle = ({
           return;
         }
         setIsValidTitle((_pre) => true);
-        inputNameRef.current.disabled = true;
+        inputTitleRef.current.disabled = true;
         alert("사용가능한 이미지명입니다");
       }
     } catch (err) {
@@ -64,17 +63,7 @@ const CheckTitle = ({
           <label className={checkTitle["title__label"]}>Title</label>
           <div className={checkTitle["title__container"]}>
             <div className={checkTitle["title__container__left"]}>
-              <div className={checkTitle["input__icon"]}>
-                <FontAwesomeIcon
-                  icon={faMagnifyingGlass}
-                  style={{ width: "1.5rem", height: "1.5rem" }}
-                />
-              </div>
-              <input
-                type="type"
-                ref={inputNameRef}
-                placeholder="타이틀을 입력"
-              ></input>
+              <InputText inputRef={inputTitleRef} placeholder="타이틀을 입력" />
             </div>
             <div className={checkTitle["title__container__right"]}>
               {isValidTitle ? (

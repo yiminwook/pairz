@@ -11,6 +11,7 @@ import { useSetRecoilState } from "recoil";
 import { isLoadingAtom } from "@/recoil/atoms";
 import { getBaseURL } from "@/utils/get_base_url";
 import RenderImage from "@/components/showcase/render_image";
+import InputText from "@/components/common/input_text";
 
 type getImageResult = Awaited<ReturnType<typeof imageModel.get>>;
 type findByImgTitleResult = Awaited<
@@ -39,7 +40,7 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
   const setLoading = useSetRecoilState(isLoadingAtom);
 
   /** 검색 bool이 true일 경우 더보기 */
-  const find = async (title: string, bool: boolean) => {
+  const findData = async (title: string, bool: boolean) => {
     try {
       setLoading(() => true);
       const result: AxiosResponse<findByImgTitleResult> = await axios.get(
@@ -64,7 +65,7 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
     if (bool === false) {
       setTitle(() => title);
     }
-    await find(title, bool);
+    await findData(title, bool);
   };
 
   /** 최신순 검색 */
@@ -93,6 +94,7 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
   const handleImgSearchReset = () => {
     setReqImageData((_pre) => [...imageData]);
 
+    //페이지네이션
     setReqDataLength((_pre) => imageData.length);
     setReqLastIdx((_pre) => lastIdx);
     setReqLastTitle((_pre) => null);
@@ -105,57 +107,80 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
 
   return (
     <ServiceLayout title="pairz SHOWCASE">
-      <main className={showcase.container}>
-        <form
-          name="image_search__form"
-          onSubmit={(e: FormEvent<ImageSearch>) => {
-            e.preventDefault();
-            const title = inputRef.current?.value;
-            if (!title) {
-              // 입력값이 없을시 리셋
-              handleImgSearchReset();
-              return;
-            }
-            handleFindData(title, false);
-          }}
-        >
-          <input name="image_search__input" type="text" ref={inputRef} />
-          <button name="image_search__button" type="submit">
-            검색
-          </button>
-          <button onClick={handleImgSearchReset} type="button">
-            Reset
-          </button>
-        </form>
-        <div>{title.length > 0 ? `${title} 검색결과` : "최신순"}</div>
-        <div className={showcase.main}>
-          <div className={showcase.contents}>
-            {reqImageData &&
-              reqImageData.map((data) => {
-                const { id, imgURL, imageName } = data;
-                return (
-                  <RenderImage
-                    key={id}
-                    id={id}
-                    imgURL={imgURL}
-                    imageName={imageName}
-                  />
-                );
-              })}
-            {/* 검색결과가 5이하이면 더보기가 보이지 않음 */}
-            {reqDataLength >= 5 && (
-              <button
-                onClick={() => {
-                  title === "" || reqLastTitle === null
-                    ? handleGetData()
-                    : handleFindData(reqLastTitle, true);
-                }}
-              >
-                더보기
-              </button>
-            )}
-          </div>
-        </div>
+      <main className={showcase["container"]}>
+        <section className={showcase["content"]}>
+          <form
+            className={showcase["head"]}
+            onSubmit={(e: FormEvent<ImageSearch>) => {
+              e.preventDefault();
+              const title = inputRef.current?.value;
+              if (!title) {
+                // 입력값이 없을시 리셋
+                handleImgSearchReset();
+                return;
+              }
+              handleFindData(title, false);
+            }}
+          >
+            <div className={showcase["head__top"]}>
+              <h2 className={showcase["title"]}>
+                {title.length > 0 ? `검색결과 ${title}` : "최신순"}
+              </h2>
+            </div>
+            <div className={showcase["head__buttom"]}>
+              <div className={showcase["input"]}>
+                <InputText inputRef={inputRef} placeholder="검색" />
+              </div>
+              <div className={showcase["button__container"]}>
+                <div className={showcase["search"]}>
+                  <button className={showcase["search__button"]} type="submit">
+                    검색
+                  </button>
+                </div>
+                <div className={showcase["reset"]}>
+                  <button
+                    className={showcase["reset__button"]}
+                    onClick={handleImgSearchReset}
+                    type="button"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <article className={showcase["grid__container"]}>
+            <div className={showcase["grid"]}>
+              {reqImageData &&
+                reqImageData.map((data) => {
+                  const { id, imgURL, imageName } = data;
+                  return (
+                    <RenderImage
+                      key={id}
+                      id={id}
+                      imgURL={imgURL}
+                      imageName={imageName}
+                    />
+                  );
+                })}
+              {/* 검색결과가 5이하이면 더보기가 보이지 않음 */}
+              {reqDataLength >= 5 && (
+                <div className={showcase["more"]}>
+                  <button
+                    className={showcase["more__button"]}
+                    onClick={() => {
+                      title === "" || reqLastTitle === null
+                        ? handleGetData()
+                        : handleFindData(reqLastTitle, true);
+                    }}
+                  >
+                    more
+                  </button>
+                </div>
+              )}
+            </div>
+          </article>
+        </section>
       </main>
     </ServiceLayout>
   );
