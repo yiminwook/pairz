@@ -23,7 +23,7 @@ const UploadPage: NextPage = () => {
   const [showCrop, setShowCrop] = useState<boolean>(false);
 
   const [showPreview, setShowPreview] = useState<boolean>(false);
-  const [isValidName, setIsValidName] = useState<boolean>(false);
+  const [isValidTitle, setIsValidTitle] = useState<boolean>(false);
 
   const userInfo = useRecoilValue(userInfoAtom);
 
@@ -47,14 +47,14 @@ const UploadPage: NextPage = () => {
       setImgURL((_pre) => "");
       setImgFile((_pre) => undefined);
       setShowCrop((_pre) => false);
-      setIsValidName((_pre) => false);
+      setIsValidTitle((_pre) => false);
     }
   };
 
   const handleResetCheckTitle = () => {
     if (inputNameRef.current) {
       inputNameRef.current.disabled = false;
-      setIsValidName((_pre) => false);
+      setIsValidTitle((_pre) => false);
     }
   };
 
@@ -71,7 +71,7 @@ const UploadPage: NextPage = () => {
       );
       return;
     }
-    if (isValidName === false) alert("타이틀 중복검사를 해주세요");
+    if (isValidTitle === false) alert("타이틀 중복검사를 해주세요");
     setShowPreview(() => true);
   };
 
@@ -79,13 +79,13 @@ const UploadPage: NextPage = () => {
     <ServiceLayout title="Pairz Upload Page">
       <div className={upload["container"]}>
         {/* preview modal */}
-        {isValidName && showPreview && (
+        {isValidTitle && showPreview && (
           <Preview
             inputNameRef={inputNameRef}
             imgRef={imgRef}
             imgFile={imgFile}
             imgURL={imgURL}
-            isValidName={isValidName}
+            isValidName={isValidTitle}
             fixedImgWidth={fixedImgWidth}
             fixedImgHeight={fixedImgHeight}
             handleResetImg={handleResetImg}
@@ -117,8 +117,8 @@ const UploadPage: NextPage = () => {
           <div className={upload["check-title"]}>
             <CheckTitle
               inputNameRef={inputNameRef}
-              isValidName={isValidName}
-              setIsValidName={setIsValidName}
+              isValidTitle={isValidTitle}
+              setIsValidTitle={setIsValidTitle}
               handleResetCheckTitle={handleResetCheckTitle}
             />
           </div>

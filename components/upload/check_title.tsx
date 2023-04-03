@@ -8,21 +8,21 @@ import { useSetRecoilState } from "recoil";
 
 interface Props {
   inputNameRef: RefObject<HTMLInputElement>;
-  isValidName: boolean;
-  setIsValidName: Dispatch<SetStateAction<boolean>>;
+  isValidTitle: boolean;
+  setIsValidTitle: Dispatch<SetStateAction<boolean>>;
   handleResetCheckTitle: () => void;
 }
 
 const CheckTitle = ({
   inputNameRef,
-  isValidName,
-  setIsValidName,
-  handleResetCheckTitle: handleResetCheckImgName,
+  isValidTitle,
+  setIsValidTitle,
+  handleResetCheckTitle,
 }: Props) => {
   const setIsLoading = useSetRecoilState(isLoadingAtom);
-  const handleCheckImageName = async (e: FormEvent) => {
+  const handleCheckTitle = async (e: FormEvent) => {
     e.preventDefault();
-    setIsValidName((_pre) => false);
+    setIsValidTitle((_pre) => false);
     try {
       if (inputNameRef.current) {
         const inputNameValue = inputNameRef.current.value;
@@ -36,19 +36,16 @@ const CheckTitle = ({
         }
         setIsLoading(() => true);
         const decodeValue = encodeURIComponent(inputNameValue);
-        const checkImageNameResult: AxiosResponse<
-          Awaited<ReturnType<typeof imageModel.checkImageName>>
-        > = await axios.get(`/api/image.get?imageName=${decodeValue}`);
+        const checkTitleResult: AxiosResponse<
+          Awaited<ReturnType<typeof imageModel.checkTitle>>
+        > = await axios.get(`/api/image.get?title=${decodeValue}`);
         setIsLoading(() => false);
         //응답수정필요
-        if (
-          checkImageNameResult.status !== 200 ||
-          !checkImageNameResult.data.result
-        ) {
+        if (checkTitleResult.status !== 200 || !checkTitleResult.data.result) {
           alert("중복된 이미지명입니다");
           return;
         }
-        setIsValidName((_pre) => true);
+        setIsValidTitle((_pre) => true);
         inputNameRef.current.disabled = true;
         alert("사용가능한 이미지명입니다");
       }
@@ -71,12 +68,12 @@ const CheckTitle = ({
               placeholder="타이틀을 적어주세요"
             ></input>
 
-            {isValidName ? (
+            {isValidTitle ? (
               <div className={checkTitle["title__container__reset"]}>
                 <button
                   className={checkTitle["reset__button"]}
                   type="button"
-                  onClick={handleResetCheckImgName}
+                  onClick={handleResetCheckTitle}
                 >
                   수정
                 </button>
@@ -86,7 +83,7 @@ const CheckTitle = ({
                 <button
                   className={checkTitle["check__button"]}
                   type="button"
-                  onClick={handleCheckImageName}
+                  onClick={handleCheckTitle}
                 >
                   중복확인
                 </button>

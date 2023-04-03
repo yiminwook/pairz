@@ -38,16 +38,16 @@ const getRandom = async (_req: NextApiRequest, res: NextApiResponse) => {
   return res.status(200).json(getRandomResult);
 };
 
-const findByImageName = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { imageName, next } = req.query;
-  const imageNameStr = arrToStr(imageName);
-  if (!imageNameStr) throw new Error("undefined imageName");
+const findByImgTitle = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { title, next } = req.query;
+  const titleStr = arrToStr(title);
+  if (!titleStr) throw new Error("undefined title");
   const nextToStr = arrToStr(next);
-  const findByImageNameResult = await imageModel.findByImageName(
-    imageNameStr,
+  const findByImgTitleResult = await imageModel.findByImgTitle(
+    titleStr,
     nextToStr
   );
-  return res.status(200).json(findByImageNameResult);
+  return res.status(200).json(findByImgTitleResult);
 };
 
 const findByEmail = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -59,22 +59,22 @@ const findByEmail = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(200).json(findByEmailResult);
 };
 
-const checkImageName = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { imageName } = req.query;
-  const imageNameStr = arrToStr(imageName);
-  if (!imageNameStr) throw new Error("undefined exmail");
-  const checkImageNameResult = await imageModel.checkImageName(imageNameStr);
+const checkTitle = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { title } = req.query;
+  const titleStr = arrToStr(title);
+  if (!titleStr) throw new Error("undefined exmail");
+  const checkTitleResult = await imageModel.checkTitle(titleStr);
 
-  return res.status(200).json(checkImageNameResult);
+  return res.status(200).json(checkTitleResult);
 };
 
 const imageCtrl = {
   add,
   get,
   getRandom,
-  findByImageName,
+  findByImgTitle,
   findByEmail,
-  checkImageName,
+  checkTitle,
 };
 
 export default imageCtrl;

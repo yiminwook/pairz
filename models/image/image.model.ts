@@ -112,24 +112,28 @@ const getRandom = async (): Promise<{ imageData: ImageInfo[] }> => {
  *
  *  next=true query로 pagination
  */
-const findByImageName = async (
-  imageName: string,
+const findByImgTitle = async (
+  title: string,
   /** 더보기 */
   next?: string | null
-): Promise<{ imageData: ImageInfo[]; lastImageName: string | null }> => {
+): Promise<{
+  imageData: ImageInfo[];
+  lastTitle: string | null;
+  lastIdx: number;
+}> => {
   const findByFileNameResult = await db.runTransaction(async (transaction) => {
     let imageRef: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>;
     if (next === "true") {
       imageRef = db
         .collection(IMAGE_COL)
         .orderBy("imageName")
-        .startAfter(imageName)
+        .startAfter(title)
         .limit(5);
     } else {
       imageRef = db
         .collection(IMAGE_COL)
         .orderBy("imageName")
-        .startAt(imageName)
+        .startAt(title)
         .limit(5);
     }
     const imageDoc = await transaction.get(imageRef);
@@ -137,7 +141,8 @@ const findByImageName = async (
 
     return {
       imageData,
-      lastImageName: imageData.at(-1)?.imageName ?? null,
+      lastTitle: imageData.at(-1)?.imageName ?? null,
+      lastIdx: imageData.at(-1)?.id ?? 0,
     };
   });
   return findByFileNameResult;
@@ -177,10 +182,8 @@ const findByEmail = async (
   return findByFileNameResult;
 };
 
-const checkImageName = async (
-  imageName: string
-): Promise<{ result: boolean }> => {
-  const imageRef = db.collection(IMAGE_COL).where("imageName", "==", imageName);
+const checkTitle = async (title: string): Promise<{ result: boolean }> => {
+  const imageRef = db.collection(IMAGE_COL).where("imageName", "==", title);
   const imageDoc = await imageRef.get();
   const imageData = imageDoc.docs.map((doc) => doc.data());
   return { result: imageData.length === 0 ? true : false };
@@ -205,9 +208,9 @@ const imageModel = {
   add,
   get,
   getRandom,
-  findByImageName,
+  findByImgTitle,
   findByEmail,
-  checkImageName,
+  checkTitle,
 };
 
 export default imageModel;

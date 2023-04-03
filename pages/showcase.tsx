@@ -12,8 +12,10 @@ import { isLoadingAtom } from "@/recoil/atoms";
 import { getBaseURL } from "@/utils/get_base_url";
 
 type getImageResult = Awaited<ReturnType<typeof imageModel.get>>;
+type findByImgTitleResult = Awaited<
+  ReturnType<typeof imageModel.findByImgTitle>
+>;
 interface ImageSearchElements extends HTMLFormControlsCollection {
-  image_search__select: HTMLSelectElement;
   image_search__input: HTMLInputElement;
   image_search__button: HTMLButtonElement;
 }
@@ -23,36 +25,50 @@ interface ImageSearch extends HTMLFormElement {
 
 /** default 이미지 이름으로 조회*/
 const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
-  const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
-  const [reqImageData, setReqImageData] = useState<ImageInfo[]>(imageData);
-  const [reqLastIdx, setReqLastIdx] = useState<number>(lastIdx);
-  const formRef = useRef<ImageSearch>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const selectRef = useRef<HTMLSelectElement>(null);
+  const [title, setTitle] = useState<string>("");
+  const [reqImageData, setReqImageData] = useState<ImageInfo[]>([...imageData]);
+
+  //페이지네이션용
+  const [reqDataLength, setReqDataLength] = useState<number>(imageData.length);
+  const [reqLastIdx, setReqLastIdx] = useState<number>(lastIdx);
+  const [reqLastTitle, setReqLastTitle] =
+    useState<findByImgTitleResult["lastTitle"]>(null);
+
   const setLoading = useSetRecoilState(isLoadingAtom);
 
-  const handleSubmit = (e: FormEvent<ImageSearch>) => {
-    e.preventDefault();
-  };
+  const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
 
-  const getData = async () => {
+  /** 검색 bool이 true일 경우 더보기 */
+  const find = async (title: string, bool: boolean) => {
     try {
-      setLoading((_pre) => true);
-      const result: AxiosResponse<getImageResult> = await axios.get(
-        "/api/image.get"
+      setLoading(() => true);
+      const result: AxiosResponse<findByImgTitleResult> = await axios.get(
+        `/api/image.find?title=${title}&next=${bool}`
       );
-      const { imageData, lastIdx } = result.data;
-      if (!(result.status === 200 && lastIdx >= 0))
-        throw new Error("axios err");
-      setReqImageData((_pre) => [...imageData]);
-      setReqLastIdx((_pre) => lastIdx);
-      setLoading((_pre) => false);
+      const { imageData, lastTitle } = result.data;
+      setReqImageData((pre) => {
+        return bool ? [...pre, ...imageData] : [...imageData];
+      });
+      //페이지네이션
+      setReqDataLength((_pre) => imageData.length);
+      setReqLastTitle(() => lastTitle);
+
+      setLoading(() => false);
     } catch (err) {
       console.error(err);
-      setLoading((_pre) => false);
+      setLoading(() => false);
     }
   };
 
+  const handleFindData = async (title: string, bool: boolean) => {
+    if (bool === false) {
+      setTitle(() => title);
+    }
+    await find(title, bool);
+  };
+
+  /** 최신순 검색 */
   const handleGetData = async () => {
     try {
       setLoading((_pre) => true);
@@ -61,10 +77,12 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
       );
 
       const { imageData, lastIdx } = result.data;
-      if (!(result.status === 200 && lastIdx >= 0))
-        throw new Error("axios err");
       setReqImageData((pre) => [...pre, ...imageData]);
+
+      //페이지네이션
+      setReqDataLength((_pre) => imageData.length);
       setReqLastIdx((_pre) => lastIdx);
+
       setLoading((_pre) => false);
     } catch (err) {
       console.error(err);
@@ -72,26 +90,46 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
     }
   };
 
-  const handleImageSearchReset = () => {
-    getData();
+  /** 리셋 */
+  const handleImgSearchReset = () => {
+    setReqImageData((_pre) => [...imageData]);
+
+    setReqDataLength((_pre) => imageData.length);
+    setReqLastIdx((_pre) => lastIdx);
+    setReqLastTitle((_pre) => null);
+
+    setTitle((_pre) => "");
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
   };
 
   return (
     <ServiceLayout title="pairz SHOWCASE">
       <main className={showcase.container}>
-        <form name="image_search__form" onSubmit={handleSubmit}>
-          <select name="image_search__Select" ref={selectRef}>
-            <optgroup label="검색필터">
-              <option value="imageName">이미지명</option>
-              <option value="email">이메일</option>
-            </optgroup>
-          </select>
+        <form
+          name="image_search__form"
+          onSubmit={(e: FormEvent<ImageSearch>) => {
+            e.preventDefault();
+            const title = inputRef.current?.value;
+            if (!title) {
+              // 입력값이 없을시 리셋
+              handleImgSearchReset();
+              return;
+            }
+            handleFindData(title, false);
+          }}
+        >
           <input name="image_search__input" type="text" ref={inputRef} />
+
           <button name="image_search__button" type="submit">
             검색
           </button>
+          <button onClick={handleImgSearchReset} type="button">
+            Reset
+          </button>
         </form>
-        <button onClick={() => handleImageSearchReset()}>Reset</button>
+        <div>{title.length > 0 ? `${title} 검색결과` : "최신순"}</div>
         <div className={showcase.main}>
           <div className={showcase.contents}>
             {reqImageData &&
@@ -119,7 +157,18 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
                   <div className={showcase.contents_id}>{data.id}</div>
                 </div>
               ))}
-            {reqLastIdx >= 5 && <button onClick={handleGetData}>더보기</button>}
+            {/* 검색결과가 5이하이면 더보기가 보이지 않음 */}
+            {reqDataLength >= 5 && (
+              <button
+                onClick={() => {
+                  title === "" || reqLastTitle === null
+                    ? handleGetData()
+                    : handleFindData(reqLastTitle, true);
+                }}
+              >
+                더보기
+              </button>
+            )}
           </div>
         </div>
       </main>
