@@ -16,10 +16,9 @@
   }
 
   &:checked ~ .mobile {
+    left: 0;
     .mobile__nav {
-      // display: block;
       width: 100vw;
-      min-width: $mixin-middle-width;
       height: 100vh;
       background-color: map-get($colors, half-transparent);
       .mobile__button {
@@ -38,7 +37,6 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  min-width: $mixin-middle-width;
   padding: 1rem 0;
   height: 3rem;
   box-shadow: 0 9px 6px -8px map-get($colors, azure);
@@ -228,9 +226,9 @@
 
 .mobile {
   position: absolute;
-  width: 100vw;
-  min-width: $mixin-middle-width;
+  width: 5rem;
   z-index: 99;
+  left: calc(50% - 2.5rem);
 
   .mobile__nav {
     z-index: 100;

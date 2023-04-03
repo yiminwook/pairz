@@ -38,6 +38,7 @@ const DragDrop = ({
         ref={dragRef}
         onDragOver={dragOver}
         onDrop={drop}
+        className={dragDrop["content"]}
         tabIndex={0}
       >
         {!imgURL ? (

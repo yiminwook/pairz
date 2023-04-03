@@ -31,6 +31,7 @@ const GNB = () => {
 
   return (
     <header>
+      {/* toggle mobile nav trigger */}
       <input
         type="checkbox"
         className={gnb["mobile__check-box"]}
@@ -58,6 +59,7 @@ const GNB = () => {
           </li>
           {userInfo ? (
             <li className={gnb["menu"]}>
+              {/* toggle menu trigger */}
               <input
                 type="checkbox"
                 className={gnb["menu__checkbox"]}

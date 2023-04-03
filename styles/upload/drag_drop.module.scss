@@ -8,41 +8,43 @@
   height: 100%;
   margin: auto;
   padding: 0;
-
   background-color: rgba(#fffde7, 98%);
 
-  img {
-    overflow: hidden;
-    @extend %img-size;
-  }
-
-  .alt {
-    background-color: cadetblue;
-    @extend %img-size;
-    @include flex-center();
-
-    &::before {
-      position: absolute;
-      border: 4px dashed map-get($colors, azure);
-      z-index: 3;
-      width: inherit;
-      height: inherit;
-      scale: 0.9;
-      content: "";
+  .content {
+    cursor: pointer;
+    img {
+      overflow: hidden;
+      @extend %img-size;
     }
 
-    &::after {
-      position: absolute;
-      font-size: 0.8rem;
-      z-index: 5;
-      content: "업로드된 이미지가 없습니다.";
+    .alt {
+      background-color: cadetblue;
+      @extend %img-size;
+      @include flex-center();
 
-      @include min-width($mixin-middle-width) {
-        font-size: 1rem;
+      &::before {
+        position: absolute;
+        border: 4px dashed map-get($colors, azure);
+        z-index: 3;
+        width: inherit;
+        height: inherit;
+        scale: 0.9;
+        content: "";
       }
 
-      @include min-width($mixin-large-width) {
-        font-size: 1.2rem;
+      &::after {
+        position: absolute;
+        font-size: 0.8rem;
+        z-index: 5;
+        content: "업로드된 이미지가 없습니다.";
+
+        @include min-width($mixin-middle-width) {
+          font-size: 1rem;
+        }
+
+        @include min-width($mixin-large-width) {
+          font-size: 1.2rem;
+        }
       }
     }
   }
