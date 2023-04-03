@@ -7,8 +7,11 @@
   background-color: white;
   @include flex-center();
   .content {
-    width: 80%;
+    width: 90%;
     margin-bottom: 12%;
+    @include min-width($mixin-xl-width) {
+      width: 80%;
+    }
 
     .title {
       width: 100%;
@@ -21,31 +24,39 @@
       }
 
       .title__container {
+        width: 100%;
         display: flex;
+        align-items: center;
         position: relative;
+        gap: 2%;
 
-        .title__container__input {
-          height: 1.8rem;
-          width: 100%;
-          border-radius: 12px;
-          border: 2px solid map-get($colors, light-gray);
-          margin-right: 0.5rem;
-          padding: 0.2rem 0.5rem;
-          &:focus {
-            outline: 2px solid darken(map-get($colors, light-gray), 30%);
-            outline-offset: -2px;
+        .title__container__left {
+          width: 70%;
+          @extend %input-text;
+          input {
+            width: 80%;
+            font-size: 0.8rem;
+            @include min-width($mixin-large-width) {
+              font-size: 1rem;
+            }
+            @include min-width($mixin-xl-width) {
+              font-size: 1.25rem;
+            }
+            @include min-width($mixin-xl-width) {
+              font-size: 1.5rem;
+            }
           }
         }
 
-        .title__container__check {
+        .title__container__right {
           .check__button {
             @extend %button--white;
+            height: 2.75rem;
           }
-        }
 
-        .title__container__reset {
           .reset__button {
             @extend %button--orange;
+            height: 2.75rem;
           }
         }
 

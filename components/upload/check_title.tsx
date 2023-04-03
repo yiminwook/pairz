@@ -2,6 +2,8 @@ import imageModel from "@/models/image/image.model";
 import { isLoadingAtom } from "@/recoil/atoms";
 import checkTitle from "@/styles/upload/check_title.module.scss";
 import { verifyingStr } from "@/utils/validation";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios, { AxiosResponse } from "axios";
 import { Dispatch, FormEvent, RefObject, SetStateAction } from "react";
 import { useSetRecoilState } from "recoil";
@@ -61,15 +63,21 @@ const CheckTitle = ({
         <div className={checkTitle["title"]}>
           <label className={checkTitle["title__label"]}>Title</label>
           <div className={checkTitle["title__container"]}>
-            <input
-              type="type"
-              className={checkTitle["title__container__input"]}
-              ref={inputNameRef}
-              placeholder="타이틀을 적어주세요"
-            ></input>
-
-            {isValidTitle ? (
-              <div className={checkTitle["title__container__reset"]}>
+            <div className={checkTitle["title__container__left"]}>
+              <div className={checkTitle["input__icon"]}>
+                <FontAwesomeIcon
+                  icon={faMagnifyingGlass}
+                  style={{ width: "1.5rem", height: "1.5rem" }}
+                />
+              </div>
+              <input
+                type="type"
+                ref={inputNameRef}
+                placeholder="타이틀을 입력"
+              ></input>
+            </div>
+            <div className={checkTitle["title__container__right"]}>
+              {isValidTitle ? (
                 <button
                   className={checkTitle["reset__button"]}
                   type="button"
@@ -77,9 +85,7 @@ const CheckTitle = ({
                 >
                   수정
                 </button>
-              </div>
-            ) : (
-              <div className={checkTitle["title__container__check"]}>
+              ) : (
                 <button
                   className={checkTitle["check__button"]}
                   type="button"
@@ -87,8 +93,8 @@ const CheckTitle = ({
                 >
                   중복확인
                 </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

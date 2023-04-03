@@ -99,3 +99,33 @@
   color: black;
   @include box-shadow(5px, 5px, 10px, rgba(0, 0, 0, 0.3));
 }
+
+//input을 div에 감싸서 사용
+%input-text {
+  overflow: hidden;
+  position: relative;
+  & > div:first-child {
+    position: absolute;
+    left: 0.5rem;
+    top: calc(50% - 0.8rem);
+    color: lightgrey;
+  }
+
+  input {
+    height: 2rem;
+    border-radius: 12px;
+    border: 5px solid lightgray;
+    padding: 0.4rem 0.5rem 0.2rem 2rem;
+    @include transition(background-color, 0.3s, ease);
+
+    &:focus,
+    &:active {
+      outline: 5px solid map-get($colors, orange);
+      outline-offset: -5px;
+    }
+
+    &:disabled {
+      background-color: lightgray;
+    }
+  }
+}
