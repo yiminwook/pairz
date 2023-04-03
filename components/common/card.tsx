@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import card from "@/styles/card.module.scss";
+import card from "@/styles/common/card.module.scss";
 import { FC, memo, useRef, useState } from "react";
 import { CardBase } from "../game/deck";
 

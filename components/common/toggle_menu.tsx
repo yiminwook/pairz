@@ -1,5 +1,5 @@
 import Link from "next/link";
-import gnb from "@/styles/gnb.module.scss";
+import gnb from "@/styles/common/gnb.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import gnb from "@/styles/gnb.module.scss";
+import gnb from "@/styles/common/gnb.module.scss";
 import { useRecoilValue } from "recoil";
 import { userInfoAtom } from "@/recoil/atoms";
 import { signIn, signOut } from "@/hooks/firebase_client_auth";

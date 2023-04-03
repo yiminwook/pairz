@@ -1,4 +1,4 @@
-import loading from "@/styles/loading.module.scss";
+import loading from "@/styles/common/loading.module.scss";
 import Image from "next/image";
 
 const Loading = () => {

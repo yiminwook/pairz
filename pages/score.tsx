@@ -67,7 +67,7 @@ const ScorePage: NextPage<getScoreResult> = ({ scoreData, lastIdx = 0 }) => {
 
   return (
     <ServiceLayout title="Pairz SCORE">
-      <div className={score["container"]}>
+      <section className={score["container"]}>
         <div className={score["table__container"]}>
           <table>
             <thead>
@@ -99,7 +99,7 @@ const ScorePage: NextPage<getScoreResult> = ({ scoreData, lastIdx = 0 }) => {
             </button>
           )}
         </div>
-      </div>
+      </section>
     </ServiceLayout>
   );
 };

@@ -104,7 +104,7 @@ const UploadPage: NextPage = () => {
             handleSaveImg={handleSaveImg}
           />
         )}
-        <div className={upload["content"]}>
+        <section className={upload["content"]}>
           <div className={upload["drag-drop"]}>
             <DragDrop
               fixedImgWidth={fixedImgWidth}
@@ -139,7 +139,7 @@ const UploadPage: NextPage = () => {
               preview
             </button>
           </div>
-        </div>
+        </section>
       </div>
     </ServiceLayout>
   );
