@@ -10,6 +10,7 @@ import showcase from "@/styles/showcase.module.scss";
 import { useSetRecoilState } from "recoil";
 import { isLoadingAtom } from "@/recoil/atoms";
 import { getBaseURL } from "@/utils/get_base_url";
+import RenderImage from "@/components/showcase/render_image";
 
 type getImageResult = Awaited<ReturnType<typeof imageModel.get>>;
 type findByImgTitleResult = Awaited<
@@ -36,8 +37,6 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
     useState<findByImgTitleResult["lastTitle"]>(null);
 
   const setLoading = useSetRecoilState(isLoadingAtom);
-
-  const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
 
   /** 검색 bool이 true일 경우 더보기 */
   const find = async (title: string, bool: boolean) => {
@@ -121,7 +120,6 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
           }}
         >
           <input name="image_search__input" type="text" ref={inputRef} />
-
           <button name="image_search__button" type="submit">
             검색
           </button>
@@ -133,30 +131,17 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
         <div className={showcase.main}>
           <div className={showcase.contents}>
             {reqImageData &&
-              reqImageData.map((data) => (
-                <div key={data.id}>
-                  <div className={showcase.contents_image_container}>
-                    {failToGetImage ? (
-                      <img
-                        src="/loading_icon.png"
-                        width={200}
-                        height={300}
-                        alt="card_img_err"
-                      />
-                    ) : (
-                      <img
-                        src={data.imgURL}
-                        width={200}
-                        height={300}
-                        alt="card_img"
-                        onError={() => setFailToGetImage((_pre) => true)}
-                      />
-                    )}
-                  </div>
-                  <div className={showcase.contents_name}>{data.imageName}</div>
-                  <div className={showcase.contents_id}>{data.id}</div>
-                </div>
-              ))}
+              reqImageData.map((data) => {
+                const { id, imgURL, imageName } = data;
+                return (
+                  <RenderImage
+                    key={id}
+                    id={id}
+                    imgURL={imgURL}
+                    imageName={imageName}
+                  />
+                );
+              })}
             {/* 검색결과가 5이하이면 더보기가 보이지 않음 */}
             {reqDataLength >= 5 && (
               <button
