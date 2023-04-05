@@ -14,9 +14,7 @@ import RenderImage from "@/components/showcase/render_image";
 import InputText from "@/components/common/input_text";
 
 type getImageResult = Awaited<ReturnType<typeof imageModel.get>>;
-type findByImgTitleResult = Awaited<
-  ReturnType<typeof imageModel.findByImgTitle>
->;
+type findByImgNameResult = Awaited<ReturnType<typeof imageModel.findByImgName>>;
 interface ImageSearchElements extends HTMLFormControlsCollection {
   image_search__input: HTMLInputElement;
   image_search__button: HTMLButtonElement;
@@ -28,31 +26,31 @@ interface ImageSearch extends HTMLFormElement {
 /** default 이미지 이름으로 조회*/
 const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [title, setTitle] = useState<string>("");
+  const [nameValue, setNameValue] = useState<string>("");
   const [reqImageData, setReqImageData] = useState<ImageInfo[]>([...imageData]);
 
   //페이지네이션용
   const [reqDataLength, setReqDataLength] = useState<number>(imageData.length);
   const [reqLastIdx, setReqLastIdx] = useState<number>(lastIdx);
-  const [reqLastTitle, setReqLastTitle] =
-    useState<findByImgTitleResult["lastTitle"]>(null);
+  const [reqLastName, setReqLastName] =
+    useState<findByImgNameResult["lastName"]>(null);
 
   const setLoading = useSetRecoilState(isLoadingAtom);
 
   /** 검색 bool이 true일 경우 더보기 */
-  const findData = async (title: string, bool: boolean) => {
+  const findData = async (name: string, bool: boolean) => {
     try {
       setLoading(() => true);
-      const result: AxiosResponse<findByImgTitleResult> = await axios.get(
-        `/api/image.find?title=${title}&next=${bool}`
+      const result: AxiosResponse<findByImgNameResult> = await axios.get(
+        `/api/image.find?name=${name}&next=${bool}`
       );
-      const { imageData, lastTitle } = result.data;
+      const { imageData, lastName } = result.data;
       setReqImageData((pre) => {
         return bool ? [...pre, ...imageData] : [...imageData];
       });
       //페이지네이션
       setReqDataLength((_pre) => imageData.length);
-      setReqLastTitle(() => lastTitle);
+      setReqLastName(() => lastName);
 
       setLoading(() => false);
     } catch (err) {
@@ -61,11 +59,11 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
     }
   };
 
-  const handleFindData = async (title: string, bool: boolean) => {
+  const handleFindData = async (name: string, bool: boolean) => {
     if (bool === false) {
-      setTitle(() => title);
+      setNameValue(() => name);
     }
-    await findData(title, bool);
+    await findData(name, bool);
   };
 
   /** 최신순 검색 */
@@ -97,9 +95,9 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
     //페이지네이션
     setReqDataLength((_pre) => imageData.length);
     setReqLastIdx((_pre) => lastIdx);
-    setReqLastTitle((_pre) => null);
+    setReqLastName((_pre) => null);
 
-    setTitle((_pre) => "");
+    setNameValue((_pre) => "");
     if (inputRef.current) {
       inputRef.current.value = "";
     }
@@ -113,18 +111,18 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
             className={showcase["head"]}
             onSubmit={(e: FormEvent<ImageSearch>) => {
               e.preventDefault();
-              const title = inputRef.current?.value;
-              if (!title) {
+              const inputValue = inputRef.current?.value;
+              if (!inputValue) {
                 // 입력값이 없을시 리셋
                 handleImgSearchReset();
                 return;
               }
-              handleFindData(title, false);
+              handleFindData(inputValue, false);
             }}
           >
             <div className={showcase["head__top"]}>
               <h2 className={showcase["title"]}>
-                {title.length > 0 ? `검색결과 ${title}` : "최신순"}
+                {nameValue.length > 0 ? `검색결과 ${nameValue}` : "최신순"}
               </h2>
             </div>
             <div className={showcase["head__buttom"]}>
@@ -169,9 +167,9 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
                   <button
                     className={showcase["more__button"]}
                     onClick={() => {
-                      title === "" || reqLastTitle === null
+                      nameValue === "" || reqLastName === null
                         ? handleGetData()
-                        : handleFindData(reqLastTitle, true);
+                        : handleFindData(reqLastName, true);
                     }}
                   >
                     more

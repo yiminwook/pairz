@@ -20,7 +20,7 @@ const add = async ({
   const lastImagData = await getLastImage();
   const imageName = fileName.replace(/.jpg|.png|.jpeg/gi, "");
   const addResult = await db.runTransaction(async (transaction) => {
-    const imageRef = db.collection(IMAGE_COL).doc(fileName);
+    const imageRef = db.collection(IMAGE_COL).doc(imageName);
     const imageDoc = await transaction.get(imageRef);
     if (imageDoc.exists) {
       return false;
@@ -112,28 +112,28 @@ const getRandom = async (): Promise<{ imageData: ImageInfo[] }> => {
  *
  *  next=true query로 pagination
  */
-const findByImgTitle = async (
-  title: string,
+const findByImgName = async (
+  name: string,
   /** 더보기 */
   next?: string | null
 ): Promise<{
   imageData: ImageInfo[];
-  lastTitle: string | null;
+  lastName: string | null;
   lastIdx: number;
 }> => {
-  const findByFileNameResult = await db.runTransaction(async (transaction) => {
+  const findByImgNameResult = await db.runTransaction(async (transaction) => {
     let imageRef: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>;
     if (next === "true") {
       imageRef = db
         .collection(IMAGE_COL)
         .orderBy("imageName")
-        .startAfter(title)
+        .startAfter(name)
         .limit(5);
     } else {
       imageRef = db
         .collection(IMAGE_COL)
         .orderBy("imageName")
-        .startAt(title)
+        .startAt(name)
         .limit(5);
     }
     const imageDoc = await transaction.get(imageRef);
@@ -141,11 +141,11 @@ const findByImgTitle = async (
 
     return {
       imageData,
-      lastTitle: imageData.at(-1)?.imageName ?? null,
+      lastName: imageData.at(-1)?.imageName ?? null,
       lastIdx: imageData.at(-1)?.id ?? 0,
     };
   });
-  return findByFileNameResult;
+  return findByImgNameResult;
 };
 
 /** emailId로 image 찾기 */
@@ -182,8 +182,8 @@ const findByEmail = async (
   return findByFileNameResult;
 };
 
-const checkTitle = async (title: string): Promise<{ result: boolean }> => {
-  const imageRef = db.collection(IMAGE_COL).where("imageName", "==", title);
+const checkName = async (name: string): Promise<{ result: boolean }> => {
+  const imageRef = db.collection(IMAGE_COL).where("imageName", "==", name);
   const imageDoc = await imageRef.get();
   const imageData = imageDoc.docs.map((doc) => doc.data());
   return { result: imageData.length === 0 ? true : false };
@@ -208,9 +208,9 @@ const imageModel = {
   add,
   get,
   getRandom,
-  findByImgTitle,
+  findByImgName,
   findByEmail,
-  checkTitle,
+  checkName,
 };
 
 export default imageModel;

@@ -4,9 +4,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method !== "GET") throw new Error("Unsupported method");
-    const { title } = req.query;
-    if (title) {
-      await imageCtrl.checkTitle(req, res);
+    const { name } = req.query;
+    if (name) {
+      await imageCtrl.checkName(req, res);
     } else {
       await imageCtrl.get(req, res);
     }

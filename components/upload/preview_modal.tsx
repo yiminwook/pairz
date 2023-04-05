@@ -9,7 +9,7 @@ import preview from "@/styles/upload/preview.module.scss";
 import Card from "../common/card";
 
 interface Props {
-  inputTitleRef: RefObject<HTMLInputElement>;
+  inputNameRef: RefObject<HTMLInputElement>;
   imgRef: RefObject<HTMLImageElement>;
   imgFile: File | undefined;
   imgURL: string;
@@ -17,12 +17,12 @@ interface Props {
   fixedImgWidth: number;
   fixedImgHeight: number;
   handleResetImg: () => void;
-  handleResetCheckTitle: () => void;
+  handleResetCheckName: () => void;
   setShowPreview: Dispatch<SetStateAction<boolean>>;
 }
 
 const Preview = ({
-  inputTitleRef,
+  inputNameRef,
   imgRef,
   imgFile,
   imgURL,
@@ -30,7 +30,7 @@ const Preview = ({
   fixedImgWidth,
   fixedImgHeight,
   handleResetImg,
-  handleResetCheckTitle,
+  handleResetCheckName,
   setShowPreview,
 }: Props) => {
   const setIsLoading = useSetRecoilState(isLoadingAtom);
@@ -60,7 +60,7 @@ const Preview = ({
     }
     try {
       setIsLoading((_pre) => true);
-      const imageNameValue = inputTitleRef.current?.value;
+      const imageNameValue = inputNameRef.current?.value;
       if (!imageNameValue) throw new Error("nameValue undefined!");
       const formData = new FormData();
       formData.append("image", imgFile);
@@ -83,7 +83,7 @@ const Preview = ({
       if (result) {
         alert(result.data.message);
         handleResetImg();
-        handleResetCheckTitle();
+        handleResetCheckName();
       }
       setIsLoading((_pre) => false);
     } catch (err) {
@@ -104,7 +104,7 @@ const Preview = ({
           isPreView={true}
         />
         <h2 className={preview["title"]}>
-          Title: {inputTitleRef.current?.value ?? "Error"}
+          Title: {inputNameRef.current?.value ?? "Error"}
         </h2>
         <div className={preview["button__container"]}>
           <div className={preview["cancel"]}>

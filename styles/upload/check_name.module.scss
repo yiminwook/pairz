@@ -13,24 +13,24 @@
       width: 80%;
     }
 
-    .title {
+    .name {
       width: 100%;
 
-      .title__label {
+      .name__label {
         color: black;
         font-size: 1.25rem;
         font-weight: 500;
         margin-bottom: 3%;
       }
 
-      .title__container {
+      .name__container {
         width: 100%;
         display: flex;
         align-items: center;
         position: relative;
         gap: 2%;
 
-        .title__container__left {
+        .name__container__left {
           width: 70%;
           input {
             width: 80%;
@@ -47,7 +47,7 @@
           }
         }
 
-        .title__container__right {
+        .name__container__right {
           .check__button {
             @extend %button--white;
             height: 2.75rem;

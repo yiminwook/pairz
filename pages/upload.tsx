@@ -7,7 +7,7 @@ import upload from "@/styles/upload/upload.module.scss";
 import Preview from "@/components/upload/preview_modal";
 import InputFile from "@/components/upload/input_file";
 import DragDrop from "@/components/upload/drag_drop";
-import CheckTitle from "@/components/upload/check_title";
+import CheckName from "@/components/upload/check_name";
 import Crop from "@/components/upload/crop_modal";
 
 /* 이미지 사이즈 제한 단위 px */
@@ -23,7 +23,7 @@ const UploadPage: NextPage = () => {
   const [showCrop, setShowCrop] = useState<boolean>(false);
 
   const [showPreview, setShowPreview] = useState<boolean>(false);
-  const [isValidTitle, setIsValidTitle] = useState<boolean>(false);
+  const [isValidName, setIsValidNameisValidName] = useState<boolean>(false);
 
   const userInfo = useRecoilValue(userInfoAtom);
 
@@ -47,14 +47,14 @@ const UploadPage: NextPage = () => {
       setImgURL((_pre) => "");
       setImgFile((_pre) => undefined);
       setShowCrop((_pre) => false);
-      setIsValidTitle((_pre) => false);
+      setIsValidNameisValidName((_pre) => false);
     }
   };
 
-  const handleResetCheckTitle = () => {
+  const handleResetCheckName = () => {
     if (inputNameRef.current) {
       inputNameRef.current.disabled = false;
-      setIsValidTitle((_pre) => false);
+      setIsValidNameisValidName((_pre) => false);
     }
   };
 
@@ -71,7 +71,7 @@ const UploadPage: NextPage = () => {
       );
       return;
     }
-    if (isValidTitle === false) alert("타이틀 중복검사를 해주세요");
+    if (isValidName === false) alert("타이틀 중복검사를 해주세요");
     setShowPreview(() => true);
   };
 
@@ -79,17 +79,17 @@ const UploadPage: NextPage = () => {
     <ServiceLayout title="Pairz Upload Page">
       <div className={upload["container"]}>
         {/* preview modal */}
-        {isValidTitle && showPreview && (
+        {isValidName && showPreview && (
           <Preview
             inputNameRef={inputNameRef}
             imgRef={imgRef}
             imgFile={imgFile}
             imgURL={imgURL}
-            isValidName={isValidTitle}
+            isValidName={isValidName}
             fixedImgWidth={fixedImgWidth}
             fixedImgHeight={fixedImgHeight}
             handleResetImg={handleResetImg}
-            handleResetCheckTitle={handleResetCheckTitle}
+            handleResetCheckName={handleResetCheckName}
             setShowPreview={setShowPreview}
           />
         )}
@@ -114,12 +114,12 @@ const UploadPage: NextPage = () => {
               handleSaveImg={handleSaveImg}
             />
           </div>
-          <div className={upload["check-title"]}>
-            <CheckTitle
+          <div className={upload["check-name"]}>
+            <CheckName
               inputNameRef={inputNameRef}
-              isValidTitle={isValidTitle}
-              setIsValidTitle={setIsValidTitle}
-              handleResetCheckTitle={handleResetCheckTitle}
+              isValidName={isValidName}
+              setIsValidName={setIsValidNameisValidName}
+              handleResetCheckName={handleResetCheckName}
             />
           </div>
           <div className={upload["input-file"]}>

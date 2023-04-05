@@ -3,14 +3,14 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import formidable from "formidable";
 import fs from "fs/promises";
 
-const S3_BUCKET = process.env.AWS_S3_BUCKET || "";
+const S3_BUCKET = process.env.AWS_S3_BUCKET ?? "";
 
 const s3 = new S3Client({
   credentials: {
-    accessKeyId: process.env.AWS_S3_ACCESSKEY_Id || "",
-    secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY || "",
+    accessKeyId: process.env.AWS_S3_ACCESSKEY_Id ?? "",
+    secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY ?? "",
   },
-  region: process.env.AWS_S3_REGION || "ap-northeast-2",
+  region: process.env.AWS_S3_REGION ?? "ap-northeast-2",
 });
 
 /** S3 Bucket에 이미지업로드
@@ -30,9 +30,9 @@ const uploadFile = async (
 
     const uploadParams = {
       Bucket: S3_BUCKET,
-      Key: name || "",
+      Key: name ?? "",
       Body: buffer,
-      ContentType: type || "",
+      ContentType: type ?? "",
     };
 
     await s3.send(new PutObjectCommand(uploadParams));
