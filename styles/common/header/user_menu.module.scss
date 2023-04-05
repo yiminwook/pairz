@@ -1,0 +1,62 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+%hover-font-color {
+  color: map-get($colors, orange);
+}
+
+.sign-in {
+  @extend %button--orange;
+  width: 10.6rem;
+  height: 3.5rem;
+  font-size: 1.5rem;
+  letter-spacing: 0.1rem;
+}
+
+.menu {
+  position: relative;
+  z-index: 101;
+
+  .menu__button {
+    @include flex-center();
+    padding: 0.5rem 1.5rem;
+    border: 3px solid map-get($colors, orange);
+    border-radius: 50px;
+    @include box-shadow(5px, 5px, 5px, rgba(0, 0, 0, 0.3));
+    transition: scale 0.3s, border-color 0.3s;
+    background-color: map-get($colors, body);
+    cursor: pointer;
+
+    &:hover,
+    &:active {
+      scale: 1.02;
+      border-color: map-get($colors, azure);
+    }
+
+    .menu__name {
+      margin-right: 1rem;
+      font-size: 1.5rem;
+      color: azure;
+      @include text-line(1, 2rem);
+    }
+
+    .menu__photo {
+      overflow: hidden;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50px;
+      @include box-shadow(1px, 1px, 5px, rgba(0, 0, 0, 0.3));
+
+      .menu__photo__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    &:focus-visible {
+      outline: 5px solid #b976f0;
+      outline-offset: -10px;
+    }
+  }
+}

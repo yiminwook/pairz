@@ -1,0 +1,98 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+%hover-font-color {
+  color: map-get($colors, orange);
+}
+
+//checkBox toggle menu
+.menu__checkbox {
+  display: none;
+
+  &:checked ~ .menu__toggle {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(20%);
+  }
+
+  &:checked ~ .menu__toggle__back-drop {
+    display: block;
+  }
+}
+
+.menu__toggle {
+  z-index: -1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translatey(0);
+  @include transition(all, 0.3s, ease);
+  opacity: 0;
+  visibility: hidden;
+  width: 100%;
+  border-radius: 20px;
+  background-color: rgba(map-get($colors, body), 80%);
+  text-align: center;
+  @include box-shadow(5px, 5px, 5px, rgba(0, 0, 0, 0.3));
+
+  .menu__toggle__container {
+    padding: 0.5rem;
+    font-size: 1.25rem;
+
+    .menu__toggle__top {
+      height: 2.2rem;
+    }
+
+    .menu__toggle__upload {
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      color: inherit;
+
+      &:hover,
+      &:active {
+        @extend %hover-font-color;
+      }
+    }
+
+    .menu__toggle__sign-out {
+      font-size: inherit;
+      text-transform: uppercase;
+      color: inherit;
+
+      &:hover,
+      &:active {
+        @extend %hover-font-color;
+      }
+    }
+    hr {
+      margin: 0.5rem 0;
+    }
+    .menu__toggle__close {
+      @include flex-center();
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      color: inherit;
+      p {
+        margin-right: 0.5rem;
+      }
+      &:hover,
+      &:active {
+        @extend %hover-font-color;
+      }
+    }
+  }
+}
+
+.menu__toggle__back-drop {
+  position: fixed;
+  display: none;
+  z-index: -2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  content: "";
+  cursor: pointer;
+}

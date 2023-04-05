@@ -1,0 +1,28 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.home {
+  margin-left: 3.5rem;
+  .home__link {
+    margin-top: 0.4rem;
+    &:hover,
+    &:active {
+      scale: 1.02;
+    }
+  }
+}
+
+.container__right {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 70%;
+
+  .list {
+    &:hover,
+    &:active {
+      color: map-get($colors, orange);
+    }
+  }
+}
