@@ -17,14 +17,16 @@ const RenderImage = ({ id, imgURL, imageName }: Props) => {
           src="/loading_icon.png"
           width={200}
           height={300}
-          alt="card_img_err"
+          objectFit="cover"
+          alt="err_image"
         />
       ) : (
         <Image
           src={imgURL}
           width={200}
           height={300}
-          alt="card_img"
+          alt={`${imageName}_image`}
+          objectFit="cover"
           onError={() => setFailToGetImage((_pre) => true)}
         />
       )}

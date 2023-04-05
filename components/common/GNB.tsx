@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import gnb from "@/styles/common/gnb.module.scss";
 import { useRecoilValue } from "recoil";
 import { userInfoAtom } from "@/recoil/atoms";
@@ -75,19 +74,19 @@ const GNB = () => {
                 </div>
                 <div className={gnb["menu__photo"]}>
                   {failToGetImage ? (
-                    <img
+                    <Image
                       className={gnb["menu__photo__img"]}
                       src="/user_icon.png"
-                      width="48px"
-                      height="48px"
+                      width={48}
+                      height={48}
                       alt="user_photoURL_failed"
                     />
                   ) : (
-                    <img
+                    <Image
                       className={gnb["menu__button__img"]}
                       src={userInfo?.photoURL ?? "/user_icon.png"}
-                      width="48px"
-                      height="48px"
+                      width={48}
+                      height={48}
                       alt="user_photoURL"
                       onError={() => setFailToGetImage(() => true)}
                     />

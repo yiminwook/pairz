@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 import card from "@/styles/common/card.module.scss";
-import { FC, memo, useRef, useState } from "react";
+import Image from "next/image";
+import { memo, useRef, useState } from "react";
 import { CardBase } from "../game/deck";
 
 export type color = "white" | "red" | "orange" | "blue" | "green";
@@ -18,7 +18,7 @@ interface Props {
  *
  *  preView모드 일때는 isDisable = True
  */
-const Card: FC<Props> = ({
+const Card = ({
   idx,
   imgURL,
   isPreView,
@@ -26,7 +26,7 @@ const Card: FC<Props> = ({
   color,
   isDisable,
   checkPair,
-}) => {
+}: Props) => {
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -64,28 +64,36 @@ const Card: FC<Props> = ({
         onClick={handleEffect}
       >
         <div className={[card["front"], card[color]].join(" ")}>
-          <div className={card.front_image_container}>
+          <div className={card["front_img_container"]}>
             {failToGetImage ? (
-              <img
+              <Image
                 width={200}
                 height={300}
-                alt="card_img_failed"
+                alt="get_failed_card_img"
                 src="/home_icon.png"
+                objectFit="cover"
               />
             ) : (
-              <img
+              <Image
                 width={200}
                 height={300}
                 alt="card_img"
                 src={imgURL}
+                objectFit="cover"
                 onError={() => setFailToGetImage(() => true)}
               />
             )}
           </div>
         </div>
-        <div className={card.back}>
-          <div className={card.back_image_container}>
-            <img src="/loading_icon.png" alt="card_back_img" />
+        <div className={card["back"]}>
+          <div className={card["back_img_container"]}>
+            <Image
+              src="/loading_icon.png"
+              alt="card_back_img"
+              width={90}
+              height={90}
+              objectFit="cover"
+            />
           </div>
         </div>
       </div>
