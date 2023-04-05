@@ -231,15 +231,13 @@
   left: calc(50% - 2.5rem);
 
   .mobile__nav {
-    z-index: 100;
-    display: block;
     width: 4.3rem;
     padding: 0.3rem;
     margin: 0 auto;
     cursor: pointer;
 
     .mobile__button {
-      z-index: 101;
+      position: relative;
       padding: 0.2rem;
       margin: 0 auto;
       width: 3rem;

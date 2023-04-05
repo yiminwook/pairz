@@ -3,7 +3,7 @@
 @import "placeholder";
 
 .container {
-  z-index: map-get($z-indexs, loading);
+  z-index: 300;
   position: absolute;
   background-color: map-get($colors, half-transparent);
   width: 100%;

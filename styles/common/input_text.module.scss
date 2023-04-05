@@ -10,7 +10,8 @@
   .icon {
     position: absolute;
     left: 0.5rem;
-    top: calc(50% - 0.8rem);
+    top: 50%;
+    transform: translateY(-50%);
     color: lightgrey;
   }
 

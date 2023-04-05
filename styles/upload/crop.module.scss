@@ -12,8 +12,6 @@
     @extend %modal__content;
     width: 80%;
     height: 80%;
-    left: calc(10% - 1rem);
-    top: calc(10% - 1rem);
     padding: 1rem;
     .cropper {
       top: 0;
