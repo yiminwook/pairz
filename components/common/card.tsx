@@ -71,7 +71,6 @@ const Card = ({
                 height={300}
                 alt="get_failed_card_img"
                 src="/home_icon.png"
-                objectFit="cover"
               />
             ) : (
               <Image
@@ -79,7 +78,6 @@ const Card = ({
                 height={300}
                 alt="card_img"
                 src={imgURL}
-                objectFit="cover"
                 onError={() => setFailToGetImage(() => true)}
               />
             )}
@@ -92,7 +90,6 @@ const Card = ({
               alt="card_back_img"
               width={90}
               height={90}
-              objectFit="cover"
             />
           </div>
         </div>

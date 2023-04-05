@@ -1,0 +1,53 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.head {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10%;
+  padding: 1rem 0;
+  .head__top {
+    .title {
+      font-size: 1.25rem;
+      @include text-line(1, 1.25rem);
+      @include min-width($mixin-large-width) {
+        font-size: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+
+  .head__buttom {
+    display: flex;
+    align-items: center;
+    gap: 2%;
+
+    .input {
+      width: 50%;
+    }
+
+    .button__container {
+      display: flex;
+      gap: 10%;
+      font-size: 1.2rem;
+      .search {
+        .search__button {
+          @extend %button--green;
+          font-size: inherit;
+          width: 7rem;
+          height: 3rem;
+        }
+      }
+      .reset {
+        .reset__button {
+          @extend %button--orange;
+          font-size: inherit;
+          width: 7rem;
+          height: 3rem;
+        }
+      }
+    }
+  }
+}

@@ -1,17 +1,15 @@
-/* eslint-disable @next/next/no-img-element */
-import { GetStaticProps, NextPage } from "next";
-import { FormEvent } from "react";
 import ServiceLayout from "@/components/common/service_layout";
+import GridSection from "@/components/showcase/grid_section";
+import Head from "@/components/showcase/head";
 import imageModel from "@/models/image/image.model";
 import { ImageInfo } from "@/models/Info";
-import axios, { AxiosResponse } from "axios";
-import { useRef, useState } from "react";
-import showcase from "@/styles/showcase.module.scss";
-import { useSetRecoilState } from "recoil";
 import { isLoadingAtom } from "@/recoil/atoms";
+import showcase from "@/styles/showcase/showcase.module.scss";
 import { getBaseURL } from "@/utils/get_base_url";
-import RenderImage from "@/components/showcase/render_image";
-import InputText from "@/components/common/input_text";
+import axios, { AxiosResponse } from "axios";
+import { GetStaticProps, NextPage } from "next";
+import { useRef, useState } from "react";
+import { useSetRecoilState } from "recoil";
 
 type getImageResult = Awaited<ReturnType<typeof imageModel.get>>;
 type findByImgNameResult = Awaited<ReturnType<typeof imageModel.findByImgName>>;
@@ -19,7 +17,7 @@ interface ImageSearchElements extends HTMLFormControlsCollection {
   image_search__input: HTMLInputElement;
   image_search__button: HTMLButtonElement;
 }
-interface ImageSearch extends HTMLFormElement {
+export interface ImageSearch extends HTMLFormElement {
   readonly elements: ImageSearchElements;
 }
 
@@ -27,7 +25,7 @@ interface ImageSearch extends HTMLFormElement {
 const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [nameValue, setNameValue] = useState<string>("");
-  const [reqImageData, setReqImageData] = useState<ImageInfo[]>([...imageData]);
+  const [reqImgData, setReqImgData] = useState<ImageInfo[]>([...imageData]);
 
   //페이지네이션용
   const [reqDataLength, setReqDataLength] = useState<number>(imageData.length);
@@ -45,7 +43,7 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
         `/api/image.find?name=${name}&next=${bool}`
       );
       const { imageData, lastName } = result.data;
-      setReqImageData((pre) => {
+      setReqImgData((pre) => {
         return bool ? [...pre, ...imageData] : [...imageData];
       });
       //페이지네이션
@@ -59,6 +57,7 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
     }
   };
 
+  /** true일때 더보기 */
   const handleFindData = async (name: string, bool: boolean) => {
     if (bool === false) {
       setNameValue(() => name);
@@ -75,7 +74,7 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
       );
 
       const { imageData, lastIdx } = result.data;
-      setReqImageData((pre) => [...pre, ...imageData]);
+      setReqImgData((pre) => [...pre, ...imageData]);
 
       //페이지네이션
       setReqDataLength((_pre) => imageData.length);
@@ -90,7 +89,7 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
 
   /** 리셋 */
   const handleImgSearchReset = () => {
-    setReqImageData((_pre) => [...imageData]);
+    setReqImgData((_pre) => [...imageData]);
 
     //페이지네이션
     setReqDataLength((_pre) => imageData.length);
@@ -107,77 +106,24 @@ const ShowcasePage: NextPage<getImageResult> = ({ imageData, lastIdx }) => {
     <ServiceLayout title="pairz SHOWCASE">
       <main className={showcase["container"]}>
         <section className={showcase["content"]}>
-          <form
-            className={showcase["head"]}
-            onSubmit={(e: FormEvent<ImageSearch>) => {
-              e.preventDefault();
-              const inputValue = inputRef.current?.value;
-              if (!inputValue) {
-                // 입력값이 없을시 리셋
-                handleImgSearchReset();
-                return;
-              }
-              handleFindData(inputValue, false);
-            }}
-          >
-            <div className={showcase["head__top"]}>
-              <h2 className={showcase["title"]}>
-                {nameValue.length > 0 ? `검색결과 ${nameValue}` : "최신순"}
-              </h2>
-            </div>
-            <div className={showcase["head__buttom"]}>
-              <div className={showcase["input"]}>
-                <InputText inputRef={inputRef} placeholder="검색" />
-              </div>
-              <div className={showcase["button__container"]}>
-                <div className={showcase["search"]}>
-                  <button className={showcase["search__button"]} type="submit">
-                    검색
-                  </button>
-                </div>
-                <div className={showcase["reset"]}>
-                  <button
-                    className={showcase["reset__button"]}
-                    onClick={handleImgSearchReset}
-                    type="button"
-                  >
-                    Reset
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
-          <article className={showcase["grid__container"]}>
-            <div className={showcase["grid"]}>
-              {reqImageData &&
-                reqImageData.map((data) => {
-                  const { id, imgURL, imageName } = data;
-                  return (
-                    <RenderImage
-                      key={id}
-                      id={id}
-                      imgURL={imgURL}
-                      imageName={imageName}
-                    />
-                  );
-                })}
-              {/* 검색결과가 5이하이면 더보기가 보이지 않음 */}
-              {reqDataLength >= 5 && (
-                <div className={showcase["more"]}>
-                  <button
-                    className={showcase["more__button"]}
-                    onClick={() => {
-                      nameValue === "" || reqLastName === null
-                        ? handleGetData()
-                        : handleFindData(reqLastName, true);
-                    }}
-                  >
-                    more
-                  </button>
-                </div>
-              )}
-            </div>
-          </article>
+          <section className={showcase["head"]}>
+            <Head
+              inputRef={inputRef}
+              nameValue={nameValue}
+              handleImgSearchReset={handleImgSearchReset}
+              handleFindData={handleFindData}
+            />
+          </section>
+          <section className={showcase["grid"]}>
+            <GridSection
+              reqImgData={reqImgData}
+              reqDataLength={reqDataLength}
+              reqLastName={reqLastName}
+              nameValue={nameValue}
+              handleGetData={handleGetData}
+              handleFindData={handleFindData}
+            />
+          </section>
         </section>
       </main>
     </ServiceLayout>
