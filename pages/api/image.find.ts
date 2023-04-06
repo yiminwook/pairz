@@ -1,21 +1,17 @@
-import imageCtrl from "@/controllers/image.ctrl";
 import type { NextApiRequest, NextApiResponse } from "next";
+import checkSupportMethod from "@/controllers/error/check_support_method";
+import handleError from "@/controllers/error/handle_error";
+import imageCtrl from "@/controllers/image.ctrl";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    if (req.method !== "GET") throw new Error("Unsupported method");
-    const { imageName, email } = req.query;
-
-    if (imageName && !email) {
-      await imageCtrl.findByImageName(req, res);
-    }
-    if (!imageName && email) {
-      await imageCtrl.findByEmail(req, res);
-    } else {
-      throw new Error("Check request query");
-    }
+    const { method } = req;
+    const supportMethod = ["GET"];
+    checkSupportMethod(supportMethod, method);
+    await imageCtrl.findByImgName(req, res);
   } catch (err) {
-    return res.status(404).end();
+    console.error(err);
+    handleError(err, res);
   }
 };
 

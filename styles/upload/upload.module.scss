@@ -1,0 +1,41 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  @include page-base();
+
+  .content {
+    display: grid;
+    grid-template-columns: [col-start] 5fr [col-end col-start] 5fr [col-end];
+    grid-template-rows: [row-start] 8fr [row-end row-start] 2fr [row-end];
+    grid-template-areas:
+      "top-left top-right"
+      "bottom-left bottom-right";
+    height: 100%;
+
+    .drag-drop {
+      grid-area: top-left;
+    }
+
+    .check-name {
+      grid-area: top-right;
+    }
+
+    .input-file {
+      grid-area: bottom-left;
+    }
+
+    .submit {
+      grid-area: bottom-right;
+      justify-self: center;
+      align-self: center;
+      .submit__button {
+        @extend %button--blue;
+        width: 12rem;
+        height: 3.5rem;
+        font-size: 1.5rem;
+      }
+    }
+  }
+}

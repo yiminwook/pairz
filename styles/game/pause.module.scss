@@ -1,0 +1,54 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  @extend %modal;
+
+  .backdrop {
+    @extend %modal__back-drop;
+  }
+
+  .modal__content {
+    @extend %modal__content;
+
+    .modal__title {
+      text-transform: uppercase;
+      letter-spacing: 0.2rem;
+      font-weight: 600;
+      font-size: 2rem;
+      cursor: default;
+    }
+
+    .modal__desc {
+      font-weight: 400;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      @include min-width($mixin-large-width) {
+        font-size: 1.5rem;
+      }
+      @include min-width($mixin-xl-width) {
+        margin-top: 1rem;
+        margin-bottom: 3rem;
+      }
+    }
+
+    .modal__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 0 auto;
+      .modal__list__home {
+        @extend %button--green;
+      }
+
+      .modal__list__close {
+        @extend %button--orange;
+      }
+
+      @include min-width($mixin-large-width) {
+        gap: 1rem;
+      }
+    }
+  }
+}

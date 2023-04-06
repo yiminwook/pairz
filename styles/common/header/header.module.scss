@@ -1,0 +1,90 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+//checkBox mobile nav
+.mobile__check-box {
+  display: none;
+
+  &:checked ~ .global-nav {
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  &:checked ~ .mobile {
+    left: 0;
+    .mobile__nav {
+      width: 100vw;
+      height: 100vh;
+      background-color: map-get($colors, half-transparent);
+      .mobile__button {
+        transform: rotateY(180deg) translateY(200%);
+      }
+    }
+  }
+}
+
+.global-nav {
+  z-index: 500;
+  position: absolute;
+  top: 0;
+  display: flex;
+  visibility: hidden;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0;
+  height: 3rem;
+  box-shadow: 0 9px 6px -8px map-get($colors, azure);
+  background-color: transparent;
+  color: map-get($colors, azure);
+  font-size: 1.5rem;
+  transform: translateY(-100%);
+  @include transition(all, 0.3s, ease);
+  background-color: map-get($colors, darkgreen);
+
+  @include min-width($mixin-xl-width) {
+    transform: translateY(0);
+    visibility: visible;
+  }
+}
+
+.mobile {
+  position: absolute;
+  width: 5rem;
+  z-index: 300;
+  left: calc(50% - 2.5rem);
+
+  .mobile__nav {
+    width: 4.3rem;
+    padding: 0.3rem;
+    margin: 0 auto;
+    cursor: pointer;
+
+    .mobile__button {
+      position: relative;
+      padding: 0.2rem;
+      margin: 0 auto;
+      width: 3rem;
+      height: 3rem;
+      overflow: hidden;
+      @include transition(transform, 0.3s, ease);
+      @include flex-center();
+      flex-direction: column;
+      background-color: maroon;
+      border-radius: 50%;
+      border: 3px solid map-get($colors, azure);
+    }
+  }
+
+  @include min-width($mixin-xl-width) {
+    display: none !important;
+  }
+}
+
+.blank {
+  @include min-width($mixin-xl-width) {
+    height: 5rem;
+    @include transition(height, 0.3s, ease);
+  }
+}

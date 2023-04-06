@@ -9,5 +9,17 @@ export const userInfoAtom = atom<UserInfo | null>({
 
 export const isLoadingAtom = atom({
   key: `authLoadingAtom${v1()}`,
-  default: true,
+  default: false,
+});
+
+export interface Toast {
+  id: number;
+  type: "success" | "alert" | "error";
+  message: string;
+  duration?: number;
+}
+
+export const toastStateAtom = atom<Toast[]>({
+  key: `toastStateAtom${v1()}`,
+  default: [],
 });

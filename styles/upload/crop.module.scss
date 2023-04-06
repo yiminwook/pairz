@@ -1,0 +1,71 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  @extend %modal;
+
+  .back-drop {
+    @extend %modal__back-drop;
+  }
+  .content {
+    @extend %modal__content;
+    width: 80%;
+    height: 80%;
+    padding: 1rem;
+    .cropper {
+      top: 0;
+      left: 0;
+
+      .cropper__img {
+        width: 400px;
+        height: 350px;
+
+        @include min-width($mixin-large-width) {
+          width: 400px * 1.2;
+          height: 350px * 1.2;
+        }
+
+        @include min-width($mixin-xl-width) {
+          width: 400px * 1.5;
+          height: 350px * 1.5;
+        }
+      }
+    }
+    .lower {
+      width: 100%;
+      .button_container {
+        margin: 0 auto;
+        @include flex-center();
+        width: 80%;
+        gap: 10%;
+
+        .save {
+          background-color: beige;
+          .save__button {
+            @extend %button--blue;
+            @extend %button-size;
+          }
+        }
+        .cancel {
+          .cancel__button {
+            @extend %button--orange;
+            @extend %button-size;
+          }
+        }
+      }
+    }
+  }
+}
+
+%button-size {
+  width: 10.75rem;
+
+  @include min-width($mixin-large-width) {
+    width: 13rem;
+  }
+
+  @include min-width($mixin-xl-width) {
+    width: 16.5rem;
+  }
+}

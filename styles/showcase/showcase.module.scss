@@ -1,0 +1,33 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  @include page-base();
+
+  .content {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 5%;
+
+    .head {
+      height: 15%;
+    }
+
+    .grid {
+      max-height: 70%;
+      overflow-x: hidden;
+      width: 100%;
+      @extend %scroll-bar;
+      border-radius: 10px;
+      -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+      -moz-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+    }
+  }
+}

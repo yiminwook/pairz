@@ -1,0 +1,49 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  @extend %modal;
+
+  .back-drop {
+    @extend %modal__back-drop;
+  }
+
+  .content {
+    @extend %modal__content;
+    width: 60%;
+    height: 60%;
+  }
+
+  .title {
+    font-weight: 400;
+  }
+
+  .button__container {
+    @include flex-center();
+    gap: 10%;
+    .cancel {
+      .cancel__button {
+        @extend %button--orange;
+        @extend %button-size;
+      }
+    }
+    .upload {
+      .upload__button {
+        @extend %button--blue;
+        @extend %button-size;
+      }
+    }
+  }
+}
+
+%button-size {
+  width: 7rem;
+
+  @include min-width($mixin-large-width) {
+    width: 10rem;
+  }
+  @include min-width($mixin-xl-width) {
+    width: 12rem;
+  }
+}

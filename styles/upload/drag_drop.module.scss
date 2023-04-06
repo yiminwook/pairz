@@ -1,0 +1,66 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  position: relative;
+  @include flex-center();
+  height: 100%;
+  margin: auto;
+  padding: 0;
+  background-color: rgba(#fffde7, 98%);
+
+  .content {
+    cursor: pointer;
+    img {
+      overflow: hidden;
+      @extend %img-size;
+    }
+
+    .alt {
+      background-color: cadetblue;
+      @extend %img-size;
+      @include flex-center();
+
+      &::before {
+        position: absolute;
+        border: 4px dashed map-get($colors, azure);
+        z-index: 3;
+        width: inherit;
+        height: inherit;
+        scale: 0.9;
+        content: "";
+      }
+
+      &::after {
+        position: absolute;
+        font-size: 0.8rem;
+        z-index: 5;
+        content: "업로드된 이미지가 없습니다.";
+
+        @include min-width($mixin-middle-width) {
+          font-size: 1rem;
+        }
+
+        @include min-width($mixin-large-width) {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}
+
+%img-size {
+  width: map-get($img-size, width);
+  height: map-get($img-size, height);
+
+  @include min-width($mixin-middle-width) {
+    width: map-get($img-size, width) * 1.2;
+    height: map-get($img-size, height) * 1.2;
+  }
+
+  @include min-width($mixin-large-width) {
+    width: map-get($img-size, width) * 1.5;
+    height: map-get($img-size, height) * 1.5;
+  }
+}

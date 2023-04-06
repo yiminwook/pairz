@@ -1,0 +1,28 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  @include page-base();
+
+  .modal__container {
+    @extend %modal;
+  }
+  .modal__backdrop {
+    @extend %modal__back-drop;
+  }
+  .modal__content {
+    @extend %modal__content;
+    text-align: center;
+    .modal__desc {
+      font-weight: 500;
+      margin-bottom: 10%;
+    }
+    .modal__home {
+      .modal__home__link {
+        @extend %button--green;
+        width: 15rem;
+      }
+    }
+  }
+}

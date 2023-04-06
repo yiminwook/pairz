@@ -1,0 +1,66 @@
+@import "mixin";
+@import "var";
+@import "placeholder";
+
+.container {
+  @include page-base();
+  display: flex;
+  flex-direction: column;
+  .table__container {
+    @extend %scroll-bar;
+    width: 80%;
+    height: 80%;
+    overflow-x: hidden;
+    margin: 2rem auto 0 auto;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+      0 10px 10px rgba(0, 0, 0, 0.22);
+    -moz-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+      0 10px 10px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+
+      thead {
+        border-bottom: 3px solid map-get($colors, azure);
+        tr {
+          background-color: rgba(map-get($colors, wood), 90%);
+
+          th {
+            padding: 0.7rem 0;
+            font-weight: 500;
+            font-size: 1.25rem;
+          }
+        }
+      }
+
+      tbody {
+        border-bottom: 3px solid map-get($colors, azure);
+        tr {
+          border-bottom: 2px solid #ddd;
+          td {
+            text-align: center;
+            padding: 0.6rem 0;
+            font-size: 1.25rem;
+            &:nth-child(1) {
+              padding: 0;
+            }
+          }
+          &:nth-of-type(odd) {
+            background-color: rgba(map-get($colors, body), 0.3);
+          }
+        }
+      }
+    }
+  }
+
+  .more {
+    text-align: center;
+    padding: 1rem;
+    .more__button {
+      @extend %button--white;
+    }
+  }
+}

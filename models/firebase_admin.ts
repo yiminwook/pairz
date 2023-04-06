@@ -32,9 +32,9 @@ export default class FirebaseAdmin {
     } = process.env;
 
     const credential = {
-      projectId: FIREBASE_ADMIN_PROJECT_ID || "",
-      clientEmail: FIREBASE_ADMIN_CLIENT_EMAIL || "",
-      privateKey: (FIREBASE_ADMIN_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
+      projectId: FIREBASE_ADMIN_PROJECT_ID ?? "",
+      clientEmail: FIREBASE_ADMIN_CLIENT_EMAIL ?? "",
+      privateKey: (FIREBASE_ADMIN_PRIVATE_KEY ?? "").replace(/\\n/g, "\n"),
     };
 
     initializeApp({ credential: cert(credential) });

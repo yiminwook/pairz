@@ -16,15 +16,6 @@
   }
 }
 
-@include keyframe(loading) {
-  0% {
-    transform: rotateY(0deg);
-  }
-  100% {
-    transform: rotateY(-360deg);
-  }
-}
-
 @mixin animation($keyframe-name, $duration, $delay, $count: infinite) {
   -moz-animation-name: $keyframe-name;
   -moz-animation-duration: $duration;
@@ -56,4 +47,107 @@
   -moz-transition: $property-name $duration $easing-fuc $delay;
   -webkit-transition: $property-name $duration $easing-fuc $delay;
   transition: $property-name $duration $easing-fuc $delay;
+}
+
+@mixin flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin button_style($color, $font-color: #ffffff) {
+  @extend %button;
+  background-color: $color;
+  color: $font-color;
+  @if ($font-color == #000000) {
+    text-shadow: none;
+  }
+
+  &:active,
+  &:hover,
+  &:focus {
+    background-color: lighten($color, 10%);
+  }
+  &:disabled {
+    background-color: darken($color, 10%);
+  }
+}
+
+@mixin prevent-user-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  -webkit-user-drag: none;
+}
+
+@mixin box-shadow($offset-x, $offset-y, $blur-radius, $color) {
+  -webkit-box-shadow: $offset-x $offset-y $blur-radius $color;
+  -moz-box-shadow: $offset-x $offset-y $blur-radius $color;
+  box-shadow: $offset-x $offset-y $blur-radius $color;
+}
+
+@include keyframe(loading) {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(-360deg);
+  }
+}
+
+@include keyframe(card-preview) {
+  0% {
+    transform: rotateY(0deg) translateY(0%);
+  }
+  25% {
+    transform: rotateY(-180deg) translateY(-2.5%);
+  }
+  50% {
+    transform: rotateY(-360deg) translateY(-5%);
+  }
+  75% {
+    transform: rotateY(-540deg) translateY(-2.5%);
+  }
+  100% {
+    transform: rotateY(-720deg) translateY(0%);
+  }
+}
+
+@include keyframe(game-start) {
+  0% {
+    transform: translateY(0%);
+  }
+
+  50% {
+    transform: translateY(-10%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+//태블릿에 최적화 16/10 비율
+@mixin page-base() {
+  width: 100%;
+  margin: 0 auto;
+  aspect-ratio: 1.6;
+  min-width: $mixin-middle-width;
+  min-height: $mixin-middle-width / 1.6;
+  max-width: $mixin-xl-width;
+  max-height: $mixin-xl-width / 1.6;
+  color: map-get($colors, azure);
+  position: relative;
+  background-color: map-get($colors, darkgreen);
+  @include transition(paddiong, 0.3s, ease);
+}
+
+@mixin backface-visibility {
+  -moz-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }

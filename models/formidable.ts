@@ -1,6 +1,5 @@
 import type { NextApiRequest } from "next";
 import formidable from "formidable";
-import fs from "fs/promises";
 import { imgStoragePath } from "@/utils/img_strage_path";
 
 /** formidable로 formData파싱
@@ -11,16 +10,10 @@ export const readFile = async (
   req: NextApiRequest,
   saveLocally: boolean = false
 ) => {
-  try {
-    await fs.readdir(imgStoragePath);
-  } catch {
-    await fs.mkdir(imgStoragePath);
-  }
-
   const options: formidable.Options = {};
 
   if (saveLocally) {
-    options.uploadDir = imgStoragePath;
+    options.uploadDir = process.env.IMAGE_STORAGE_PATH || imgStoragePath;
     options.filename = (_name, _ext, path, _form) => {
       return Date.now().toString() + "_" + path.originalFilename;
     };

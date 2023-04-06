@@ -1,4 +1,29 @@
 $colors: (
   main: #ffc1cc,
   secondary: #fa923f,
+  half-transparent: rgba(0, 0, 0, 0.5),
+  light-gray: #d3d3d3,
+  white: #fdfdfa,
+  blue: #6698cb,
+  green: #76ba1b,
+  orange: #ffa500,
+  red: #db0f27,
+  darkgreen: #003200,
+  body: #005a00,
+  azure: azure,
+  wood: #4e2a1b,
+);
+
+$gnb-height: 5rem;
+
+$mixin-middle-width: 48rem;
+$mixin-large-width: 57rem;
+$mixin-xl-width: 72rem;
+$mixin-2xl-width: 96rem;
+$mixin-1080p-width: 120rem;
+$mixin-1440p-width: 160rem;
+
+$img-size: (
+  width: 200px,
+  height: 300px,
 );
