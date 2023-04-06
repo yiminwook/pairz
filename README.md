@@ -1,10 +1,12 @@
 # 🃏 카드뒤집기 웹게임 프로젝트 PairZ
 
-## https://pairz.vercel.app/
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fcodestates-beb%2FBEB-06-Ad4U&count_bg=%235CA227&title_bg=%23555555&icon=github.svg&icon_color=%23FFFFFF&title=PairZ+Hits+&edge_flat=false)](https://github.com/yiminwook/pairz)<br />
+
+https://pairz.vercel.app/
 
 node -v 16.19.0
 
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fcodestates-beb%2FBEB-06-Ad4U&count_bg=%235CA227&title_bg=%23555555&icon=github.svg&icon_color=%23FFFFFF&title=PairZ+Hits+&edge_flat=false)](https://github.com/yiminwook/pairz)<br />
+
 
 <br />
 
@@ -268,13 +270,13 @@ HOST=
 PORT=
 LOCAL_TIME=32400000
 
-/* S3 bucket */
+/* S3 Bucket */
 AWS_S3_ACCESSKEY_Id=
 AWS_S3_SECRET_ACCESS_KEY=
 AWS_S3_REGION=
 AWS_S3_BUCKET=
 
-/* Firebase client */
+/* Firebase Client */
 FIREBASE_PROJECT_ID=
 FIREBASE_AUTH_API_KEY=
 FIREBASE_AUTH_AUTH_DOMAIN=
@@ -287,5 +289,3 @@ FIREBASE_ADMIN_PRIVATE_KEY=
 /* Vercel temp Path */
 IMAGE_STORAGE_PATH=/tmp
 ```
-
----
