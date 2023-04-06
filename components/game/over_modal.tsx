@@ -45,7 +45,7 @@ const GameOver: FC<Props> = ({ score, resetGame }) => {
           Awaited<ReturnType<typeof scoreModel.add>>
         > = await axios({
           method: "POST",
-          url: "/api/score",
+          url: "/api/score.add",
           data: {
             score,
             displayName: displayName ?? emailId ?? "Anonymous",

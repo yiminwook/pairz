@@ -1,9 +1,9 @@
-import Observe from "@/components/common/observe";
-import "@/styles/globals.scss";
 import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
+import Observe from "@/components/common/observe";
+import "@/styles/globals.scss";
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <RecoilRoot>
@@ -13,4 +13,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </RecoilRoot>
     </>
   );
-}
+};
+
+export default App;

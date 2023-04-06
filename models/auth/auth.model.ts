@@ -1,3 +1,4 @@
+import CustomServerError from "@/controllers/error/custom_server_error";
 import FirebaseAdmin from "../firebase_admin";
 
 const auth = FirebaseAdmin.getInstance().Auth;
@@ -7,7 +8,11 @@ const verifyCookie = async (cookie: string) => {
     const decodeCookie = await auth.verifySessionCookie(cookie);
     return decodeCookie;
   } catch (err) {
-    throw new Error("verifyCookie Error!"); //401code
+    throw new CustomServerError({
+      statusCode: 307,
+      message: "VerifyCookie Error",
+      location: "/timeout",
+    });
   }
 };
 
@@ -16,7 +21,11 @@ const verifyToken = async (idToken: string) => {
     const decodeToken = await auth.verifyIdToken(idToken);
     return decodeToken;
   } catch (err) {
-    throw new Error("verifyToken Error!"); //401code
+    throw new CustomServerError({
+      statusCode: 307,
+      message: "VerifyToken Error",
+      location: "/timeout",
+    });
   }
 };
 

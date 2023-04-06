@@ -1,17 +1,25 @@
+import authModel from "@/models/auth/auth.model";
 import FirebaseAdmin from "@/models/firebase_admin";
 import memberModel from "@/models/member/member.model";
 import { arrToStr } from "@/utils/arr_to_str";
 import { NextApiRequest, NextApiResponse } from "next";
+import BadReqError from "./error/bad_request_error";
+import CustomServerError from "./error/custom_server_error";
 
 const add = async (req: NextApiRequest, res: NextApiResponse) => {
-  const idToken = req.headers.authorization?.split(" ")[1];
-  if (!idToken) throw new Error("Undefiend Token");
-  const decodeToken = await FirebaseAdmin.getInstance().Auth.verifyIdToken(
-    idToken
-  );
   const { uid, email, emailId, displayName, photoURL } = req.body;
-  if (decodeToken.uid !== uid) throw new Error("Unauthorized"); //401code
-  if (!(uid && email && emailId)) throw new Error("Insuffient userData");
+  if (!(uid && email && emailId)) throw new BadReqError("Insuffient UserData");
+  /* Authorization */
+  const idToken = req.headers.authorization?.split(" ")[1];
+  if (!idToken) throw new BadReqError("Undefiend IdToken");
+  const decodeToken = await authModel.verifyToken(idToken);
+  if (decodeToken.uid !== uid) {
+    throw new CustomServerError({
+      statusCode: 307,
+      message: "Not Matched IdToken",
+      location: "/timeout",
+    });
+  }
   const addResult = await memberModel.add({
     uid,
     email,
@@ -19,7 +27,6 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
     displayName,
     photoURL,
   });
-
   return res.status(200).json(addResult);
 };
 

@@ -44,13 +44,13 @@ const DragDrop = ({
         {!imgURL ? (
           <div className={dragDrop["alt"]} />
         ) : (
-          <div style={{ display: "flex" }}>
+          <div>
             <Image
               src={imgURL}
               ref={imgRef}
-              alt="preview"
               width={fixedImgWidth}
               height={fixedImgHeight}
+              alt="preview_image"
             />
           </div>
         )}

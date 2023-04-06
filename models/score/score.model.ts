@@ -1,3 +1,4 @@
+import CustomServerError from "@/controllers/error/custom_server_error";
 import { verifyingIdx } from "@/utils/validation";
 import FirebaseAdmin from "../firebase_admin";
 import { ParsedScoreInfo, ScoreInfo } from "../Info";
@@ -82,14 +83,16 @@ const add = async ({
       score,
       createAt: Firestore.FieldValue.serverTimestamp(),
       displayName: displayName ?? "Anonymous",
-      id: scoreSizeLastData?.id + 1 || 1,
+      id: scoreSizeLastData?.id + 1 ?? 1,
     };
 
     transaction.create(scoreRef, newScoreData);
 
     return newScoreData.id;
   });
-  if (addResult < 0 || !addResult) throw new Error("Faild to add score ");
+  if (addResult < 0 || !addResult) {
+    throw new CustomServerError({ message: "Faild to upload score" });
+  }
   return { result: true };
 };
 

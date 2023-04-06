@@ -1,3 +1,4 @@
+import CustomServerError from "@/controllers/error/custom_server_error";
 import { verifyingIdx } from "@/utils/validation";
 import FirebaseAdmin from "../firebase_admin";
 import { ImageInfo } from "../Info";
@@ -18,9 +19,9 @@ const add = async ({
   fileName: string;
 }): Promise<{ result: boolean; imageName: string; message: string }> => {
   const lastImagData = await getLastImage();
-  const imageName = fileName.replace(/.jpg|.png|.jpeg/gi, "");
+  // const imageName = fileName.replace(/.jpg|.png|.jpeg/gi, "");
   const addResult = await db.runTransaction(async (transaction) => {
-    const imageRef = db.collection(IMAGE_COL).doc(imageName);
+    const imageRef = db.collection(IMAGE_COL).doc(fileName);
     const imageDoc = await transaction.get(imageRef);
     if (imageDoc.exists) {
       return false;
@@ -30,18 +31,21 @@ const add = async ({
       `https://${AWS_S3_BUCKET}.s3.${AWS_S3_REGION}.amazonaws.com/` +
       encodeURI(fileName);
     const newImageData: ImageInfo = {
-      id: lastImagData?.id + 1 || 1,
+      id: lastImagData?.id + 1 ?? 1,
       imgURL,
       uid,
-      imageName,
+      imageName: fileName,
     };
     transaction.set(imageRef, newImageData);
     return true;
   });
-  if (!addResult) {
-    throw new Error("Duplicated file name");
+  if (addResult === false) {
+    throw new CustomServerError({
+      statusCode: 400,
+      message: "Duplicated file name",
+    });
   }
-  return { result: true, imageName, message: `${fileName} Created` };
+  return { result: true, imageName: fileName, message: `${fileName} Created` };
 };
 
 /** id가 없을 때는 최신순으로 5개를 반환
@@ -68,7 +72,6 @@ const get = async (
     }
     const imageDoc = await transaction.get(imageRef);
     const imageDocData = imageDoc.docs.map((doc) => doc.data()) as ImageInfo[];
-    if (!imageDocData) throw new Error("Firstore Error");
     return {
       imageData: [...imageDocData],
       lastIdx: imageDocData.at(-1)?.id ?? 0,
@@ -81,7 +84,7 @@ const get = async (
 /** 겹치지 않는 이미지를 5개 반환 */
 const getRandom = async (): Promise<{ imageData: ImageInfo[] }> => {
   const size = await getImageDocSize();
-  if (size < 5) throw new Error("DB image under 5, Upload Image over 5");
+  if (size < 5) throw new CustomServerError({ message: "DB image under 5" });
   const lastImagData = await getLastImage();
   const getRandomResult = await db.runTransaction(async (transaction) => {
     const randomImages: ImageInfo[] = [];

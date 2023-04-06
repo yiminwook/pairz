@@ -65,6 +65,10 @@ const UploadPage: NextPage = () => {
       alert("로그인이후 이용가능합니다.");
       return;
     }
+    if (imgFile === undefined || imgURL === "") {
+      alert("이미지를 업로드 해주세요");
+      return;
+    }
     if (width !== fixedImgWidth && height !== fixedImgHeight) {
       alert(
         `이미지는 ${fixedImgWidth} x ${fixedImgHeight}만 업로드 가능합니다.`
@@ -77,9 +81,9 @@ const UploadPage: NextPage = () => {
 
   return (
     <ServiceLayout title="Pairz Upload Page">
-      <div className={upload["container"]}>
+      <main className={upload["container"]}>
         {/* preview modal */}
-        {isValidName && showPreview && (
+        {isValidName && showPreview ? (
           <Preview
             inputNameRef={inputNameRef}
             imgRef={imgRef}
@@ -92,9 +96,9 @@ const UploadPage: NextPage = () => {
             handleResetCheckName={handleResetCheckName}
             setShowPreview={setShowPreview}
           />
-        )}
+        ) : null}
         {/* crop modal */}
-        {imgURL && showCrop && (
+        {imgURL && showCrop ? (
           <Crop
             imgURL={imgURL}
             imgFile={imgFile}
@@ -103,9 +107,9 @@ const UploadPage: NextPage = () => {
             setShowCrop={setShowCrop}
             handleSaveImg={handleSaveImg}
           />
-        )}
+        ) : null}
         <section className={upload["content"]}>
-          <div className={upload["drag-drop"]}>
+          <section className={upload["drag-drop"]}>
             <DragDrop
               fixedImgWidth={fixedImgWidth}
               fixedImgHeight={fixedImgHeight}
@@ -113,16 +117,16 @@ const UploadPage: NextPage = () => {
               imgRef={imgRef}
               handleSaveImg={handleSaveImg}
             />
-          </div>
-          <div className={upload["check-name"]}>
+          </section>
+          <section className={upload["check-name"]}>
             <CheckName
               inputNameRef={inputNameRef}
               isValidName={isValidName}
               setIsValidName={setIsValidNameisValidName}
               handleResetCheckName={handleResetCheckName}
             />
-          </div>
-          <div className={upload["input-file"]}>
+          </section>
+          <section className={upload["input-file"]}>
             <InputFile
               inputFileRef={inputFileRef}
               imgURL={imgURL}
@@ -130,17 +134,17 @@ const UploadPage: NextPage = () => {
               handleSaveImg={handleSaveImg}
               handleResetImg={handleResetImg}
             />
-          </div>
-          <div className={upload["submit"]}>
+          </section>
+          <section className={upload["submit"]}>
             <button
               className={upload["submit__button"]}
               onClick={handleShowPreview}
             >
               preview
             </button>
-          </div>
+          </section>
         </section>
-      </div>
+      </main>
     </ServiceLayout>
   );
 };

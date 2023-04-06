@@ -7,23 +7,23 @@ import Image from "next/image";
 const IndexPage: NextPage = () => {
   return (
     <ServiceLayout title="Pairz HOME">
-      <main className={home.main}>
-        <div className={home.container}>
-          <div className={home.icon_container}>
+      <main className={home["main"]}>
+        <section className={home["container"]}>
+          <div className={home["icon_container"]}>
             <Image
-              className={home.icon}
+              className={home["icon"]}
               src="/home_icon.png"
               width={96}
               height={96}
               alt="home_icon"
               priority
-            ></Image>
+            />
           </div>
-          <Link href="/game" className={home.game_button}>
+          <Link href="/game" className={home["game_button"]}>
             Game Start!
           </Link>
-          <h2 className={home.sub_title}>Get Started Pairz</h2>
-        </div>
+          <h2 className={home["sub_title"]}>Get Started Pairz</h2>
+        </section>
       </main>
     </ServiceLayout>
   );

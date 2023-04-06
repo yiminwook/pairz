@@ -6,10 +6,9 @@ import score from "@/styles/score.module.scss";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { isLoadingAtom } from "@/recoil/atoms";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { ParsedScoreInfo } from "@/models/Info";
 import scoreModel from "@/models/score/score.model";
+import RenderRank from "@/components/score/render_rank";
 
 type getScoreResult = Awaited<ReturnType<typeof scoreModel.get>>;
 
@@ -23,7 +22,7 @@ const ScorePage: NextPage<getScoreResult> = ({ scoreData, lastIdx = 0 }) => {
     try {
       setIsLoading((_pre) => true);
       const getScoreResult: AxiosResponse<getScoreResult> = await axios.get(
-        `/api/score?idx=${reqLastIdx - 1}`
+        `/api/score.get?idx=${reqLastIdx - 1}`
       );
       const { status, data } = getScoreResult;
       if (status === 200 && data.scoreData.length >= 0) {
@@ -34,34 +33,6 @@ const ScorePage: NextPage<getScoreResult> = ({ scoreData, lastIdx = 0 }) => {
     } catch (err) {
       console.error(err);
       setIsLoading((_pre) => false);
-    }
-  };
-
-  const renderRank = (idx: number) => {
-    let content: string;
-    switch (idx) {
-      case 0:
-        content = "#ffdf3d";
-        break;
-      case 1:
-        content = "#e5e5e5";
-        break;
-      case 2:
-        content = "#b87333";
-        break;
-      default:
-        content = "";
-        break;
-    }
-    if (content === "") {
-      return idx + 1;
-    } else {
-      return (
-        <FontAwesomeIcon
-          icon={faTrophy}
-          style={{ color: content, width: "2rem", marginTop: "0.5rem" }}
-        />
-      );
     }
   };
 
@@ -82,7 +53,9 @@ const ScorePage: NextPage<getScoreResult> = ({ scoreData, lastIdx = 0 }) => {
               {reqScoreData.map((data, idx) => {
                 return (
                   <tr key={data.id}>
-                    <td colSpan={1}>{renderRank(idx)}</td>
+                    <td colSpan={1}>
+                      <RenderRank idx={idx} />
+                    </td>
                     <td colSpan={1}>{data.score}</td>
                     <td colSpan={1}>{data.displayName}</td>
                     <td colSpan={1}>{data.korTime}</td>
@@ -93,11 +66,11 @@ const ScorePage: NextPage<getScoreResult> = ({ scoreData, lastIdx = 0 }) => {
           </table>
         </div>
         <div className={score["more"]}>
-          {reqLastIdx > 0 && (
+          {reqLastIdx > 0 ? (
             <button className={score["more__button"]} onClick={getScore}>
               more
             </button>
-          )}
+          ) : null}
         </div>
       </section>
     </ServiceLayout>
@@ -110,7 +83,7 @@ export const getStaticProps: GetStaticProps<getScoreResult> = async () => {
   try {
     const baseURL = getBaseURL(true);
     const getScoreResult: AxiosResponse<getScoreResult> = await axios.get(
-      `${baseURL}/api/score`
+      `${baseURL}/api/score.get`
     );
 
     return {

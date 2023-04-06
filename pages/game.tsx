@@ -101,13 +101,15 @@ const GamePage: NextPage = () => {
 
   return (
     <ServiceLayout title="Game Start!">
-      <section className={game["container"]}>
+      <main className={game["container"]}>
         {/* game over modal */}
-        {isGameOver && <GameOver score={score} resetGame={resetGame} />}
+        {isGameOver ? <GameOver score={score} resetGame={resetGame} /> : null}
         {/* pause modal */}
-        {isPause && <Pause handlePause={handlePause} countPause={countPause} />}
-        <div className={game["content"]}>
-          <div className={game["status"]}>
+        {isPause ? (
+          <Pause handlePause={handlePause} countPause={countPause} />
+        ) : null}
+        <section className={game["content"]}>
+          <section className={game["status"]}>
             <GameStatus
               time={time}
               round={round}
@@ -116,8 +118,8 @@ const GamePage: NextPage = () => {
               handlePause={handlePause}
               countPause={countPause}
             />
-          </div>
-          <div className={game["deck"]}>
+          </section>
+          <section className={game["deck"]}>
             <Deck
               round={round}
               isGameOver={isGameOver}
@@ -129,9 +131,9 @@ const GamePage: NextPage = () => {
               pairScore={defaultValue.pairScore}
               setScore={setScore}
             />
-          </div>
-        </div>
-      </section>
+          </section>
+        </section>
+      </main>
     </ServiceLayout>
   );
 };

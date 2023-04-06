@@ -1,6 +1,7 @@
 import { UserInfo } from "../Info";
 import FirebaseAdmin from "../firebase_admin";
 import { UpdateData, WithFieldValue } from "firebase-admin/firestore";
+import CustomServerError from "@/controllers/error/custom_server_error";
 
 export const MEMBER_COL = "members";
 
@@ -41,7 +42,6 @@ const add = async ({
  *
  *  email를 query로 붙여서 pagenation가능
  *
- *  관리자전용
  */
 const get = async (
   email?: string | null
@@ -78,7 +78,8 @@ const findByEmail = async (email: string): Promise<UserInfo> => {
   const memberRef = db.collection(MEMBER_COL).where("email", "==", email);
   const memberDoc = await memberRef.get();
   const memberData = memberDoc.docs.map((doc) => doc.data()) as UserInfo[];
-  if (memberData.length > 1) throw new Error("DB Error multiple userEmail");
+  if (memberData.length > 1)
+    throw new CustomServerError({ message: "DB Error multiple userEmail" });
   return memberData[0];
 };
 

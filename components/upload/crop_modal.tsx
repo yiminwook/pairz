@@ -39,7 +39,7 @@ const Crop = ({
   };
 
   return (
-    <div className={crop["container"]}>
+    <section className={crop["container"]}>
       <div className={crop["back-drop"]} />
       <div className={crop["content"]}>
         <div className={crop["cropper"]}>
@@ -75,7 +75,7 @@ const Crop = ({
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

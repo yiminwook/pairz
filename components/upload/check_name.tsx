@@ -39,7 +39,7 @@ const CheckName = ({
         const encodeValue = encodeURIComponent(inputNameValue);
         const checkNameResult: AxiosResponse<
           Awaited<ReturnType<typeof imageModel.checkName>>
-        > = await axios.get(`/api/image.get?name=${encodeValue}`);
+        > = await axios.get(`/api/image.check?name=${encodeValue}`);
         setIsLoading(() => false);
         //응답수정필요
         if (checkNameResult.status !== 200 || !checkNameResult.data.result) {

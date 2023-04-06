@@ -1,9 +1,8 @@
-import { isLoadingAtom } from "@/recoil/atoms";
-import { useSetRecoilState } from "recoil";
+import { isLoadingAtom, userInfoAtom } from "@/recoil/atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import axios, { AxiosResponse } from "axios";
 import FirebaseClient from "@/models/firebase_client";
 import imageModel from "@/models/image/image.model";
-import { useRouter } from "next/router";
 import { Dispatch, RefObject, SetStateAction } from "react";
 import preview from "@/styles/upload/preview.module.scss";
 import Card from "../common/card";
@@ -34,14 +33,14 @@ const Preview = ({
   setShowPreview,
 }: Props) => {
   const setIsLoading = useSetRecoilState(isLoadingAtom);
-  const router = useRouter();
+  const userInfo = useRecoilValue(userInfoAtom);
 
   const send = async () => {
     const width = imgRef.current?.naturalWidth;
     const height = imgRef.current?.naturalHeight;
     const idToken =
       await FirebaseClient.getInstance().Auth.currentUser?.getIdToken(true);
-    if (!idToken) {
+    if (!(idToken && userInfo?.uid)) {
       alert("비정상적인 접근 또는 로그인이 만료되었습니다");
     }
     if (!imgFile) {
@@ -66,6 +65,7 @@ const Preview = ({
       formData.append("image", imgFile);
       formData.append("imageName", imageNameValue);
       formData.append("imageType", imgFile.type);
+      formData.append("uid", userInfo?.uid ?? "");
       const result: AxiosResponse<Awaited<ReturnType<typeof imageModel.add>>> =
         await axios({
           method: "POST",
@@ -77,9 +77,6 @@ const Preview = ({
           },
           withCredentials: true,
         });
-      if (result.status === 401) {
-        router.push("/401");
-      }
       if (result) {
         alert(result.data.message);
         handleResetImg();
@@ -92,7 +89,7 @@ const Preview = ({
     }
   };
   return (
-    <div className={preview["container"]}>
+    <section className={preview["container"]}>
       <div className={preview["back-drop"]} />
       <div className={preview["content"]}>
         <Card
@@ -122,7 +119,7 @@ const Preview = ({
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

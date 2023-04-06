@@ -1,3 +1,5 @@
+import BadReqError from "@/controllers/error/bad_request_error";
+import CustomServerError from "@/controllers/error/custom_server_error";
 import { verifyingStr } from "@/utils/validation";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import formidable from "formidable";
@@ -22,10 +24,11 @@ const uploadFile = async (
   name: string,
   type: string
 ) => {
+  if (!verifyingStr(name)) throw new BadReqError("Invalid file name");
+  if (!(type === "image/jpeg" || type === "image/png")) {
+    throw new BadReqError("Invalid file type");
+  }
   try {
-    if (!verifyingStr(name)) throw new Error("Invalid file name");
-    if (!(type === "image/jpeg" || type === "image/png"))
-      throw new Error("Invalid file type");
     const buffer = await fs.readFile(file.filepath);
 
     const uploadParams = {
@@ -41,7 +44,7 @@ const uploadFile = async (
   } catch (err) {
     console.error(err);
     await fs.unlink(file.filepath);
-    throw new Error("Faild upload to S3");
+    throw new CustomServerError({ message: "Faild upload to S3" });
   }
 };
 
