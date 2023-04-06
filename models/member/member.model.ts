@@ -59,7 +59,6 @@ const get = async (
     }
     const memberDoc = await transaction.get(memberRef);
     const memberData = memberDoc.docs.map((doc) => doc.data()) as UserInfo[];
-    console.log(memberData);
     return {
       memberData: memberData,
       total: memberData.length,

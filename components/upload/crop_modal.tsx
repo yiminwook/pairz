@@ -52,6 +52,14 @@ const Crop = ({
         </div>
         <div className={crop["lower"]}>
           <div className={crop["button_container"]}>
+            <div className={crop["cancel"]}>
+              <button
+                className={crop["cancel__button"]}
+                onClick={() => setShowCrop(() => false)}
+              >
+                취소하기
+              </button>
+            </div>
             <div className={crop["save"]}>
               <button
                 className={crop["save__button"]}
@@ -62,14 +70,6 @@ const Crop = ({
                 }}
               >
                 저장하기
-              </button>
-            </div>
-            <div className={crop["cancel"]}>
-              <button
-                className={crop["cancel__button"]}
-                onClick={() => setShowCrop(() => false)}
-              >
-                취소하기
               </button>
             </div>
           </div>
