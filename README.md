@@ -1,14 +1,16 @@
-# 카드뒤집기 웹게임 프로젝트 PairZ
+# 🃏 카드뒤집기 웹게임 프로젝트 PairZ
 
 ## https://pairz.vercel.app/
 
 node -v 16.19.0
 
-<br />
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fcodestates-beb%2FBEB-06-Ad4U&count_bg=%235CA227&title_bg=%23555555&icon=github.svg&icon_color=%23FFFFFF&title=PairZ+Hits+&edge_flat=false)](https://github.com/yiminwook/pairz)<br />
 
 <br />
 
-## Page Detail
+<br />
+
+## 📑 Page Detail
 
 <br />
 
@@ -111,7 +113,7 @@ node -v 16.19.0
 
 <br />
 
-## API
+## 🧭 API
 
 <br />
 
@@ -258,7 +260,7 @@ idx가 있을시 해당 idx이후 스코어를 최신순으로 가져옴(페이�
 
 <br />
 
-## env
+## ⚙️ env
 
 ```
 PROTOCOL=
