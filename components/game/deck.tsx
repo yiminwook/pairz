@@ -72,23 +72,6 @@ const Deck = ({
     }
   }, []);
 
-  /** 카드를 모두 뒤집음, 비동기
-   *
-   * 카드가 빈배열일때는 작동하지 않음
-   */
-  const filpCard = () => {
-    if (cards.length === 0) return;
-    setTimeout(() => {
-      setCards((pre) => {
-        return pre.slice().map((card) => {
-          return card.isFlip === true
-            ? card
-            : { ...card, isFlip: true, isDisable: true };
-        });
-      });
-    }, 10);
-  };
-
   /** 카드 5쌍을 뒷면으로 생성 */
   const setCard = useMemo(() => {
     const newCards = Array.from(Array(5), () => []);
@@ -142,12 +125,11 @@ const Deck = ({
 
   const drawCards = useCallback(async () => {
     setIsGameLoading((_pre) => true);
-    // filpCard();
-    // await getImgs();
+    await getImgs();
     const shuffledCards = shuffle(setCard);
 
     setCards((_pre) => [...shuffledCards]);
-    //뒷면으로 생성한 카드를 열어서 보여줌, 조작불가
+    /* 뒷면으로 생성한 카드를 열어서 보여줌, 조작불가 */
     setTimeout(() => {
       setCards((pre) => {
         return pre.slice().map((card) => {
@@ -155,7 +137,7 @@ const Deck = ({
         });
       });
     }, 350);
-    //일정시간이 지난후에 카드가 닫힘, 이후 조작가능
+    /* 일정시간이 지난후에 카드가 닫힘, 이후 조작가능 */
     setTimeout(() => {
       setCards((pre) => {
         return pre.slice().map((card) => {
@@ -181,15 +163,12 @@ const Deck = ({
         });
         if (select.length >= 1) {
           if (select[0].color === card.color) {
-            //pair
+            /* pair */
             setScore((pre) => pre + pairScore);
             setSelect((_pre) => []);
-            //카드가 완전히 펼쳐지고난뒤 카운트
-            // setTimeout(() => {
             setCountSelect((pre) => pre + 1);
-            // }, 400);
           } else {
-            //no pair
+            /* no pair */
             setTimeout(() => {
               setCards((pre) => {
                 const preCards = pre.slice();
@@ -224,8 +203,7 @@ const Deck = ({
           key={idx}
           idx={idx}
           color={card.color}
-          imgURL={"/home_icon.png"}
-          // imgURL={reqRandomImgs[card.idx]?.imgURL ?? "/home_icon.png"}
+          imgURL={reqRandomImgs[card.idx]?.imgURL ?? "/home_icon.png"}
           isFlip={card.isFlip}
           isDisable={card.isDisable}
           checkPair={checkPair}

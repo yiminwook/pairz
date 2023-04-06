@@ -1,3 +1,4 @@
+import { useToast } from "@/hooks/useToast";
 import imageModel from "@/models/image/image.model";
 import { isLoadingAtom } from "@/recoil/atoms";
 import checkName from "@/styles/upload/check_name.module.scss";
@@ -21,6 +22,8 @@ const CheckName = ({
   handleResetCheckName,
 }: Props) => {
   const setIsLoading = useSetRecoilState(isLoadingAtom);
+  const { fireToast } = useToast();
+
   const handleCheckName = async (e: FormEvent) => {
     e.preventDefault();
     setIsValidName((_pre) => false);
@@ -28,11 +31,11 @@ const CheckName = ({
       if (inputNameRef.current) {
         const inputNameValue = inputNameRef.current.value;
         if (!inputNameValue) {
-          alert("입력되지 않았습니다");
+          fireToast({ type: "error", message: "입력되지 않았습니다." });
           return;
         }
         if (!verifyingStr(inputNameValue)) {
-          alert("유효하지않은 이름입니다");
+          fireToast({ type: "alert", message: "유효하지않은 이름입니다" });
           return;
         }
         setIsLoading(() => true);
@@ -41,14 +44,13 @@ const CheckName = ({
           Awaited<ReturnType<typeof imageModel.checkName>>
         > = await axios.get(`/api/image.check?name=${encodeValue}`);
         setIsLoading(() => false);
-        //응답수정필요
-        if (checkNameResult.status !== 200 || !checkNameResult.data.result) {
-          alert("중복된 이미지명입니다");
+        if (checkNameResult.data.result === false) {
+          fireToast({ type: "alert", message: "사용중인 타이틀 입니다." });
           return;
         }
         setIsValidName((_pre) => true);
         inputNameRef.current.disabled = true;
-        alert("사용가능한 이미지명입니다");
+        fireToast({ type: "success", message: "사용가능한 타이틀 입니다." });
       }
     } catch (err) {
       console.error(err);

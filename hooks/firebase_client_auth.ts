@@ -5,7 +5,7 @@ import axios, { AxiosResponse } from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 type addMemberResult = Awaited<ReturnType<typeof memberModel.add>>;
-export const signIn = async (): Promise<addMemberResult> => {
+export const signIn = async (): Promise<addMemberResult | undefined> => {
   try {
     const provider = new GoogleAuthProvider();
     const auth = FirebaseClient.getInstance().Auth;
@@ -37,7 +37,6 @@ export const signIn = async (): Promise<addMemberResult> => {
   } catch (err) {
     console.error(err);
     await signOut();
-    return { result: false, message: "sigin error" };
   }
 };
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import unauthorized from "@/styles/error/unauthorized.module.scss";
 
-const Unauthorized = () => {
+const Timeout = () => {
   useEffect(() => {
     signOut();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,4 +34,4 @@ const Unauthorized = () => {
   );
 };
 
-export default Unauthorized;
+export default Timeout;

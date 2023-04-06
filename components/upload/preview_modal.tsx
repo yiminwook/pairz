@@ -1,13 +1,15 @@
-import { isLoadingAtom, userInfoAtom } from "@/recoil/atoms";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isLoadingAtom } from "@/recoil/atoms";
+import { useSetRecoilState } from "recoil";
 import axios, { AxiosResponse } from "axios";
 import FirebaseClient from "@/models/firebase_client";
 import imageModel from "@/models/image/image.model";
 import { Dispatch, RefObject, SetStateAction } from "react";
 import preview from "@/styles/upload/preview.module.scss";
 import Card from "../common/card";
+import { useToast } from "@/hooks/useToast";
 
 interface Props {
+  uid: string;
   inputNameRef: RefObject<HTMLInputElement>;
   imgRef: RefObject<HTMLImageElement>;
   imgFile: File | undefined;
@@ -21,6 +23,7 @@ interface Props {
 }
 
 const Preview = ({
+  uid,
   inputNameRef,
   imgRef,
   imgFile,
@@ -33,28 +36,39 @@ const Preview = ({
   setShowPreview,
 }: Props) => {
   const setIsLoading = useSetRecoilState(isLoadingAtom);
-  const userInfo = useRecoilValue(userInfoAtom);
+  const { fireToast } = useToast();
 
   const send = async () => {
     const width = imgRef.current?.naturalWidth;
     const height = imgRef.current?.naturalHeight;
     const idToken =
       await FirebaseClient.getInstance().Auth.currentUser?.getIdToken(true);
-    if (!(idToken && userInfo?.uid)) {
-      alert("비정상적인 접근 또는 로그인이 만료되었습니다");
+    if (!(idToken && uid)) {
+      fireToast({
+        type: "error",
+        message: "비정상적인 접근 또는 로그인이 만료되었습니다",
+      });
+      return;
     }
     if (!imgFile) {
-      alert("이미지를 먼저 업로드 해주세요");
+      fireToast({
+        type: "alert",
+        message: "이미지를 먼저 업로드 해주세요",
+      });
       return;
     }
     if (!isValidName) {
-      alert("이미지명의 유효성검사를 하지않았습니다");
+      fireToast({
+        type: "alert",
+        message: "이미지명의 유효성검사를 하지않았습니다",
+      });
       return;
     }
     if (width !== fixedImgWidth && height !== fixedImgHeight) {
-      alert(
-        `이미지는 ${fixedImgWidth} x ${fixedImgHeight}만 업로드 가능합니다.`
-      );
+      fireToast({
+        type: "alert",
+        message: `이미지는 ${fixedImgWidth} x ${fixedImgHeight}만 업로드 가능합니다.`,
+      });
       return;
     }
     try {
@@ -65,7 +79,7 @@ const Preview = ({
       formData.append("image", imgFile);
       formData.append("imageName", imageNameValue);
       formData.append("imageType", imgFile.type);
-      formData.append("uid", userInfo?.uid ?? "");
+      formData.append("uid", uid);
       const result: AxiosResponse<Awaited<ReturnType<typeof imageModel.add>>> =
         await axios({
           method: "POST",

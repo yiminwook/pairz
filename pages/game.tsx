@@ -7,10 +7,11 @@ import GameOver from "@/components/game/over_modal";
 import ServiceLayout from "@/components/common/service_layout";
 import Deck from "@/components/game/deck";
 import GameStatus from "@/components/game/game_status";
+import { useToast } from "@/hooks/useToast";
 
 const defaultValue = {
   //게임진행
-  time: 6000,
+  time: 60,
   life: 3,
   //score
   score: 0,
@@ -39,6 +40,8 @@ const GamePage: NextPage = () => {
   const [isPause, setIsPause] = useState<boolean>(false);
   const [countPause, setCoundPause] = useState<number>(defaultValue.countPause);
 
+  const { fireToast } = useToast();
+
   //life
   useEffect(() => {
     if (life <= 0) {
@@ -66,11 +69,17 @@ const GamePage: NextPage = () => {
   const handlePause = useCallback(
     (bool: boolean) => {
       if (isGameLoading) {
-        alert("카드확인중에는 pause 할 수 없습니다");
+        fireToast({
+          type: "alert",
+          message: "카드확인중에는 pause 할 수 없습니다.",
+        });
       }
 
       if (countPause < 0) {
-        alert("더이상 pause 할 수 없습니다.");
+        fireToast({
+          type: "alert",
+          message: "더이상 pause 할 수 없습니다.",
+        });
       }
 
       if (!isGameLoading && countPause >= 0) {

@@ -9,6 +9,7 @@ import InputFile from "@/components/upload/input_file";
 import DragDrop from "@/components/upload/drag_drop";
 import CheckName from "@/components/upload/check_name";
 import Crop from "@/components/upload/crop_modal";
+import { useToast } from "@/hooks/useToast";
 
 /* 이미지 사이즈 제한 단위 px */
 const [fixedImgWidth, fixedImgHeight] = [200, 300];
@@ -26,6 +27,7 @@ const UploadPage: NextPage = () => {
   const [isValidName, setIsValidNameisValidName] = useState<boolean>(false);
 
   const userInfo = useRecoilValue(userInfoAtom);
+  const { fireToast } = useToast();
 
   const handleSaveImg = (file: File) => {
     if (file.type === "image/png" || file.type === "image/jpeg") {
@@ -35,8 +37,10 @@ const UploadPage: NextPage = () => {
       setShowCrop((_pre) => false);
       return;
     }
-
-    alert("image png 파일만 업로드 가능합니다.");
+    fireToast({
+      type: "alert",
+      message: "image 또는 png 파일만 업로드 가능합니다.",
+    });
     handleResetImg();
   };
 
@@ -62,20 +66,33 @@ const UploadPage: NextPage = () => {
     const width = imgRef.current?.naturalWidth;
     const height = imgRef.current?.naturalHeight;
     if (!(userInfo !== null && userInfo.uid)) {
-      alert("로그인이후 이용가능합니다.");
+      fireToast({
+        type: "alert",
+        message: "로그인이후 이용가능합니다.",
+      });
       return;
     }
     if (imgFile === undefined || imgURL === "") {
-      alert("이미지를 업로드 해주세요");
+      fireToast({
+        type: "alert",
+        message: "이미지를 업로드 해주세요",
+      });
       return;
     }
     if (width !== fixedImgWidth && height !== fixedImgHeight) {
-      alert(
-        `이미지는 ${fixedImgWidth} x ${fixedImgHeight}만 업로드 가능합니다.`
-      );
+      fireToast({
+        type: "alert",
+        message: `이미지는 ${fixedImgWidth} x ${fixedImgHeight}만 업로드 가능합니다.`,
+      });
       return;
     }
-    if (isValidName === false) alert("타이틀 중복검사를 해주세요");
+    if (isValidName === false) {
+      fireToast({
+        type: "alert",
+        message: "타이틀 중복검사를 해주세요",
+      });
+      return;
+    }
     setShowPreview(() => true);
   };
 
@@ -83,8 +100,9 @@ const UploadPage: NextPage = () => {
     <ServiceLayout title="Pairz Upload Page">
       <main className={upload["container"]}>
         {/* preview modal */}
-        {isValidName && showPreview ? (
+        {isValidName && userInfo?.uid && showPreview ? (
           <Preview
+            uid={userInfo.uid}
             inputNameRef={inputNameRef}
             imgRef={imgRef}
             imgFile={imgFile}
