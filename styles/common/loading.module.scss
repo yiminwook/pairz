@@ -1,8 +1,8 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
-.container {
+.loading {
   z-index: 300;
   position: absolute;
   background-color: map-get($colors, half-transparent);
@@ -11,8 +11,8 @@
   top: 0;
   left: 0;
   @include flex-center();
-  .inner__container {
-    .icon__container {
+  & > div {
+    .icon {
       img {
         width: 100%;
         height: 100%;

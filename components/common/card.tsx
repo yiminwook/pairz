@@ -1,9 +1,9 @@
-import card from "@/styles/common/card.module.scss";
-import Image from "next/image";
-import { memo, useRef, useState } from "react";
-import { CardBase } from "../game/deck";
+import card from '@/styles/common/card.module.scss';
+import Image from 'next/image';
+import { memo, useRef, useState } from 'react';
+import { CardBase } from '@/components/game/deck';
 
-export type color = "white" | "red" | "orange" | "blue" | "green";
+export type color = 'white' | 'red' | 'orange' | 'blue' | 'green';
 interface Props {
   idx: number;
   imgURL: string;
@@ -18,15 +18,7 @@ interface Props {
  *
  *  preView모드 일때는 isDisable = True
  */
-const Card = ({
-  idx,
-  imgURL,
-  isPreView,
-  isFlip,
-  color,
-  isDisable,
-  checkPair,
-}: Props) => {
+const Card = ({ idx, imgURL, isPreView, isFlip, color, isDisable, checkPair }: Props) => {
   const [failToGetImage, setFailToGetImage] = useState<boolean>(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -42,36 +34,23 @@ const Card = ({
       //프리뷰모드일때
       if (isPreView === true) {
         if (!style.animationPlayState) {
-          style.animationPlayState = "paused";
+          style.animationPlayState = 'paused';
         } else {
-          style.animationPlayState = "";
+          style.animationPlayState = '';
         }
       }
     }
   };
 
-  const cardClassNameList = [
-    card.container,
-    isPreView ? card.preview : "",
-    isFlip ? card.flip : "",
-  ];
+  const cardClassNameList = [card.container, isPreView ? card.preview : '', isFlip ? card.flip : ''];
 
   return (
     <>
-      <div
-        className={cardClassNameList.join(" ")}
-        ref={cardRef}
-        onClick={handleEffect}
-      >
-        <div className={[card["front"], card[color]].join(" ")}>
-          <div className={card["front_img_container"]}>
+      <div className={cardClassNameList.join(' ')} ref={cardRef} onClick={handleEffect}>
+        <div className={[card['front'], card[color]].join(' ')}>
+          <div>
             {failToGetImage ? (
-              <Image
-                width={200}
-                height={300}
-                alt="get_failed_card_img"
-                src="/home_icon.png"
-              />
+              <Image width={200} height={300} alt="get_failed_card_img" src="/home_icon.png" />
             ) : (
               <Image
                 width={200}
@@ -83,14 +62,9 @@ const Card = ({
             )}
           </div>
         </div>
-        <div className={card["back"]}>
-          <div className={card["back_img_container"]}>
-            <Image
-              src="/loading_icon.png"
-              alt="card_back_img"
-              width={90}
-              height={90}
-            />
+        <div className={card['back']}>
+          <div>
+            <Image src="/loading_icon.png" alt="card_back_img" width={90} height={90} />
           </div>
         </div>
       </div>

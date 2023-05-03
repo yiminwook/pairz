@@ -1,13 +1,13 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
 %plane {
   width: 100%;
   height: 100%;
-  @include backface-visibility();
   position: absolute;
   @include flex-center();
+  @include backface-visibility();
 }
 
 .container {
@@ -24,25 +24,34 @@
   @include box-shadow(5px, 5px, 10px, rgba(0, 0, 0, 0.3));
   @include prevent-user-select();
 
+  @include min-width($mixin-large-width) {
+    width: 8rem;
+    height: 12.8rem;
+  }
+
+  @include min-width($mixin-xl-width) {
+    width: 10rem;
+    height: 16rem;
+  }
+
+  &.flip {
+    -moz-transform: rotateY(-180deg);
+    -webkit-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+  }
+
+  &.preview {
+    -webkit-transform-origin: center;
+    transform-origin: center;
+    @include animation(card-preview, 5s, 0s);
+  }
+
   .front {
     @extend %plane;
     overflow: hidden;
     border-radius: 20px;
     @include flex-center();
 
-    .front_img_container {
-      width: 80%;
-      height: 80%;
-      img {
-        @include backface-visibility();
-        width: 100%;
-        height: 100%;
-        display: block;
-        margin: 0 auto;
-        border-radius: 5px;
-        @include prevent-user-select();
-      }
-    }
     &.white {
       background-color: map-get($colors, white) !important;
     }
@@ -62,6 +71,20 @@
     &.green {
       background-color: map-get($colors, green) !important;
     }
+
+    & > div {
+      width: 80%;
+      height: 80%;
+      & > img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        margin: 0 auto;
+        border-radius: 5px;
+        @include backface-visibility();
+        @include prevent-user-select();
+      }
+    }
   }
 
   .back {
@@ -78,32 +101,10 @@
       position: absolute;
       width: 80%;
       height: 80%;
-      content: "";
+      content: '';
       border: 3px map-get($colors, light-gray);
       border-style: outset;
       border-radius: 20px;
     }
-  }
-
-  &.flip {
-    -moz-transform: rotateY(-180deg);
-    -webkit-transform: rotateY(-180deg);
-    transform: rotateY(-180deg);
-  }
-
-  &.preview {
-    -webkit-transform-origin: center;
-    transform-origin: center;
-    @include animation(card-preview, 5s, 0s);
-  }
-
-  @include min-width($mixin-large-width) {
-    width: 8rem;
-    height: 12.8rem;
-  }
-
-  @include min-width($mixin-xl-width) {
-    width: 10rem;
-    height: 16rem;
   }
 }

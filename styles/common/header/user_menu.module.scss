@@ -1,6 +1,6 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
 %hover-font-color {
   color: map-get($colors, orange);
@@ -14,11 +14,11 @@
   letter-spacing: 0.1rem;
 }
 
-.menu {
+.user-menu {
   position: relative;
   z-index: 101;
 
-  .menu__button {
+  .menu {
     @include flex-center();
     padding: 0.5rem 1.5rem;
     border: 3px solid map-get($colors, orange);
@@ -34,26 +34,27 @@
       border-color: map-get($colors, azure);
     }
 
-    .menu__name {
+    .name {
       margin-right: 1rem;
       font-size: 1.5rem;
       color: azure;
       @include text-line(1, 2rem);
     }
 
-    .menu__photo {
+    .photo {
       overflow: hidden;
       width: 3rem;
       height: 3rem;
       border-radius: 50px;
       @include box-shadow(1px, 1px, 5px, rgba(0, 0, 0, 0.3));
 
-      .menu__photo__img {
+      img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
     }
+
     &:focus-visible {
       outline: 5px solid #b976f0;
       outline-offset: -10px;

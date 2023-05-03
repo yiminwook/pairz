@@ -118,7 +118,7 @@ const Deck = ({
 
   const drawCards = useCallback(async () => {
     setIsGameLoading((_pre) => true);
-    // await getImgs(); //서버에 이미지요청
+    await getImgs(); //서버에 이미지요청
     const shuffledCards = shuffle(setCard);
 
     setCards((_pre) => [...shuffledCards]);
