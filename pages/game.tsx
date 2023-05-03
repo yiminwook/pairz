@@ -1,32 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { NextPage } from "next";
-import { useCallback, useEffect, useState } from "react";
-import game from "@/styles/game/game.module.scss";
-import Pause from "@/components/game/pause_modal";
-import GameOver from "@/components/game/over_modal";
-import ServiceLayout from "@/components/common/service_layout";
-import Deck from "@/components/game/deck";
-import GameStatus from "@/components/game/game_status";
-import { useToast } from "@/hooks/useToast";
-
-const defaultValue = {
-  //게임진행
-  time: 60,
-  life: 3,
-  //score
-  score: 0,
-  pairScore: 10,
-  roundScore: 100,
-  /** pause회수 3회 */
-  countPause: 5,
-  /** 카드확인시간 */
-  checkCardTime: 5600,
-};
+import { NextPage } from 'next';
+import { useCallback, useEffect, useState } from 'react';
+import game from '@/styles/game/game.module.scss';
+import Pause from '@/components/game/pause_modal';
+import GameOver from '@/components/game/over_modal';
+import ServiceLayout from '@/components/common/service_layout';
+import Deck from '@/components/game/deck';
+import GameStatus from '@/components/game/game_status';
+import { useToast } from '@/hooks/useToast';
+import { DEFALUT_GAME_SET } from '@/consts';
 
 const GamePage: NextPage = () => {
   //게임진행
-  const [time, setTime] = useState<number>(defaultValue.time);
-  const [life, setLife] = useState<number>(defaultValue.life);
+  const [time, setTime] = useState<number>(DEFALUT_GAME_SET.time);
+  const [life, setLife] = useState<number>(DEFALUT_GAME_SET.life);
   const [round, setRound] = useState<number>(0);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [isGameLoading, setIsGameLoading] = useState<boolean>(false);
@@ -34,11 +21,11 @@ const GamePage: NextPage = () => {
   const [countSelect, setCountSelect] = useState<number>(0);
 
   //score
-  const [score, setScore] = useState<number>(defaultValue.score);
+  const [score, setScore] = useState<number>(DEFALUT_GAME_SET.score);
 
   //pause
   const [isPause, setIsPause] = useState<boolean>(false);
-  const [countPause, setCoundPause] = useState<number>(defaultValue.countPause);
+  const [countPause, setCoundPause] = useState<number>(DEFALUT_GAME_SET.countPause);
 
   const { fireToast } = useToast();
 
@@ -53,7 +40,7 @@ const GamePage: NextPage = () => {
   useEffect(() => {
     if (countSelect >= 5) {
       setRound((pre) => pre + 1);
-      setScore((pre) => pre + defaultValue.roundScore);
+      setScore((pre) => pre + DEFALUT_GAME_SET.roundScore);
     }
   }, [countSelect]);
 
@@ -70,15 +57,15 @@ const GamePage: NextPage = () => {
     (bool: boolean) => {
       if (isGameLoading) {
         fireToast({
-          type: "alert",
-          message: "카드확인중에는 pause 할 수 없습니다.",
+          type: 'alert',
+          message: '카드확인중에는 pause 할 수 없습니다.',
         });
       }
 
       if (countPause < 0) {
         fireToast({
-          type: "alert",
-          message: "더이상 pause 할 수 없습니다.",
+          type: 'alert',
+          message: '더이상 pause 할 수 없습니다.',
         });
       }
 
@@ -87,13 +74,13 @@ const GamePage: NextPage = () => {
         setCoundPause((pre) => pre - 1);
       }
     },
-    [isGameLoading, countPause, isGameLoading]
+    [isGameLoading, countPause, isGameLoading],
   );
 
   const resetGame = useCallback(() => {
     //게임진행
-    setTime(() => defaultValue.time);
-    setLife(() => defaultValue.life);
+    setTime(() => DEFALUT_GAME_SET.time);
+    setLife(() => DEFALUT_GAME_SET.life);
     setIsGameOver(() => false);
 
     //score
@@ -101,7 +88,7 @@ const GamePage: NextPage = () => {
 
     //pause
     setIsPause(() => false);
-    setCoundPause(() => defaultValue.countPause);
+    setCoundPause(() => DEFALUT_GAME_SET.countPause);
 
     //deck 초기화
     setRound(() => -1);
@@ -110,37 +97,31 @@ const GamePage: NextPage = () => {
 
   return (
     <ServiceLayout title="Game Start!">
-      <main className={game["container"]}>
+      <main className={game['game']}>
         {/* game over modal */}
         {isGameOver ? <GameOver score={score} resetGame={resetGame} /> : null}
         {/* pause modal */}
-        {isPause ? (
-          <Pause handlePause={handlePause} countPause={countPause} />
-        ) : null}
-        <section className={game["content"]}>
-          <section className={game["status"]}>
-            <GameStatus
-              time={time}
-              round={round}
-              score={score}
-              life={life}
-              handlePause={handlePause}
-              countPause={countPause}
-            />
-          </section>
-          <section className={game["deck"]}>
-            <Deck
-              round={round}
-              isGameOver={isGameOver}
-              isPause={isPause}
-              setIsGameLoading={setIsGameLoading}
-              setLife={setLife}
-              checkCardTime={defaultValue.checkCardTime}
-              setCountSelect={setCountSelect}
-              pairScore={defaultValue.pairScore}
-              setScore={setScore}
-            />
-          </section>
+        {isPause ? <Pause handlePause={handlePause} countPause={countPause} /> : null}
+        <section className={game['content']}>
+          <GameStatus
+            time={time}
+            round={round}
+            score={score}
+            life={life}
+            handlePause={handlePause}
+            countPause={countPause}
+          />
+          <Deck
+            round={round}
+            isGameOver={isGameOver}
+            isPause={isPause}
+            setIsGameLoading={setIsGameLoading}
+            setLife={setLife}
+            checkCardTime={DEFALUT_GAME_SET.checkCardTime}
+            setCountSelect={setCountSelect}
+            pairScore={DEFALUT_GAME_SET.pairScore}
+            setScore={setScore}
+          />
         </section>
       </main>
     </ServiceLayout>

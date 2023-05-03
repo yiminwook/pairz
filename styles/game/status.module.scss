@@ -1,8 +1,9 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
-.container {
+.status {
+  width: calc(100% - 1.5rem - 10px);
   background-color: #ffefcb;
   padding: 0.75rem;
   border: 5px solid lighten(map-get($colors, wood), 10%);
@@ -11,27 +12,21 @@
   @include flex-center();
   color: map-get($colors, wood);
 
-  .status {
+  table {
     flex: 5;
     width: 100%;
     margin-right: 1rem;
     border: 3px solid azure;
     border-radius: 20px;
 
-    .status__head {
+    thead {
       text-transform: uppercase;
     }
-    .status__body {
+    tbody {
       font-size: 1.25rem;
 
       @include min-width($mixin-large-width) {
         font-size: 1.5rem;
-      }
-    }
-    .status__life {
-      width: 20rem;
-      span:not(:last-of-type) {
-        margin-right: 0.5rem;
       }
     }
   }
@@ -40,7 +35,7 @@
     flex: 1;
     @include flex-center();
     flex-direction: column;
-    .pause__desc {
+    & > div {
       margin-bottom: 0.75rem;
       h2 {
         display: inline-block;
@@ -53,8 +48,15 @@
         display: inline-block;
       }
     }
-    .pause__button {
+    button {
       @extend %button--orange;
     }
+  }
+}
+
+.life {
+  width: 20rem;
+  & > span:not(:last-of-type) {
+    margin-right: 0.5rem;
   }
 }

@@ -1,16 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import Card, { color } from "@/components/common/card";
-import { ImageInfo } from "@/models/Info";
-import axios, { AxiosResponse } from "axios";
-import imageModel from "@/models/image/image.model";
+import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
+import Card, { color } from '@/components/common/card';
+import { ImageInfo } from '@/models/Info';
+import axios, { AxiosResponse } from 'axios';
+import imageModel from '@/models/image/image.model';
+import game from '@/styles/game/game.module.scss';
 
 export interface CardBase {
   idx: number;
@@ -58,12 +52,11 @@ const Deck = ({
   /** 겹치지 않는 이미지 5장 서버에서 요청 */
   const getImgs = useCallback(async () => {
     try {
-      const randomResult: AxiosResponse<
-        Awaited<ReturnType<typeof imageModel.getRandom>>
-      > = await axios.get("/api/image.random");
+      const randomResult: AxiosResponse<Awaited<ReturnType<typeof imageModel.getRandom>>> = await axios.get(
+        '/api/image.random',
+      );
       const { status, data } = randomResult;
-      if (status !== 200 || data.imageData.length !== 5)
-        throw new Error("Failed get random Image");
+      if (status !== 200 || data.imageData.length !== 5) throw new Error('Failed get random Image');
 
       const cardImages: ImageInfo[] = data.imageData;
       setReqRandomImgs((_pre) => [...cardImages]);
@@ -76,25 +69,25 @@ const Deck = ({
   const setCard = useMemo(() => {
     const newCards = Array.from(Array(5), () => []);
     const setCardsData = newCards.map((img, idx): CardInfo => {
-      let color: CardInfo["color"];
+      let color: CardInfo['color'];
       switch (idx) {
         case 0:
-          color = "white";
+          color = 'white';
           break;
         case 1:
-          color = "red";
+          color = 'red';
           break;
         case 2:
-          color = "blue";
+          color = 'blue';
           break;
         case 3:
-          color = "green";
+          color = 'green';
           break;
         case 4:
-          color = "orange";
+          color = 'orange';
           break;
         default:
-          color = "white";
+          color = 'white';
       }
       return { ...img, idx, color, isFlip: true, isDisable: true };
     }, []);
@@ -125,7 +118,7 @@ const Deck = ({
 
   const drawCards = useCallback(async () => {
     setIsGameLoading((_pre) => true);
-    await getImgs();
+    // await getImgs(); //서버에 이미지요청
     const shuffledCards = shuffle(setCard);
 
     setCards((_pre) => [...shuffledCards]);
@@ -193,23 +186,23 @@ const Deck = ({
         }
       }
     },
-    [cards, isGameOver, isPause, select]
+    [cards, isGameOver, isPause, select],
   );
 
   return (
-    <>
+    <section className={game['deck']}>
       {cards.map((card, idx) => (
         <Card
           key={idx}
           idx={idx}
           color={card.color}
-          imgURL={reqRandomImgs[card.idx]?.imgURL ?? "/home_icon.png"}
+          imgURL={reqRandomImgs[card.idx]?.imgURL ?? '/home_icon.png'}
           isFlip={card.isFlip}
           isDisable={card.isDisable}
           checkPair={checkPair}
         />
       ))}
-    </>
+    </section>
   );
 };
 
