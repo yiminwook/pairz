@@ -1,8 +1,8 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
-.container {
+.input-text {
   overflow: hidden;
   position: relative;
   width: 100%;

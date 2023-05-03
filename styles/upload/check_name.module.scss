@@ -1,71 +1,76 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
-.container {
-  height: 100%;
-  background-color: white;
-  @include flex-center();
-  .content {
-    width: 90%;
-    margin-bottom: 12%;
-    @include min-width($mixin-xl-width) {
-      width: 80%;
-    }
+.check-name {
+  grid-area: top-right;
 
-    .name {
-      width: 100%;
+  form {
+    height: 100%;
+    background-color: white;
+    @include flex-center();
 
-      .name__label {
-        color: black;
-        font-size: 1.25rem;
-        font-weight: 500;
-        margin-bottom: 3%;
+    & > div {
+      width: 90%;
+      margin-bottom: 12%;
+      @include min-width($mixin-xl-width) {
+        width: 80%;
       }
 
-      .name__container {
+      .name {
         width: 100%;
-        display: flex;
-        align-items: center;
-        position: relative;
-        gap: 2%;
 
-        .name__container__left {
-          width: 70%;
-          input {
-            width: 80%;
-            font-size: 0.8rem;
-            @include min-width($mixin-large-width) {
-              font-size: 1rem;
-            }
-            @include min-width($mixin-xl-width) {
-              font-size: 1.25rem;
-            }
-            @include min-width($mixin-xl-width) {
-              font-size: 1.5rem;
-            }
-          }
+        label {
+          color: black;
+          font-size: 1.25rem;
+          font-weight: 500;
+          margin-bottom: 3%;
         }
 
-        .name__container__right {
-          .check__button {
-            @extend %button--white;
-            height: 2.75rem;
+        .name__container {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          position: relative;
+          gap: 2%;
+
+          .name__container__left {
+            width: 70%;
+            input {
+              width: 80%;
+              font-size: 0.8rem;
+              @include min-width($mixin-large-width) {
+                font-size: 1rem;
+              }
+              @include min-width($mixin-xl-width) {
+                font-size: 1.25rem;
+              }
+              @include min-width($mixin-xl-width) {
+                font-size: 1.5rem;
+              }
+            }
           }
 
-          .reset__button {
-            @extend %button--orange;
-            height: 2.75rem;
-          }
-        }
+          .name__container__right {
+            .check {
+              @extend %button--white;
+              height: 2.75rem;
+            }
 
-        &::before {
-          position: absolute;
-          bottom: -60%;
-          font-size: 1rem;
-          line-height: 1.2rem;
-          color: red;
-          content: "* 문자열과 특수문자는 입력 할 수 없습니다.";
+            .reset {
+              @extend %button--orange;
+              height: 2.75rem;
+            }
+          }
+
+          &::before {
+            position: absolute;
+            bottom: -60%;
+            font-size: 1rem;
+            line-height: 1.2rem;
+            color: red;
+            content: '* 문자열과 특수문자는 입력 할 수 없습니다.';
+          }
         }
       }
     }

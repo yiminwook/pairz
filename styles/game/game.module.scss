@@ -1,8 +1,8 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
-.container {
+.game {
   @include page-base();
   @include flex-center();
 
@@ -13,10 +13,6 @@
     display: flex;
     height: calc(100% - 2rem);
     flex-direction: column;
-
-    .status {
-      width: 100%;
-    }
 
     .deck {
       margin: auto;

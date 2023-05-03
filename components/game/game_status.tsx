@@ -1,5 +1,5 @@
-import status from "@/styles/game/status.module.scss";
-import Life from "./life";
+import status from '@/styles/game/status.module.scss';
+import Life from '@/components/game/life';
 
 interface Props {
   time: number;
@@ -10,18 +10,11 @@ interface Props {
   handlePause: (bool: boolean) => void;
 }
 
-const GameStatus = ({
-  time,
-  round,
-  score,
-  life,
-  countPause,
-  handlePause,
-}: Props) => {
+const GameStatus = ({ time, round, score, life, countPause, handlePause }: Props) => {
   return (
-    <div className={status["container"]}>
-      <table className={status["status"]}>
-        <thead className={status["status__head"]}>
+    <section className={status['status']}>
+      <table>
+        <thead>
           <tr>
             <th>
               <h3>round</h3>
@@ -32,37 +25,30 @@ const GameStatus = ({
             <th>
               <h3>score</h3>
             </th>
-            <th className={status["status__life"]}>
+            <th className={status['life']}>
               <h3>life</h3>
             </th>
           </tr>
         </thead>
-        <tbody className={status["status__body"]}>
+        <tbody>
           <tr>
-            <th className={status["status__round"]}>
-              {round >= 0 && round + 1}
-            </th>
-            <th className={status["status__time"]}>{time} 초</th>
-            <th className={status["status__score"]}>{score} 점</th>
-            <th className={status["status__life"]}>
+            <th>{round >= 0 && round + 1}</th>
+            <th>{time} 초</th>
+            <th>{score} 점</th>
+            <th className={status['life']}>
               <Life life={life} />
             </th>
           </tr>
         </tbody>
       </table>
-      <div className={status["pause"]}>
-        <div className={status["pause__desc"]}>
+      <div className={status['pause']}>
+        <div>
           <h2>남은횟수</h2>
           <span>{Math.ceil(countPause / 2)}</span>
         </div>
-        <button
-          className={status["pause__button"]}
-          onClick={() => handlePause(true)}
-        >
-          pause
-        </button>
+        <button onClick={() => handlePause(true)}>pause</button>
       </div>
-    </div>
+    </section>
   );
 };
 

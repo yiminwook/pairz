@@ -1,6 +1,6 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
 //checkBox mobile nav
 .mobile__check-box {
@@ -55,7 +55,7 @@
   z-index: 300;
   left: calc(50% - 2.5rem);
 
-  .mobile__nav {
+  & > label {
     width: 4.3rem;
     padding: 0.3rem;
     margin: 0 auto;

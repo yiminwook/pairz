@@ -1,19 +1,18 @@
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { PropsWithChildren, useEffect } from "react";
-import FirebaseClient from "@/models/firebase_client";
-import { User } from "firebase/auth";
-import { isLoadingAtom, userInfoAtom } from "@/recoil/atoms";
-import { emailToEmailId } from "@/utils/email_to_emailId";
-import Loading from "./loading";
-import Head from "next/head";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { PropsWithChildren, useEffect } from 'react';
+import FirebaseClient from '@/models/firebase_client';
+import { User } from 'firebase/auth';
+import { isLoadingAtom, userInfoAtom } from '@/recoil/atoms';
+import { emailToEmailId } from '@/utils/email_to_emailId';
+import Loading from './loading';
+import Head from 'next/head';
 
 const Observe = ({ children }: PropsWithChildren) => {
   const setUserinfo = useSetRecoilState(userInfoAtom);
   const isLoading = useRecoilValue(isLoadingAtom);
 
   useEffect(() => {
-    const unsubscribe =
-      FirebaseClient.getInstance().Auth.onAuthStateChanged(authStateChanged);
+    const unsubscribe = FirebaseClient.getInstance().Auth.onAuthStateChanged(authStateChanged);
     return () => unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

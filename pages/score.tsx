@@ -1,29 +1,26 @@
-import ServiceLayout from "@/components/common/service_layout";
-import { getBaseURL } from "@/utils/get_base_url";
-import axios, { AxiosResponse } from "axios";
-import { GetStaticProps, NextPage } from "next";
-import score from "@/styles/score.module.scss";
-import { useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { isLoadingAtom } from "@/recoil/atoms";
-import { ParsedScoreInfo } from "@/models/Info";
-import scoreModel from "@/models/score/score.model";
-import RenderRank from "@/components/score/render_rank";
+import ServiceLayout from '@/components/common/service_layout';
+import { getBaseURL } from '@/utils/get_base_url';
+import axios, { AxiosResponse } from 'axios';
+import { GetStaticProps, NextPage } from 'next';
+import score from '@/styles/score/score.module.scss';
+import { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { isLoadingAtom } from '@/recoil/atoms';
+import { ParsedScoreInfo } from '@/models/Info';
+import scoreModel from '@/models/score/score.model';
+import RenderRank from '@/components/score/render_rank';
 
 type getScoreResult = Awaited<ReturnType<typeof scoreModel.get>>;
 
 const ScorePage: NextPage<getScoreResult> = ({ scoreData, lastIdx = 0 }) => {
   const [reqLastIdx, setReqLastIdx] = useState<number>(lastIdx);
-  const [reqScoreData, setReqScoreData] =
-    useState<ParsedScoreInfo[]>(scoreData);
+  const [reqScoreData, setReqScoreData] = useState<ParsedScoreInfo[]>(scoreData);
   const setIsLoading = useSetRecoilState(isLoadingAtom);
 
   const getScore = async () => {
     try {
       setIsLoading((_pre) => true);
-      const getScoreResult: AxiosResponse<getScoreResult> = await axios.get(
-        `/api/score.get?idx=${reqLastIdx - 1}`
-      );
+      const getScoreResult: AxiosResponse<getScoreResult> = await axios.get(`/api/score.get?idx=${reqLastIdx - 1}`);
       const { status, data } = getScoreResult;
       if (status === 200 && data.scoreData.length >= 0) {
         setReqScoreData((pre) => [...pre, ...data.scoreData]);
@@ -38,8 +35,8 @@ const ScorePage: NextPage<getScoreResult> = ({ scoreData, lastIdx = 0 }) => {
 
   return (
     <ServiceLayout title="Pairz SCORE">
-      <section className={score["container"]}>
-        <div className={score["table__container"]}>
+      <section className={score['score']}>
+        <div className={score['contents']}>
           <table>
             <thead>
               <tr>
@@ -65,13 +62,11 @@ const ScorePage: NextPage<getScoreResult> = ({ scoreData, lastIdx = 0 }) => {
             </tbody>
           </table>
         </div>
-        <div className={score["more"]}>
-          {reqLastIdx > 0 ? (
-            <button className={score["more__button"]} onClick={getScore}>
-              more
-            </button>
-          ) : null}
-        </div>
+        {reqLastIdx > 0 ? (
+          <div className={score['more']}>
+            <button onClick={getScore}>more</button>
+          </div>
+        ) : null}
       </section>
     </ServiceLayout>
   );
@@ -82,9 +77,7 @@ export default ScorePage;
 export const getStaticProps: GetStaticProps<getScoreResult> = async () => {
   try {
     const baseURL = getBaseURL(true);
-    const getScoreResult: AxiosResponse<getScoreResult> = await axios.get(
-      `${baseURL}/api/score.get`
-    );
+    const getScoreResult: AxiosResponse<getScoreResult> = await axios.get(`${baseURL}/api/score.get`);
 
     return {
       props: {

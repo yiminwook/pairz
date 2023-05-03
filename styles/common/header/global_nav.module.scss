@@ -1,10 +1,10 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
 .home {
   margin-left: 3.5rem;
-  .home__link {
+  a {
     margin-top: 0.4rem;
     &:hover,
     &:active {
@@ -13,7 +13,7 @@
   }
 }
 
-.container__right {
+.right {
   display: flex;
   justify-content: space-around;
   align-items: center;
