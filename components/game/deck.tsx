@@ -97,7 +97,7 @@ const Deck = ({
           color = "white";
       }
       return { ...img, idx, color, isFlip: true, isDisable: true };
-    });
+    }, []);
 
     const copyCards = [
       ...setCardsData,

@@ -1,23 +1,26 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
-.container {
+.crop {
   @extend %modal;
 
   .back-drop {
     @extend %modal__back-drop;
   }
+
   .content {
     @extend %modal__content;
     width: 80%;
     height: 80%;
     padding: 1rem;
-    .cropper {
+
+    & > div:nth-child(1) {
       top: 0;
       left: 0;
+      background-color: red;
 
-      .cropper__img {
+      .cropper {
         width: 400px;
         height: 350px;
 
@@ -32,24 +35,27 @@
         }
       }
     }
-    .lower {
+
+    & > div:nth-child(2) {
       width: 100%;
-      .button_container {
+
+      & > div {
         margin: 0 auto;
         @include flex-center();
         width: 80%;
         gap: 10%;
 
-        .save {
-          background-color: beige;
-          .save__button {
-            @extend %button--blue;
+        .cancel {
+          button {
+            @extend %button--orange;
             @extend %button-size;
           }
         }
-        .cancel {
-          .cancel__button {
-            @extend %button--orange;
+
+        .save {
+          background-color: beige;
+          button {
+            @extend %button--blue;
             @extend %button-size;
           }
         }

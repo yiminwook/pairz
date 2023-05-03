@@ -1,17 +1,33 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
-.container {
+%img-size {
+  width: map-get($img-size, width);
+  height: map-get($img-size, height);
+
+  @include min-width($mixin-middle-width) {
+    width: map-get($img-size, width) * 1.2;
+    height: map-get($img-size, height) * 1.2;
+  }
+
+  @include min-width($mixin-large-width) {
+    width: map-get($img-size, width) * 1.5;
+    height: map-get($img-size, height) * 1.5;
+  }
+}
+
+.drag-drop {
   position: relative;
+  grid-area: top-left;
   @include flex-center();
   height: 100%;
-  margin: auto;
   padding: 0;
   background-color: rgba(#fffde7, 98%);
 
-  .content {
+  & > label {
     cursor: pointer;
+
     img {
       overflow: hidden;
       @extend %img-size;
@@ -29,14 +45,14 @@
         width: inherit;
         height: inherit;
         scale: 0.9;
-        content: "";
+        content: '';
       }
 
       &::after {
         position: absolute;
         font-size: 0.8rem;
         z-index: 5;
-        content: "업로드된 이미지가 없습니다.";
+        content: '업로드된 이미지가 없습니다.';
 
         @include min-width($mixin-middle-width) {
           font-size: 1rem;
@@ -47,20 +63,5 @@
         }
       }
     }
-  }
-}
-
-%img-size {
-  width: map-get($img-size, width);
-  height: map-get($img-size, height);
-
-  @include min-width($mixin-middle-width) {
-    width: map-get($img-size, width) * 1.2;
-    height: map-get($img-size, height) * 1.2;
-  }
-
-  @include min-width($mixin-large-width) {
-    width: map-get($img-size, width) * 1.5;
-    height: map-get($img-size, height) * 1.5;
   }
 }
