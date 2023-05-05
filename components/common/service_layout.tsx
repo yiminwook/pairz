@@ -1,12 +1,12 @@
-import Head from "next/head";
-import Header from "./header/header";
+import Head from 'next/head';
+import Header from '@/components/common/header/header';
 
 interface Props {
   title?: string;
   children: React.ReactNode;
 }
 
-const ServiceLayout = ({ title = "Pairz!", children }: Props) => {
+const ServiceLayout = ({ title = 'Pairz!', children }: Props) => {
   return (
     <div>
       <Head>

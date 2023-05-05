@@ -55,7 +55,6 @@ const GameOver = ({ score, resetGame }: Props) => {
             'Content-type': 'application/json',
             authorization: `Bearer ${idToken}`,
           },
-          withCredentials: true,
         });
         setIsRecode((_pre) => true);
         setIsLoading((_pre) => false);
