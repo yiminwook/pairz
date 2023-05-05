@@ -4,7 +4,7 @@ import FirebaseClient from '@/models/firebase_client';
 import { User } from 'firebase/auth';
 import { isLoadingAtom, userInfoAtom } from '@/recoil/atoms';
 import { emailToEmailId } from '@/utils/email_to_emailId';
-import Loading from './loading';
+import Loading from '@/components/common/loading';
 import Head from 'next/head';
 
 const Observe = ({ children }: PropsWithChildren) => {

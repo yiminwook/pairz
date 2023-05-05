@@ -6,8 +6,6 @@ https://pairz.vercel.app/
 
 node -v 16.19.0
 
-
-
 <br />
 
 <br />
@@ -108,7 +106,9 @@ node -v 16.19.0
 "firebase": "^9.17.2",
 "firebase-admin": "^11.5.0",
 "@aws-sdk/client-s3": "^3.289.0",
+"formidable": "^2.1.1",
 "react-cropper": "^2.3.1",
+"gravatar": "^1.8.2",
 ```
 
 ---

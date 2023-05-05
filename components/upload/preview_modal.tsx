@@ -84,7 +84,6 @@ const Preview = ({
           'Contest-Type': 'multipart/form-data',
           authorization: `Bearer ${idToken}`,
         },
-        withCredentials: true,
       });
       if (result) {
         alert(result.data.message);

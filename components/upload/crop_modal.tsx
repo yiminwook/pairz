@@ -17,7 +17,7 @@ const Crop = ({ imgURL, imgFile, setShowCrop, handleSaveImg }: Props) => {
   const handleCrop = (cropper: ReactCropperElement['cropper']) => {
     const cropperCanvas = cropper.getCroppedCanvas({
       width: FIXED_IMAGE_WIDTH,
-      height: FIXED_IMAGE_WIDTH,
+      height: FIXED_IMAGE_HEIGHT,
     });
     cropperCanvas?.toBlob((blob) => {
       const fileName = imgFile?.name || `Pairz_${Date.now()}_${Math.trunc(Math.random() * 100)}`;
