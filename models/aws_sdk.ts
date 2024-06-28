@@ -4,6 +4,7 @@ import { verifyingStr } from '@/utils/validation';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import formidable from 'formidable';
 import fs from 'fs/promises';
+import { extname } from 'path';
 
 const S3_BUCKET = process.env.AWS_S3_BUCKET ?? '';
 
@@ -20,8 +21,14 @@ const s3 = new S3Client({
  *  ex) filename.jpg로 반환
  */
 const uploadFile = async (file: formidable.File, name: string, type: string) => {
+  if (!file) {
+    throw new BadReqError('Invalid file');
+  }
   if (!verifyingStr(name)) throw new BadReqError('Invalid file name');
-  if (!(type === 'image/jpeg' || type === 'image/png')) {
+
+  const ext = extname(file.originalFilename || '');
+
+  if (!['.jpg', '.jpeg', '.png'].includes(ext)) {
     throw new BadReqError('Invalid file type');
   }
   if (name === '') {
@@ -32,16 +39,16 @@ const uploadFile = async (file: formidable.File, name: string, type: string) => 
 
     const uploadParams = {
       Bucket: S3_BUCKET,
-      Key: 'pairz/' + name,
+      Key: 'pairz/' + name + ext,
       Body: buffer,
       ContentType: type ?? '',
     };
 
     await s3.send(new PutObjectCommand(uploadParams));
     await fs.unlink(file.filepath);
-    return name;
+    return name + ext;
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     await fs.unlink(file.filepath);
     throw new CustomServerError({ message: 'Faild upload to S3' });
   }

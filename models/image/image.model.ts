@@ -26,7 +26,7 @@ const add = async ({
     if (imageDoc.exists) {
       return false;
     }
-    const imgURL = `${process.env.AWS_CLOUD_FRONT_URL}/pairz/` + encodeURI(fileName);
+    const imgURL = `https://${process.env.AWS_CLOUD_FRONT_URL}/pairz/` + encodeURI(fileName);
     const newImageData: ImageInfo = {
       id: lastImagData?.id + 1 ?? 1,
       imgURL,
