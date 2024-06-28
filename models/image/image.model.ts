@@ -1,10 +1,10 @@
-import CustomServerError from "@/controllers/error/custom_server_error";
-import { verifyingIdx } from "@/utils/validation";
-import FirebaseAdmin from "../firebase_admin";
-import { ImageInfo } from "../Info";
-import MemberModel from "../member/member.model";
+import CustomServerError from '@/controllers/error/custom_server_error';
+import { verifyingIdx } from '@/utils/validation';
+import FirebaseAdmin from '../firebase_admin';
+import { ImageInfo } from '../Info';
+import MemberModel from '../member/member.model';
 
-export const IMAGE_COL = "images";
+export const IMAGE_COL = 'images';
 
 const IMAGE_PER_PAGE: number = 5;
 
@@ -26,10 +26,7 @@ const add = async ({
     if (imageDoc.exists) {
       return false;
     }
-    const { AWS_S3_BUCKET, AWS_S3_REGION } = process.env;
-    const imgURL =
-      `https://${AWS_S3_BUCKET}.s3.${AWS_S3_REGION}.amazonaws.com/` +
-      encodeURI(fileName);
+    const imgURL = `${process.env.AWS_CLOUD_FRONT_URL}/pairz/` + encodeURI(fileName);
     const newImageData: ImageInfo = {
       id: lastImagData?.id + 1 ?? 1,
       imgURL,
@@ -42,7 +39,7 @@ const add = async ({
   if (addResult === false) {
     throw new CustomServerError({
       statusCode: 400,
-      message: "Duplicated file name",
+      message: 'Duplicated file name',
     });
   }
   return { result: true, imageName: fileName, message: `${fileName} Created` };
@@ -52,23 +49,14 @@ const add = async ({
  *
  *  id가 있을 때 내림차순 5개를 반환
  */
-const get = async (
-  idx?: string
-): Promise<{ imageData: ImageInfo[]; lastIdx: number }> => {
+const get = async (idx?: string): Promise<{ imageData: ImageInfo[]; lastIdx: number }> => {
   const getResult = await db.runTransaction(async (transaction) => {
     const isNaN = Number.isNaN(idx);
     let imageRef: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>;
     if (!isNaN && idx) {
-      imageRef = db
-        .collection(IMAGE_COL)
-        .where("id", "<=", +idx)
-        .orderBy("id", "desc")
-        .limit(IMAGE_PER_PAGE);
+      imageRef = db.collection(IMAGE_COL).where('id', '<=', +idx).orderBy('id', 'desc').limit(IMAGE_PER_PAGE);
     } else {
-      imageRef = db
-        .collection(IMAGE_COL)
-        .orderBy("id", "desc")
-        .limit(IMAGE_PER_PAGE);
+      imageRef = db.collection(IMAGE_COL).orderBy('id', 'desc').limit(IMAGE_PER_PAGE);
     }
     const imageDoc = await transaction.get(imageRef);
     const imageDocData = imageDoc.docs.map((doc) => doc.data()) as ImageInfo[];
@@ -84,7 +72,7 @@ const get = async (
 /** 겹치지 않는 이미지를 5개 반환 */
 const getRandom = async (): Promise<{ imageData: ImageInfo[] }> => {
   const size = await getImageDocSize();
-  if (size < 5) throw new CustomServerError({ message: "DB image under 5" });
+  if (size < 5) throw new CustomServerError({ message: 'DB image under 5' });
   const lastImagData = await getLastImage();
   const getRandomResult = await db.runTransaction(async (transaction) => {
     const randomImages: ImageInfo[] = [];
@@ -92,10 +80,7 @@ const getRandom = async (): Promise<{ imageData: ImageInfo[] }> => {
     const hashTable = new Set<number>();
     while (randomImages.length < 5) {
       randomId = Math.trunc(Math.random() * lastImagData.id);
-      const imageRef = db
-        .collection(IMAGE_COL)
-        .where("id", "==", randomId)
-        .limit(1);
+      const imageRef = db.collection(IMAGE_COL).where('id', '==', randomId).limit(1);
       const imageDoc = await transaction.get(imageRef);
       imageDoc.forEach((doc) => {
         if (!doc.exists || hashTable.has(randomId)) {
@@ -118,7 +103,7 @@ const getRandom = async (): Promise<{ imageData: ImageInfo[] }> => {
 const findByImgName = async (
   name: string,
   /** 더보기 */
-  next?: string | null
+  next?: string | null,
 ): Promise<{
   imageData: ImageInfo[];
   lastName: string | null;
@@ -126,18 +111,10 @@ const findByImgName = async (
 }> => {
   const findByImgNameResult = await db.runTransaction(async (transaction) => {
     let imageRef: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>;
-    if (next === "true") {
-      imageRef = db
-        .collection(IMAGE_COL)
-        .orderBy("imageName")
-        .startAfter(name)
-        .limit(5);
+    if (next === 'true') {
+      imageRef = db.collection(IMAGE_COL).orderBy('imageName').startAfter(name).limit(5);
     } else {
-      imageRef = db
-        .collection(IMAGE_COL)
-        .orderBy("imageName")
-        .startAt(name)
-        .limit(5);
+      imageRef = db.collection(IMAGE_COL).orderBy('imageName').startAt(name).limit(5);
     }
     const imageDoc = await transaction.get(imageRef);
     const imageData = imageDoc.docs.map((docs) => docs.data()) as ImageInfo[];
@@ -152,28 +129,16 @@ const findByImgName = async (
 };
 
 /** emailId로 image 찾기 */
-const findByEmail = async (
-  email: string,
-  idx?: string
-): Promise<{ imageData: ImageInfo[]; lastIdx: number }> => {
+const findByEmail = async (email: string, idx?: string): Promise<{ imageData: ImageInfo[]; lastIdx: number }> => {
   const userData = await MemberModel.findByEmail(email);
   const uid = userData.uid;
   const findByFileNameResult = await db.runTransaction(async (transaction) => {
     let imageRef: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>;
     const isValidIdx = verifyingIdx(idx);
     if (isValidIdx && idx) {
-      imageRef = db
-        .collection(IMAGE_COL)
-        .where("uid", "==", uid)
-        .where("id", "<", +idx)
-        .orderBy("id", "desc")
-        .limit(5);
+      imageRef = db.collection(IMAGE_COL).where('uid', '==', uid).where('id', '<', +idx).orderBy('id', 'desc').limit(5);
     } else {
-      imageRef = db
-        .collection(IMAGE_COL)
-        .where("uid", "==", uid)
-        .orderBy("id", "desc")
-        .limit(5);
+      imageRef = db.collection(IMAGE_COL).where('uid', '==', uid).orderBy('id', 'desc').limit(5);
     }
     const imageDoc = await transaction.get(imageRef);
     const imageData = imageDoc.docs.map((docs) => docs.data()) as ImageInfo[];
@@ -186,18 +151,16 @@ const findByEmail = async (
 };
 
 const checkName = async (name: string): Promise<{ result: boolean }> => {
-  const imageRef = db.collection(IMAGE_COL).where("imageName", "==", name);
+  const imageRef = db.collection(IMAGE_COL).where('imageName', '==', name);
   const imageDoc = await imageRef.get();
   const imageData = imageDoc.docs.map((doc) => doc.data());
   return { result: imageData.length === 0 ? true : false };
 };
 
 const getLastImage = async (): Promise<ImageInfo> => {
-  const lastImageRef = db.collection(IMAGE_COL).orderBy("id", "desc").limit(1);
+  const lastImageRef = db.collection(IMAGE_COL).orderBy('id', 'desc').limit(1);
   const lastImageDoc = await lastImageRef.get();
-  const lastImageData = lastImageDoc.docs.map((doc) =>
-    doc.data()
-  ) as ImageInfo[];
+  const lastImageData = lastImageDoc.docs.map((doc) => doc.data()) as ImageInfo[];
   return lastImageData[0];
 };
 

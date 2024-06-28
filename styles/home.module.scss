@@ -1,6 +1,6 @@
-@import "mixin";
-@import "var";
-@import "placeholder";
+@import 'mixin';
+@import 'var';
+@import 'placeholder';
 
 .main {
   @include flex-center();
@@ -33,7 +33,7 @@
         @include transition(all, 0.25s, ease);
         border-style: solid;
         border-width: 0;
-        content: "";
+        content: '';
         height: 24px;
         position: absolute;
         width: 24px;
